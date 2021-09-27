@@ -1,0 +1,1159 @@
+li {
+  list-style-type: none;
+}
+
+:root {
+  --bg-dark: #030303;
+  --dark-red: #710707;
+  --font-gold: #9d8665;
+  --font1: 80px;
+  --font2: 32px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button {
+  cursor: pointer;
+}
+
+svg {
+  fill: #FFFFFF;
+}
+
+.dark-theme {
+  background-color: var(--bg-dark);
+  color: #FFFFFF;
+}
+
+.dark-theme h2 {
+  color: #FFFFFF;
+}
+
+.dark-theme a {
+  color: #FFFFFF;
+}
+
+.dark-theme a:hover {
+  color: var(--font-gold);
+}
+
+.dark-theme a:active {
+  color: #7E6C51;
+}
+
+.light-theme {
+  background-color: #FFFFFF;
+  color: var(--bg-dark);
+}
+
+.light-theme h2 {
+  color: var(--font-gold);
+}
+
+.light-theme a {
+  color: var(--bg-dark);
+}
+
+.light-theme a:hover {
+  color: var(--font-gold);
+}
+
+.light-theme a:active {
+  color: #7E6C51;
+}
+
+.paralax {
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-attachment: fixed;
+  background-image: url(assets/img/parallax.jpg);
+}
+
+.container {
+  width: 1440px;
+  margin: 0 auto;
+}
+
+h1 {
+  font: normal normal 28px/31px "Forum";
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  background-image: url(/assets/svg/Logo.svg);
+  background-repeat: no-repeat;
+  color: #FFFFFF;
+  padding-left: 75px;
+  display: block;
+}
+
+h2 {
+  font: normal normal 80px/90px "Forum";
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+h3 {
+  font: normal 400 32px/35px "Forum";
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+h4 {
+  font: normal 500 28px/33px 'Roboto', sans-serif;
+}
+
+.navigation a {
+  font: normal 100 22px/26px 'Roboto', sans-serif;
+  letter-spacing: 2px;
+}
+
+header .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 150px;
+}
+
+header .container ul {
+  width: 775px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.welcome {
+  position: relative;
+}
+
+.welcome .container {
+  position: relative;
+  height: 810px;
+}
+
+.welcome .container .gradient {
+  height: 750px;
+  width: 1000px;
+  position: absolute;
+  background: -webkit-gradient(linear, right top, left top, color-stop(60%, transparent), to(var(--bg-dark))), url("assets/img/welcome-slider/1.jpg");
+  background: linear-gradient(to left, transparent 60%, var(--bg-dark)), url("assets/img/welcome-slider/1.jpg");
+  background-repeat: no-repeat;
+  background-position: right top;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.welcome .container .slider-control {
+  width: 600px;
+  height: 120px;
+  background-color: var(--bg-dark);
+  padding: 40px 75px;
+  color: #FFFFFF;
+  font: normal 400 22px/40px 'Roboto', sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 5555;
+}
+
+.welcome .container .slider-control .slide-num {
+  width: 76px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.welcome .container .slider-control .paginator {
+  width: 180px;
+  height: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.welcome .container .slider-control .paginator li {
+  width: 16px;
+  height: 16px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.welcome .container .slider-control .paginator li:first-child {
+  background-color: #D2B183;
+}
+
+.welcome .container .slider-control .paginator li:hover {
+  background-color: var(--font-gold);
+}
+
+.welcome .container .slider-control .buttons {
+  width: 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 30px;
+          column-gap: 30px;
+}
+
+.welcome .container .slider-control button {
+  width: 30px;
+  height: 16px;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.welcome .container .slider-control button:first-child {
+  background-image: url("assets/svg/arrow-rigth.svg");
+}
+
+.welcome .container .slider-control button:first-child:hover {
+  background-image: url("assets/svg/arrow-rigth-gold.svg");
+}
+
+.welcome .container .slider-control button:last-child {
+  background-image: url("assets/svg/arrow-left.svg");
+}
+
+.welcome .container .slider-control button:last-child:hover {
+  background-image: url("assets/svg/arrow-left-gold.svg");
+}
+
+.welcome .container .content {
+  position: relative;
+  z-index: 1111;
+}
+
+.welcome .container .content h2 {
+  width: 600px;
+  padding-top: 150px;
+}
+
+.welcome .container .content p {
+  font: normal 300 28px/33px 'Roboto', sans-serif;
+  letter-spacing: 2px;
+  margin: 25px 0 75px;
+}
+
+.welcome .container .content .btn-main {
+  color: #FFFFFF;
+  font: normal 300 22px/26px 'Roboto', sans-serif;
+  letter-spacing: 2px;
+  display: block;
+  width: 360px;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  background-color: var(--dark-red);
+  border-radius: 10px;
+}
+
+.welcome .container .content .btn-main:hover {
+  background-color: var(--font-gold);
+}
+
+.visiting {
+  height: 1266px;
+  background-color: #FFFFFF;
+  padding: 75px 0;
+}
+
+.visiting h2 {
+  padding-bottom: 25px;
+  border-bottom: 3px solid var(--dark-red);
+}
+
+.visiting ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  row-gap: 75px;
+  -webkit-column-gap: 60px;
+          column-gap: 60px;
+  margin-top: 75px;
+}
+
+.visiting ul figure {
+  width: 440px;
+  height: 424px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.visiting ul figure h3 {
+  padding-bottom: 10px;
+  margin-top: 10px;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(var(--dark-red)), to(var(--dark-red))), -webkit-gradient(linear, left top, left bottom, from(var(--dark-red)), to(var(--dark-red)));
+  background-image: linear-gradient(var(--dark-red), var(--dark-red)), linear-gradient(var(--dark-red), var(--dark-red));
+  background-position: 0 100%, 300px 100%;
+  background-repeat: no-repeat no-repeat;
+  background-size: 300px 2px, 0% 2px;
+  -webkit-transition: background-size .4s;
+  transition: background-size .4s;
+}
+
+.visiting ul figure:hover h3 {
+  background-size: 100% 2px, 100% 2px;
+}
+
+.visiting ul figure figcaption {
+  font: normal 100 18px/21px 'Roboto', sans-serif;
+  color: var(--bg-dark);
+}
+
+.visiting ul figure figcaption span:first-child {
+  display: inline-block;
+  font-size: 22px;
+  line-height: 26px;
+  margin-bottom: 10px;
+}
+
+.contacts {
+  height: 963px;
+  background-color: #FFFFFF;
+  padding: 75px 0;
+}
+
+.contacts h2 {
+  padding-bottom: 25px;
+  border-bottom: 3px solid var(--dark-red);
+}
+
+.contacts .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 75px;
+  font: normal 300 22px/26px 'Roboto', sans-serif;
+  -webkit-column-gap: 198px;
+          column-gap: 198px;
+}
+
+.contacts .content h4 {
+  margin-bottom: 50px;
+}
+
+.contacts .content li {
+  margin-bottom: 25px;
+}
+
+.explore {
+  height: 865px;
+  font: normal 300 22px/38px 'Roboto', sans-serif;
+}
+
+.explore .container {
+  height: 100%;
+  padding: 75px 0;
+  background-image: url(assets/img/explore-slider/exploreSlider.png), url(assets/img/explore-slider/beforeShort.png), url(assets/img/explore-slider/after.jpg);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: 1140px 90px, 720px 90px, right 90px;
+}
+
+.explore .container .content {
+  width: 720px;
+  padding-right: 60px;
+}
+
+.explore .container h2 {
+  padding-bottom: 25px;
+  border-bottom: 3px solid var(--dark-red);
+  margin-bottom: 75px;
+}
+
+.explore .container p {
+  margin-bottom: 27px;
+}
+
+.explore .container p span {
+  color: var(--font-gold);
+}
+
+.gallery {
+  padding-top: 75px;
+  height: 2200px;
+}
+
+.gallery h2 {
+  margin-bottom: 75px;
+}
+
+.gallery .picture-container {
+  overflow: hidden;
+  height: 1955px;
+  position: relative;
+}
+
+.gallery .picture-inner-container {
+  position: relative;
+  -webkit-column-gap: 36px;
+          column-gap: 36px;
+  -webkit-column-count: 3;
+          column-count: 3;
+}
+
+.gallery .picture-inner-container > * {
+  margin-bottom: 24px;
+}
+
+.gallery .picture-inner-container img:nth-child(1),
+.gallery .picture-inner-container img:nth-child(11) {
+  margin-top: 50px;
+}
+
+.gallery .picture-inner-container:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2000px;
+  position: absolute;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(60%, transparent), to(var(--bg-dark)));
+  background-image: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
+  top: 0;
+  left: 0;
+}
+
+.tickets {
+  background-color: #FFFFFF;
+  height: 893px;
+  padding: 75px 0;
+}
+
+.tickets h2 {
+  padding-bottom: 25px;
+  border-bottom: 3px solid var(--dark-red);
+}
+
+.tickets .content {
+  background-image: url(assets/img/tickets.jpg);
+  background-repeat: no-repeat;
+  height: 550px;
+  margin-top: 75px;
+  padding-left: 780px;
+}
+
+.tickets .content form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font: normal 300 22px/26px 'Roboto', sans-serif;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.tickets .content form h4 {
+  font: normal bold 28px/33px "Roboto";
+}
+
+.tickets .content form div:first-child {
+  width: 270px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.tickets .content form div:first-child h4 {
+  margin-bottom: 50px;
+}
+
+.tickets .content form div:first-child input {
+  margin-bottom: 30px;
+}
+
+.tickets .content form div:first-child label {
+  margin-left: 25px;
+}
+
+.tickets .content form div:last-child {
+  width: 150px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.tickets .content form div:last-child p {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+}
+
+.tickets .content form div:last-child h4 {
+  display: block;
+  margin-bottom: 25px;
+}
+
+.tickets .content form div:last-child .total {
+  margin-top: 40px;
+  margin-bottom: 60px;
+  letter-spacing: 1.65px;
+}
+
+.tickets .content form div:last-child .counter {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  width: 150px;
+  height: 50px;
+  border: 3px solid #000000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.tickets .content form div:last-child .counter input[type="number"] {
+  width: 50px;
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+.tickets .content form div:last-child .counter button {
+  background-color: transparent;
+  border: none;
+  width: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.tickets .content form div:last-child .btn-small {
+  color: #FFFFFF;
+  background-color: var(--bg-dark);
+  border: none;
+  font: normal 300 22px/26px 'Roboto', sans-serif;
+  height: 50px;
+  width: 175px;
+  letter-spacing: 2px;
+}
+
+.tickets .content form div:last-child .btn-small:hover {
+  color: var(--bg-dark);
+  background-color: var(--font-gold);
+}
+
+.booking-tickets {
+  background-color: #FFFFFF;
+  height: 845px;
+}
+
+.booking-tickets .container {
+  padding: 91px 235px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-column-gap: 40px;
+          column-gap: 40px;
+}
+
+.booking-tickets .container > div:first-child {
+  width: 400px;
+}
+
+.booking-tickets .container > div:first-child .header-booking {
+  height: 143px;
+  background-image: url("assets/img/logoTriangle.png");
+  background-repeat: no-repeat;
+  padding-top: 41px;
+  border-bottom: 3px solid var(--dark-red);
+  margin-bottom: 60px;
+}
+
+.booking-tickets .container > div:first-child .header-booking h2 {
+  font-size: 50px;
+  line-height: 55px;
+  letter-spacing: 0;
+}
+
+.booking-tickets .container > div:first-child .header-booking p {
+  margin-top: 15px;
+  font: normal 400 18px/21px "Roboto";
+  color: var(--dark-red);
+}
+
+.booking-tickets .container > div:first-child form {
+  font: normal normal 18px/21px 'Roboto', sans-serif;
+}
+
+.booking-tickets .container > div:first-child form input,
+.booking-tickets .container > div:first-child form select,
+.booking-tickets .container > div:first-child form option {
+  width: 100%;
+  height: 45px;
+  color: var(--bg-dark);
+  padding-left: 43px;
+  visibility: hidden;
+}
+
+.booking-tickets .container > div:first-child form ::-webkit-input-placeholder {
+  color: var(--bg-dark);
+  font-family: normal normal 18px/21px 'Roboto', sans-serif;
+}
+
+.booking-tickets .container > div:first-child form :-ms-input-placeholder {
+  color: var(--bg-dark);
+  font-family: normal normal 18px/21px 'Roboto', sans-serif;
+}
+
+.booking-tickets .container > div:first-child form ::-ms-input-placeholder {
+  color: var(--bg-dark);
+  font-family: normal normal 18px/21px 'Roboto', sans-serif;
+}
+
+.booking-tickets .container > div:first-child form ::placeholder {
+  color: var(--bg-dark);
+  font-family: normal normal 18px/21px 'Roboto', sans-serif;
+}
+
+.booking-tickets .container > div:first-child form li {
+  width: 400px;
+  margin-bottom: 20px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  border: 1px solid black;
+}
+
+.booking-tickets .container > div:first-child form .chooseDate,
+.booking-tickets .container > div:first-child form .chooseTime {
+  width: 190px;
+  float: left;
+}
+
+.booking-tickets .container > div:first-child form .chooseDate {
+  margin-right: 20px;
+  background-image: url("assets/svg/date.svg");
+}
+
+.booking-tickets .container > div:first-child form .chooseTime {
+  background-image: url("assets/svg/Time.svg");
+}
+
+.booking-tickets .container > div:first-child form .writeName {
+  background-image: url("assets/svg/name.svg");
+}
+
+.booking-tickets .container > div:first-child form .writeEmail {
+  background-image: url("assets/svg/email.svg");
+}
+
+.booking-tickets .container > div:first-child form .writePhone {
+  background-image: url("assets/svg/tel.svg");
+}
+
+.booking-tickets .container > div:first-child form .selectType {
+  background-image: url("assets/svg/ballot.svg"), url("assets/svg/arrow.svg");
+}
+
+.booking-tickets .container > div:last-child {
+  width: 530px;
+  height: 663px;
+  border: 1px solid var(--bg-dark);
+}
+
+.booking-tickets .container > div:last-child .overview {
+  height: 325px;
+  width: 530px;
+  background-image: url(assets/img/LouvreT.png);
+  background-repeat: no-repeat;
+  background-position: top 25px right 30px;
+  padding: 25px 30px 0;
+}
+
+.booking-tickets .container > div:last-child .overview h4 {
+  font: normal 500 32px/37px "Roboto";
+}
+
+.booking-tickets .container > div:last-child .overview p {
+  font: normal 500 22px/26px "Roboto";
+  color: var(--dark-red);
+  margin: 2px 0 10px;
+}
+
+.booking-tickets .container > div:last-child .overview .total-options li {
+  font: normal 300 18px/21px 'Roboto', sans-serif;
+  padding-left: 30px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  margin-bottom: 7px;
+}
+
+.booking-tickets .container > div:last-child .overview .total-options .choosen-date {
+  background-image: url("assets/svg/date.svg");
+}
+
+.booking-tickets .container > div:last-child .overview .total-options .choosen-time {
+  background-image: url("assets/svg/Time.svg");
+}
+
+.booking-tickets .container > div:last-child .overview .total-options .choosen-type {
+  background-image: url("assets/svg/check_circle_outline.svg");
+}
+
+.booking-tickets .container > div:last-child .overview .total-summ {
+  font: normal 400 22px/26px "Roboto";
+  margin-top: 22px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--dark-red);
+}
+
+.booking-tickets .container > div:last-child .overview .total-summ li {
+  padding-left: 42px;
+  margin-bottom: 6px;
+  background-image: url("assets/svg/total-counts.svg");
+  background-repeat: no-repeat;
+  background-position: left center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.booking-tickets .container > div:last-child .overview h4 {
+  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.booking-tickets .container > div:last-child .credit-card {
+  width: 530px;
+  height: 338px;
+  position: relative;
+}
+
+.booking-tickets .container > div:last-child .card {
+  width: 360px;
+  height: 211px;
+  background-color: #BCBCBC;
+  padding: 15px 20px;
+  font: normal 400 12px/14px "Roboto";
+  margin-bottom: 10px;
+  position: absolute;
+}
+
+.booking-tickets .container > div:last-child .first-side {
+  background-image: url("assets/img/Mastercard.png"), url("assets/img/Visa.png");
+  background-repeat: no-repeat;
+  background-position: top 65px right 20px, top 34px right 20px;
+  top: 0;
+  left: 30px;
+  z-index: 150;
+}
+
+.booking-tickets .container > div:last-child input {
+  height: 35px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.booking-tickets .container > div:last-child #cardNum {
+  width: 215px;
+}
+
+.booking-tickets .container > div:last-child #expDateMonth,
+.booking-tickets .container > div:last-child #expDateYear {
+  width: 100px;
+}
+
+.booking-tickets .container > div:last-child #expDateMonth {
+  margin-right: 15px;
+}
+
+.booking-tickets .container > div:last-child #cardHName {
+  width: 320px;
+}
+
+.booking-tickets .container > div:last-child .second-side {
+  position: absolute;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(12%, #A4A4A3), color-stop(12%, #030303), color-stop(32%, #030303), color-stop(32%, #A4A4A3));
+  background-image: linear-gradient(to bottom, #A4A4A3 12%, #030303 12%, #030303 32%, #A4A4A3 32%);
+  top: 30px;
+  right: 30px;
+  z-index: 10;
+}
+
+.booking-tickets .container > div:last-child .second-side .content {
+  height: 111px;
+  width: 75px;
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.booking-tickets .container > div:last-child .second-side .content input[type="number"] {
+  width: 75px;
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+
+.booking-tickets .container > div:last-child .second-side .content p {
+  font: normal 400 10px/12px "Roboto";
+  width: 55px;
+  height: 50px;
+}
+
+.booking-tickets .container > div:last-child .btn-booking {
+  background-color: var(--dark-red);
+  border: none;
+  width: 220px;
+  height: 45px;
+  position: absolute;
+  bottom: 26px;
+  right: 30px;
+  color: #FFFFFF;
+  font: normal normal 22px/26px "Roboto";
+}
+
+.booking-tickets .container > div:last-child .btn-booking:hover {
+  background-color: var(--font-gold);
+}
+
+.video {
+  height: 1396px;
+  padding: 75px 0;
+}
+
+.video .video-player {
+  position: relative;
+}
+
+.video .video-player .buttonPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: none;
+}
+
+.video .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 90px;
+  -webkit-column-gap: 115px;
+          column-gap: 115px;
+  font: normal 300 22px/38px 'Roboto', sans-serif;
+  margin-bottom: 75px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.video .content h2 {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.video .playlist {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.video .player-remote {
+  height: 85px;
+  background-color: var(--bg-dark);
+  padding: 0 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: -5px;
+}
+
+.video .player-remote button {
+  background-color: transparent;
+  border: none;
+}
+
+.video .player-remote button.play {
+  width: 23px;
+  height: 31px;
+  background-image: url(assets/svg/play.svg);
+}
+
+.video .player-remote button.volume {
+  width: 38px;
+  height: 31px;
+  background-image: url(assets/svg/volume.svg);
+}
+
+.video .player-remote button.fullScreen {
+  width: 35px;
+  height: 35px;
+  background-image: url(assets/svg/fullScreen.svg);
+}
+
+.video .player-remote button.fullScreen:hover {
+  background-image: url(assets/svg/fullScreenHover.svg);
+}
+
+.video .player-remote #remote {
+  width: 929px;
+}
+
+.video .player-remote #volume {
+  width: 155px;
+}
+
+.video .video-slider-control {
+  width: 200px;
+  height: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 auto;
+}
+
+.video .video-slider-control button {
+  width: 10px;
+  border: none;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.video .video-slider-control button:first-child {
+  background-image: url("assets/svg/arrowVideoLeft.svg");
+}
+
+.video .video-slider-control button:first-child:hover {
+  background-image: url("assets/svg/arrowVideoLeft-gold.svg");
+}
+
+.video .video-slider-control button:last-child {
+  background-image: url("assets/svg/arrowVideoRight.svg");
+}
+
+.video .video-slider-control button:last-child:hover {
+  background-image: url("assets/svg/arrowVideoRight-gold.svg");
+}
+
+.video .video-slider-control .paginator {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 140px;
+}
+
+.video .video-slider-control .paginator li {
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: #999999;
+  cursor: pointer;
+}
+
+.video .video-slider-control .paginator li:first-child {
+  background-color: var(--bg-dark);
+}
+
+.video .video-slider-control .paginator li:hover {
+  background-color: var(--dark-red);
+}
+
+footer hr {
+  size: 3px;
+  color: #666666;
+}
+
+footer .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 265px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 85px 0 50px;
+}
+
+footer .content h1 {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+}
+
+footer .content .navigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 360px;
+  height: 128px;
+  margin-left: 140px;
+  margin-right: 400px;
+}
+
+footer .content .navigation ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+footer .content .social {
+  width: 340px;
+  height: 48px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  margin-bottom: 5px;
+}
+
+footer .content .social a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 50px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #666666;
+}
+
+footer .content .social a:hover {
+  border: 1px solid var(--font-gold);
+}
+
+footer .content .social a:hover > * {
+  fill: #9d8665;
+}
+
+footer .footer ul {
+  height: 124px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font: normal 100 22px/22px 'Roboto', sans-serif;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+/*# sourceMappingURL=style.css.map */
