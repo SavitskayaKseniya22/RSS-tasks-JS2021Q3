@@ -4,7 +4,7 @@ let arr = [];
 for (let i = 1; i <= 15; i++) {
     arr.push("assets/img/galery/galery" + i + ".jpg")
 }
-console.log(arr)
+
 
 function shuffle(array) {
     function getRandomInt(min, max) {

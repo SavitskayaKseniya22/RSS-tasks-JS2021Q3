@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>museum</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto:wght@100;400;500;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
@@ -320,31 +320,49 @@
 
                     <form action="#" id="booking-tickets">
                         <ul>
-                            <li class="chooseDate"><input type="date" value="" required name="date" id="date"></li>
+                            <li class="chooseDate">Date<input type="date" value="" required name="date" id="date"></li>
 
-                            <li class="chooseTime"><input type="time" required name="time" id="time">
-                            </li>
+                            <li class="chooseTime">Time<input type="time" required name="time" id="time"></li>
 
-                            <li class="writeName"><input type="text" required name="name" id="name" placeholder="Name">
-                            </li>
+                            <li class="writeName">Name<input type="text" required name="name" id="name"
+                                    placeholder="Name"></li>
 
-                            <li class="writeEmail"><input type="email" required name="email" id="email"
+                            <li class="writeEmail">E-mail<input type="email" required name="email" id="email"
                                     placeholder="E-mail"></li>
-                            <li class="writePhone"><input type="tel" id="phone" name="phone" required
+                            <li class="writePhone">Phone<input type="tel" id="phone" name="phone" required
                                     placeholder="Phone"></li>
-                            <li class="selectType"><select name="select" required multiple size="1">
+                            <li class="selectType">Ticket Type<select name="select" required multiple size="1">
                                     <option value="value1">Значение 1</option>
                                     <option value="value2" selected>Значение 2</option>
                                 </select></li>
 
                         </ul>
 
-                        <div>
+                        <div class="entry-ticket">
+                            <h5>Entry Ticket</h5>
+                            <div class="ticketsAmount">
+                                <ul>
+                                    <li>
+                                        <div>Basic 18+ (20 €)</div>
+                                        <div class="counter"><button><img src="assets/svg/-white.svg"
+                                                    alt="minus"></button><input type="number" name="amount-of-basic"
+                                                id="amount-of-basic"><button><img src="assets/svg/+white.svg"
+                                                    alt="plus"></button></div>
+                                    </li>
+                                    <li>
+                                        <div>Senior 65+ (10 €)</div>
+                                        <div class="counter"><button><img src="assets/svg/-white.svg"
+                                                    alt="minus"></button><input type="number" name="amount-of-basic"
+                                                id="amount-of-basic"><button><img src="assets/svg/+white.svg"
+                                                    alt="plus"></button></div>
+                                    </li>
+                                </ul>
 
-                            <label for="amount-of-basic">Basic 18+ (20 €)</label> <button></button><input type="number"
-                                name="amount-of-basic" id="amount-of-basic"><button></button>
-                            <label for="amount-of-senour">Senior 65+ (10 €)</label><button></button><input type="number"
-                                name="amount-of-senour" id="amount-of-senour"><button></button>
+
+
+
+                            </div>
+
                         </div>
                     </form>
                 </div>
