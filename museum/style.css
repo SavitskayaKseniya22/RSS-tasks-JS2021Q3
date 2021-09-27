@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Forum&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 li {
   list-style-type: none;
 }
@@ -77,11 +78,11 @@ svg {
   margin: 0 auto;
 }
 
-h1 {
+.main-title {
   font: normal normal 28px/31px "Forum";
   letter-spacing: 5px;
   text-transform: uppercase;
-  background-image: url(/assets/svg/Logo.svg);
+  background-image: url("assets/svg/Logo.svg");
   background-repeat: no-repeat;
   color: #FFFFFF;
   padding-left: 75px;
@@ -1075,7 +1076,7 @@ footer .content {
   padding: 85px 0 50px;
 }
 
-footer .content h1 {
+footer .content .main-title {
   -ms-flex-item-align: start;
       align-self: flex-start;
 }

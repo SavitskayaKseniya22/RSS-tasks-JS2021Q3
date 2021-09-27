@@ -6,10 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>museum</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto:wght@100;400;500;700;900&display=swap"
-        rel="stylesheet">
+
     <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
     <link rel="stylesheet" href="resetCSS.css" />
     <link rel="stylesheet" href="style.css" />
@@ -19,7 +16,7 @@
 <body>
     <header class="dark-theme">
         <div class="container">
-            <h1>Louvre</h1>
+            <h1 class="main-title">Louvre</h1>
             <nav class="navigation">
                 <ul>
                     <li><a href="#Visiting">Visiting</a></li>
@@ -209,15 +206,15 @@
                 <ul class="playlist">
 
                     <li><iframe width="452" height="254" src="https://www.youtube.com/embed/aWmJ5DgyWPI"
-                            title="YouTube video player" frameborder="0"
+                            title="YouTube video player"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen loading="lazy"></iframe></li>
                     <li><iframe width="452" height="254" src="https://www.youtube.com/embed/Vi5D6FKhRmo"
-                            title="YouTube video player" frameborder="0"
+                            title="YouTube video player"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen loading="lazy"></iframe></li>
                     <li><iframe width="452" height="254" src="https://www.youtube.com/embed/NOhDysLnTvY"
-                            title="YouTube video player" frameborder="0"
+                            title="YouTube video player"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen loading="lazy"></iframe></li>
 
@@ -269,7 +266,7 @@
             <div class="container">
                 <h2>Buy tickets</h2>
                 <div class="content">
-                    <form action="">
+                    <form action="#">
 
                         <div>
                             <h4>Ticket Type</h4>
@@ -318,12 +315,11 @@
                         <p>Tour to Louvre</p>
                     </div>
 
-                    <form action="" id="booking-tickets">
+                    <form action="#" id="booking-tickets">
                         <ul>
-                            <li class="chooseDate"><input type="date" value="" required name="date" id="date"
-                                    placeholder="Date"></li>
+                            <li class="chooseDate"><input type="date" value="" required name="date" id="date"></li>
 
-                            <li class="chooseTime"><input type="time" required name="time" id="time" placeholder="Time">
+                            <li class="chooseTime"><input type="time" required name="time" id="time">
                             </li>
 
                             <li class="writeName"><input type="text" required name="name" id="name" placeholder="Name">
@@ -333,8 +329,7 @@
                                     placeholder="E-mail"></li>
                             <li class="writePhone"><input type="tel" id="phone" name="phone" required
                                     placeholder="Phone"></li>
-                            <li class="selectType"><select name="select" required multiple size="1" name="select"
-                                    placeholder="Ticket Type">
+                            <li class="selectType"><select name="select" required multiple size="1">
                                     <option value="value1">Значение 1</option>
                                     <option value="value2" selected>Значение 2</option>
                                 </select></li>
@@ -342,11 +337,11 @@
                         </ul>
 
                         <div>
-                            <h4></h4>
+
                             <label for="amount-of-basic">Basic 18+ (20 €)</label> <button></button><input type="number"
-                                name="amount-of-basic"><button></button>
+                                name="amount-of-basic" id="amount-of-basic"><button></button>
                             <label for="amount-of-senour">Senior 65+ (10 €)</label><button></button><input type="number"
-                                name="amount-of-senour"><button></button>
+                                name="amount-of-senour" id="amount-of-senour"><button></button>
                         </div>
                     </form>
                 </div>
@@ -367,7 +362,7 @@
                         <h4>Total: <span>60 €</span></h4>
                     </div>
 
-                    <form action="" class="credit-card">
+                    <form action="#" class="credit-card">
                         <div class="card first-side">
                             <label for="cardNum">Card number</label><br>
                             <input type="text" id="cardNum" name="cardNum"><br>
@@ -408,7 +403,7 @@
                         <h4>Palais Royal <br> Musee du Louvre</h4>
                         <ul>
                             <li>address: <span>75001 Paris, France</span></li>
-                            <li>phone: <a href="tel: +33(0) 1 40 20 50 50">+33(0) 1 40 20 50 50</a></li>
+                            <li>phone: <a href="tel:+33(0)140205050">+33(0) 1 40 20 50 50</a></li>
                             <li>mail: <a href="mailto:info@louvre.fr">info@louvre.fr</a></li>
                         </ul>
                     </div>
@@ -423,7 +418,7 @@
     <footer class="dark-theme">
         <div class="container">
             <div class="content">
-                <h1>Louvre</h1>
+                <p class="main-title">Louvre</p>
                 <nav class="navigation">
 
                     <ul>
