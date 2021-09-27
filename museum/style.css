@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Forum&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@charset "UTF-8";
 li {
   list-style-type: none;
 }
@@ -9,6 +9,13 @@ li {
   --font-gold: #9d8665;
   --font1: 80px;
   --font2: 32px;
+}
+
+@font-face {
+  font-family: Roboto;
+  /* Гарнитура шрифта */
+  src: url(assets/fonts/Roboto/Roboto-Medium.ttf);
+  /* Путь к файлу со шрифтом */
 }
 
 html {
