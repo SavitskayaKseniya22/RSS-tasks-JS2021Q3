@@ -98,7 +98,7 @@ h1 {
     color: #FFFFFF;
     padding-left: 75px;
     display: block;
-
+    white-space: nowrap;
 
 }
 
@@ -106,6 +106,7 @@ h2 {
     font: normal normal 80px/90px "Forum";
     text-transform: uppercase;
     letter-spacing: 5px;
+    white-space: nowrap;
 
 }
 
@@ -114,10 +115,12 @@ h3 {
     letter-spacing: 5px;
     text-transform: uppercase;
     color: #000000;
+    white-space: nowrap;
 }
 
 h4 {
     font: normal 500 28px/33px 'Roboto', sans-serif;
+    white-space: nowrap;
 
 
 }
