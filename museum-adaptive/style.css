@@ -62,13 +62,9 @@ svg {
   color: #7E6C51;
 }
 
-.toggleVis {
-  display: none;
-}
-
 a {
-  -webkit-transition: all .6s;
-  transition: all .6s;
+  -webkit-transition: color .6s, background-color .6s, border .6s;
+  transition: color .6s, background-color .6s, border .6s;
 }
 
 label {
@@ -624,6 +620,10 @@ header .container .social {
   .welcome .container .slider-control {
     width: 100%;
     padding: 40px 75px 40px 508px;
+    font: normal 400 20px/40px 'Roboto', sans-serif;
+  }
+  .welcome .container .slider-control .slide-num {
+    width: 71px;
   }
   .welcome .container .slider-control .paginator {
     width: 160px;
@@ -638,7 +638,7 @@ header .container .social {
             column-gap: 20px;
   }
   .welcome .container .content {
-    width: 390px;
+    width: 500px;
     padding-top: 50px;
     -webkit-transition: opacity 0.6s;
     transition: opacity 0.6s;
@@ -702,7 +702,7 @@ header .container .social {
     width: 380px;
   }
   .welcome .container .slider-control {
-    height: 80px;
+    height: 78px;
     width: 230px;
     font: normal 400 16px/40px 'Roboto', sans-serif;
   }
@@ -733,8 +733,10 @@ header .container .social {
     height: 8px;
   }
   .welcome .container .content {
+    padding-top: 5px;
     width: 276px;
-    height: 175px;
+    height: 180px;
+    text-align: center;
   }
   .welcome .container .content p {
     font: normal 300 16px/19px 'Roboto', sans-serif;
@@ -867,7 +869,7 @@ header .container .social {
     font: normal 100 16px/19px 'Roboto', sans-serif;
   }
   .visiting .container ul figure figcaption span:first-child {
-    font: normal 100 20px/23px 'Roboto', sans-serif;
+    font: normal 100 18px/21px 'Roboto', sans-serif;
     margin-bottom: 10px;
   }
 }
@@ -1185,19 +1187,19 @@ header .container .social {
   }
 }
 
-.tickets {
+.tickets .container {
   background-color: #FFFFFF;
   height: 893px;
   padding: 75px 0;
   position: relative;
 }
 
-.tickets > h2 {
+.tickets .container > h2 {
   padding-bottom: 25px;
   border-bottom: 3px solid var(--dark-red);
 }
 
-.tickets .content {
+.tickets .container .content {
   background-image: url(assets/img/tickets.jpg);
   background-repeat: no-repeat;
   height: 550px;
@@ -1205,7 +1207,7 @@ header .container .social {
   padding-left: 780px;
 }
 
-.tickets .content form {
+.tickets .container .content form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1215,29 +1217,29 @@ header .container .social {
           justify-content: space-between;
 }
 
-.tickets .content form h4 {
+.tickets .container .content form h4 {
   font: normal bold 28px/33px "Roboto";
 }
 
-.tickets .content form .ticket-type {
+.tickets .container .content form .ticket-type {
   width: 270px;
   -ms-flex-negative: 0;
       flex-shrink: 0;
 }
 
-.tickets .content form .ticket-type h4 {
+.tickets .container .content form .ticket-type h4 {
   margin-bottom: 50px;
 }
 
-.tickets .content form .ticket-type input {
+.tickets .container .content form .ticket-type input {
   margin-bottom: 30px;
 }
 
-.tickets .content form .ticket-type label {
+.tickets .container .content form .ticket-type label {
   margin-left: 25px;
 }
 
-.tickets .content form .amount {
+.tickets .container .content form .amount {
   width: 150px;
   -ms-flex-negative: 0;
       flex-shrink: 0;
@@ -1253,23 +1255,23 @@ header .container .social {
           align-items: flex-end;
 }
 
-.tickets .content form .amount p {
+.tickets .container .content form .amount p {
   -ms-flex-item-align: start;
       align-self: flex-start;
 }
 
-.tickets .content form .amount h4 {
+.tickets .container .content form .amount h4 {
   display: block;
   margin-bottom: 25px;
 }
 
-.tickets .content form .amount .total {
+.tickets .container .content form .amount .total {
   margin-top: 40px;
   margin-bottom: 60px;
   letter-spacing: 1.65px;
 }
 
-.tickets .content form .amount .counter {
+.tickets .container .content form .amount .counter {
   margin-top: 15px;
   margin-bottom: 10px;
   width: 150px;
@@ -1282,7 +1284,7 @@ header .container .social {
       align-self: flex-end;
 }
 
-.tickets .content form .amount .counter input[type="number"] {
+.tickets .container .content form .amount .counter input[type="number"] {
   width: 50px;
   -webkit-appearance: textfield;
      -moz-appearance: textfield;
@@ -1292,7 +1294,7 @@ header .container .social {
   text-align: center;
 }
 
-.tickets .content form .amount .counter button {
+.tickets .container .content form .amount .counter button {
   background-color: transparent;
   border: none;
   width: 50px;
@@ -1307,7 +1309,7 @@ header .container .social {
           justify-content: center;
 }
 
-.tickets .content form .amount .btn-small {
+.tickets .container .content form .amount .btn-small {
   color: #FFFFFF;
   background-color: var(--bg-dark);
   border: none;
@@ -1317,84 +1319,84 @@ header .container .social {
   letter-spacing: 2px;
 }
 
-.tickets .content form .amount .btn-small:hover {
+.tickets .container .content form .amount .btn-small:hover {
   color: var(--bg-dark);
   background-color: var(--font-gold);
 }
 
 @media (max-width: 1919px) {
-  .tickets {
+  .tickets .container {
     height: 718px;
     padding: 50px 0;
   }
-  .tickets h2 {
+  .tickets .container h2 {
     padding-bottom: 15px;
   }
-  .tickets .content {
+  .tickets .container .content {
     background-size: 700px;
     height: 440px;
     margin-top: 60px;
     padding-left: 780px;
   }
-  .tickets .content form .ticket-type {
+  .tickets .container .content form .ticket-type {
     display: none;
   }
-  .tickets .content form .amount {
+  .tickets .container .content form .amount {
     width: 175px;
   }
-  .tickets .content form .amount h4 {
+  .tickets .container .content form .amount h4 {
     -ms-flex-item-align: start;
         align-self: flex-start;
     margin-bottom: 30px;
   }
-  .tickets .content form .amount .total {
+  .tickets .container .content form .amount .total {
     margin-top: -5px;
     margin-bottom: 65px;
   }
-  .tickets .content form .amount .counter {
+  .tickets .container .content form .amount .counter {
     margin-top: 10px;
     margin-bottom: 30px;
     width: 175px;
   }
-  .tickets .content form .amount .counter input[type="number"] {
+  .tickets .container .content form .amount .counter input[type="number"] {
     width: 75px;
   }
 }
 
 @media (max-width: 1023px) {
-  .tickets {
+  .tickets .container {
     height: 633px;
     padding: 40px 0;
   }
-  .tickets h2 {
+  .tickets .container h2 {
     padding-bottom: 20px;
   }
-  .tickets .content {
+  .tickets .container .content {
     background-size: 444px;
     height: 470px;
     margin-top: 40px;
     padding-left: 504px;
   }
-  .tickets .content form .amount {
+  .tickets .container .content form .amount {
     width: 175px;
   }
-  .tickets .content form .amount h4 {
+  .tickets .container .content form .amount h4 {
     margin-bottom: 40px;
   }
-  .tickets .content form .amount .total {
+  .tickets .container .content form .amount .total {
     margin-top: 10px;
     margin-bottom: 40px;
   }
-  .tickets .content form .amount .counter {
+  .tickets .container .content form .amount .counter {
     margin-bottom: 25px;
   }
 }
 
 @media (max-width: 767px) {
-  .tickets {
+  .tickets .container {
     height: 759px;
   }
-  .tickets .content {
+  .tickets .container .content {
     background-image: url("assets/img/tickets420.jpg");
     background-size: 380px 160px;
     height: 616px;
@@ -1402,42 +1404,45 @@ header .container .social {
     padding-top: 200px;
     margin-top: 40px;
   }
-  .tickets .content form .amount {
+  .tickets .container .content form .amount {
     margin: 0 auto;
     width: 175px;
   }
-  .tickets .content form .amount h4 {
+  .tickets .container .content form .amount h4 {
     margin-bottom: 20px;
     -ms-flex-item-align: center;
         -ms-grid-row-align: center;
         align-self: center;
     font: normal 700 16px/19px "Roboto";
   }
-  .tickets .content form .amount p {
+  .tickets .container .content form .amount p {
     font: normal 300 16px/19px "Roboto";
   }
-  .tickets .content form .amount .total {
+  .tickets .container .content form .amount .total {
     margin-top: 20px;
   }
-  .tickets .content form .amount .counter {
+  .tickets .container .content form .amount .counter {
     margin-top: 15px;
     margin-bottom: 20px;
   }
-  .tickets .content form .amount .btn-small {
+  .tickets .container .content form .amount .btn-small {
     font: normal 300 16px/16px 'Roboto', sans-serif;
   }
+}
+
+.toggleVis {
+  opacity: 0;
 }
 
 .booking-tickets {
   width: calc(100vw);
   height: calc(100vh);
   position: fixed;
-  left: -50%;
-  top: -50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  left: calc(-100vw);
   background-color: rgba(0, 0, 0, 0.596);
   z-index: 11111111;
+  -webkit-transition: left .6s ease-out, opacity .6s;
+  transition: left .6s ease-out, opacity .6s;
 }
 
 .booking-tickets .close-cross {
@@ -1632,12 +1637,27 @@ header .container .social {
   display: flex;
 }
 
+.booking-tickets .container > div:first-child .entry-ticket .ticketsAmount li .counter input[type="number"] {
+  width: 30%;
+  height: 100%;
+  padding-left: 0;
+  visibility: hidden;
+}
+
 .booking-tickets .container > div:first-child .entry-ticket .ticketsAmount li .counter button {
   background-color: #030303;
   border: none;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 35%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 .booking-tickets .container > div:last-child {
@@ -2090,6 +2110,7 @@ header .container .social {
   border: none;
   background-repeat: no-repeat;
   background-color: transparent;
+  background-size: contain;
 }
 
 .video .video-slider-control button:first-child {

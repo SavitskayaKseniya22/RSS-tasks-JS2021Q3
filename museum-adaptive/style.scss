@@ -68,12 +68,10 @@ svg {
     }
 }
 
-.toggleVis {
-    display: none;
-}
+
 
 a {
-    transition: all .6s;
+    transition: color .6s, background-color .6s, border .6s;
 }
 
 label {
@@ -341,6 +339,8 @@ header {
                             background-image: url("assets/img/arrowNav.png");
                             background-position: center right;
                             background-repeat: no-repeat;
+
+
                         }
                     }
                 }
@@ -658,6 +658,12 @@ header {
             .slider-control {
                 width: 100%;
                 padding: 40px 75px 40px 508px;
+                font: normal 400 20px/40px 'Roboto', sans-serif;
+
+                .slide-num {
+                    width: 71px;
+
+                }
 
                 .paginator {
                     width: 160px;
@@ -676,7 +682,7 @@ header {
             }
 
             .content {
-                width: 390px;
+                width: 500px;
                 padding-top: 50px;
                 transition: opacity 0.6s;
 
@@ -754,7 +760,7 @@ header {
             }
 
             .slider-control {
-                height: 80px;
+                height: 78px;
                 width: 230px;
                 font: normal 400 16px/40px 'Roboto', sans-serif;
 
@@ -786,8 +792,10 @@ header {
             }
 
             .content {
+                padding-top: 5px;
                 width: 276px;
-                height: 175px;
+                height: 180px;
+                text-align: center;
 
                 p {
                     font: normal 300 16px/19px 'Roboto', sans-serif;
@@ -961,7 +969,7 @@ header {
 
 
                         span:first-child {
-                            font: normal 100 20px/23px 'Roboto', sans-serif;
+                            font: normal 100 18px/21px 'Roboto', sans-serif;
                             margin-bottom: 10px;
 
                         }
@@ -1363,257 +1371,274 @@ header {
 
 
 .tickets {
-    background-color: #FFFFFF;
-    height: 893px;
-    padding: 75px 0;
-    position: relative;
 
-    &>h2 {
-        padding-bottom: 25px;
-        border-bottom: 3px solid var(--dark-red);
-    }
+    .container {
+        background-color: #FFFFFF;
+        height: 893px;
+        padding: 75px 0;
+        position: relative;
 
-    .content {
-        background-image: url(assets/img/tickets.jpg);
-        background-repeat: no-repeat;
-        height: 550px;
-        margin-top: 75px;
-        padding-left: 780px;
+        &>h2 {
+            padding-bottom: 25px;
+            border-bottom: 3px solid var(--dark-red);
+        }
 
-        form {
-            display: flex;
-            font: normal 300 22px/26px 'Roboto', sans-serif;
+        .content {
+            background-image: url(assets/img/tickets.jpg);
+            background-repeat: no-repeat;
+            height: 550px;
+            margin-top: 75px;
+            padding-left: 780px;
 
-            justify-content: space-between;
-
-            h4 {
-                font: normal bold 28px/33px "Roboto";
-            }
-
-            .ticket-type {
-                width: 270px;
-                flex-shrink: 0;
-
-                h4 {
-                    margin-bottom: 50px;
-                }
-
-                input {
-                    margin-bottom: 30px;
-                }
-
-                label {
-                    margin-left: 25px;
-                }
-            }
-
-            .amount {
-                width: 150px;
-                flex-shrink: 0;
+            form {
                 display: flex;
-                flex-direction: column;
-                align-items: flex-end;
+                font: normal 300 22px/26px 'Roboto', sans-serif;
 
-                p {
-                    align-self: flex-start;
-                }
+                justify-content: space-between;
 
                 h4 {
-                    display: block;
-                    margin-bottom: 25px;
+                    font: normal bold 28px/33px "Roboto";
                 }
 
-                .total {
-                    margin-top: 40px;
-                    margin-bottom: 60px;
-                    letter-spacing: 1.65px;
+                .ticket-type {
+                    width: 270px;
+                    flex-shrink: 0;
+
+                    h4 {
+                        margin-bottom: 50px;
+                    }
+
+                    input {
+                        margin-bottom: 30px;
+                    }
+
+                    label {
+                        margin-left: 25px;
+                    }
                 }
 
-                .counter {
-                    margin-top: 15px;
-                    margin-bottom: 10px;
+                .amount {
                     width: 150px;
-                    height: 50px;
-                    border: 3px solid #000000;
+                    flex-shrink: 0;
                     display: flex;
-                    align-self: flex-end;
+                    flex-direction: column;
+                    align-items: flex-end;
 
-                    input[type="number"] {
-                        width: 50px;
-                        appearance: textfield;
-                        border: none;
-                        outline: none;
-                        text-align: center;
+                    p {
+                        align-self: flex-start;
                     }
 
-                    button {
-                        background-color: transparent;
-                        border: none;
-                        width: 50px;
+                    h4 {
+                        display: block;
+                        margin-bottom: 25px;
+                    }
+
+                    .total {
+                        margin-top: 40px;
+                        margin-bottom: 60px;
+                        letter-spacing: 1.65px;
+                    }
+
+                    .counter {
+                        margin-top: 15px;
+                        margin-bottom: 10px;
+                        width: 150px;
+                        height: 50px;
+                        border: 3px solid #000000;
                         display: flex;
-                        align-items: center;
-                        justify-content: center
+                        align-self: flex-end;
+
+                        input[type="number"] {
+                            width: 50px;
+                            appearance: textfield;
+                            border: none;
+                            outline: none;
+                            text-align: center;
+                        }
+
+                        button {
+                            background-color: transparent;
+                            border: none;
+                            width: 50px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center
+                        }
+
                     }
 
-                }
 
+                    .btn-small {
+                        color: #FFFFFF;
+                        background-color: var(--bg-dark);
+                        border: none;
+                        font: normal 300 22px/26px 'Roboto', sans-serif;
+                        height: 50px;
+                        width: 175px;
+                        letter-spacing: 2px;
 
-                .btn-small {
-                    color: #FFFFFF;
-                    background-color: var(--bg-dark);
-                    border: none;
-                    font: normal 300 22px/26px 'Roboto', sans-serif;
-                    height: 50px;
-                    width: 175px;
-                    letter-spacing: 2px;
-
-                    &:hover {
-                        color: var(--bg-dark);
-                        background-color: var(--font-gold);
+                        &:hover {
+                            color: var(--bg-dark);
+                            background-color: var(--font-gold);
+                        }
                     }
                 }
             }
         }
+
+
     }
 
     @media (max-width: 1919px) {
 
-        height: 718px;
-        padding: 50px 0;
-
-        h2 {
-            padding-bottom: 15px;
-        }
-
-        .content {
-
-            background-size: 700px;
-            height: 440px;
-            margin-top: 60px;
-            padding-left: 780px;
 
 
-            form {
-                .ticket-type {
-                    display: none;
-                }
+        .container {
+            height: 718px;
+            padding: 50px 0;
 
-                .amount {
-                    width: 175px;
+            h2 {
+                padding-bottom: 15px;
+            }
 
-                    h4 {
+            .content {
 
-                        align-self: flex-start;
-                        margin-bottom: 30px;
+                background-size: 700px;
+                height: 440px;
+                margin-top: 60px;
+                padding-left: 780px;
+
+
+                form {
+                    .ticket-type {
+                        display: none;
                     }
 
-                    .total {
-                        margin-top: -5px;
-                        margin-bottom: 65px;
-
-                    }
-
-                    .counter {
-                        margin-top: 10px;
-                        margin-bottom: 30px;
+                    .amount {
                         width: 175px;
 
-                        input[type="number"] {
-                            width: 75px;
+                        h4 {
+
+                            align-self: flex-start;
+                            margin-bottom: 30px;
+                        }
+
+                        .total {
+                            margin-top: -5px;
+                            margin-bottom: 65px;
+
+                        }
+
+                        .counter {
+                            margin-top: 10px;
+                            margin-bottom: 30px;
+                            width: 175px;
+
+                            input[type="number"] {
+                                width: 75px;
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    @media (max-width: 1023px) {
+        .container {
+            height: 633px;
+            padding: 40px 0;
+
+            h2 {
+                padding-bottom: 20px;
+            }
+
+            .content {
+
+                background-size: 444px;
+                height: 470px;
+                margin-top: 40px;
+                padding-left: 504px;
+
+
+                form {
+                    .amount {
+                        width: 175px;
+
+                        h4 {
+                            margin-bottom: 40px;
+                        }
+
+                        .total {
+                            margin-top: 10px;
+                            margin-bottom: 40px;
+                        }
+
+                        .counter {
+                            margin-bottom: 25px;
 
                         }
                     }
                 }
             }
         }
-    }
 
-    @media (max-width: 1023px) {
-        height: 633px;
-        padding: 40px 0;
-
-        h2 {
-            padding-bottom: 20px;
-        }
-
-        .content {
-
-            background-size: 444px;
-            height: 470px;
-            margin-top: 40px;
-            padding-left: 504px;
-
-
-            form {
-                .amount {
-                    width: 175px;
-
-                    h4 {
-                        margin-bottom: 40px;
-                    }
-
-                    .total {
-                        margin-top: 10px;
-                        margin-bottom: 40px;
-                    }
-
-                    .counter {
-                        margin-bottom: 25px;
-
-                    }
-                }
-            }
-        }
     }
 
     @media (max-width: 767px) {
-        height: 759px;
+        .container {
+            height: 759px;
 
-        .content {
-            background-image: url("assets/img/tickets420.jpg");
-            background-size: 380px 160px;
-            height: 616px;
+            .content {
+                background-image: url("assets/img/tickets420.jpg");
+                background-size: 380px 160px;
+                height: 616px;
 
-            padding-left: 0;
-            padding-top: 200px;
-            margin-top: 40px;
+                padding-left: 0;
+                padding-top: 200px;
+                margin-top: 40px;
 
-            form {
-                .amount {
-                    margin: 0 auto;
-                    width: 175px;
+                form {
+                    .amount {
+                        margin: 0 auto;
+                        width: 175px;
 
-                    h4 {
-                        margin-bottom: 20px;
-                        align-self: center;
-                        font: normal 700 16px/19px "Roboto";
+                        h4 {
+                            margin-bottom: 20px;
+                            align-self: center;
+                            font: normal 700 16px/19px "Roboto";
 
-                    }
+                        }
 
-                    p {
-                        font: normal 300 16px/19px "Roboto";
+                        p {
+                            font: normal 300 16px/19px "Roboto";
 
-                    }
+                        }
 
-                    .total {
-                        margin-top: 20px;
+                        .total {
+                            margin-top: 20px;
 
-                    }
+                        }
 
-                    .counter {
-                        margin-top: 15px;
-                        margin-bottom: 20px;
+                        .counter {
+                            margin-top: 15px;
+                            margin-bottom: 20px;
 
-                    }
+                        }
 
-                    .btn-small {
-                        font: normal 300 16px/16px 'Roboto', sans-serif;
+                        .btn-small {
+                            font: normal 300 16px/16px 'Roboto', sans-serif;
 
 
+                        }
                     }
                 }
             }
         }
+
     }
 }
 
@@ -1633,7 +1658,10 @@ header {
 
 
 
+.toggleVis {
+    opacity: 0;
 
+}
 
 
 
@@ -1641,11 +1669,13 @@ header {
     width: calc(100vw);
     height: calc(100vh);
     position: fixed;
-    left: -50%;
-    top: -50%;
-    transform: translate(-50%, -50%);
+    left: calc(-100vw);
     background-color: rgba(0, 0, 0, 0.596);
     z-index: 11111111;
+
+    transition: left .6s ease-out, opacity .6s;
+
+
 
 
 
@@ -1823,12 +1853,27 @@ header {
                             border: 1px solid black;
                             display: flex;
 
+                            input[type="number"] {
+                                width: 30%;
+
+                                height: 100%;
+
+                                padding-left: 0;
+                                visibility: hidden;
+
+                            }
+
 
 
                             button {
                                 background-color: #030303;
                                 border: none;
-                                flex: 1;
+                                flex-shrink: 0;
+                                width: 35%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-around;
+
 
 
 
@@ -2326,6 +2371,7 @@ header {
             border: none;
             background-repeat: no-repeat;
             background-color: transparent;
+            background-size: contain;
 
             &:first-child {
 
