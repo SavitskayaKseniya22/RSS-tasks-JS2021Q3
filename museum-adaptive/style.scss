@@ -137,17 +137,25 @@ main {
     text-transform: uppercase;
     background-image: url("assets/svg/Logo.svg");
     background-repeat: no-repeat;
-    background-position-x: left;
+    background-position: left center;
     background-size: 49px 26px;
     color: #FFFFFF;
     padding-left: 75px;
     display: block;
     white-space: nowrap;
 
+
     @media (max-width: 1919px) {
         font: normal 400 28px/31px "Forum";
     }
 
+    @media (max-width: 1023px) {
+        width: 200px;
+        font: normal 400 28px/50px "Forum";
+
+
+
+    }
 
 
     @media (max-width: 767px) {
@@ -1672,7 +1680,6 @@ header {
     left: calc(-100vw);
     background-color: rgba(0, 0, 0, 0.596);
     z-index: 11111111;
-
     transition: left .6s ease-out, opacity .6s;
 
 
@@ -2515,6 +2522,7 @@ header {
             .player-remote {
                 height: 60px;
                 padding: 0 30px;
+                position: relative;
 
                 button {
 
@@ -2543,7 +2551,13 @@ header {
                 }
 
                 #volume {
-                    display: none;
+                    position: absolute;
+                    top: -10px;
+                    left: 0;
+                    width: 100%;
+                    background-color: transparent;
+
+
                 }
             }
         }

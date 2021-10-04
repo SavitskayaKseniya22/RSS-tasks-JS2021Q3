@@ -119,7 +119,7 @@ main {
   text-transform: uppercase;
   background-image: url("assets/svg/Logo.svg");
   background-repeat: no-repeat;
-  background-position-x: left;
+  background-position: left center;
   background-size: 49px 26px;
   color: #FFFFFF;
   padding-left: 75px;
@@ -130,6 +130,13 @@ main {
 @media (max-width: 1919px) {
   .main-title {
     font: normal 400 28px/31px "Forum";
+  }
+}
+
+@media (max-width: 1023px) {
+  .main-title {
+    width: 200px;
+    font: normal 400 28px/50px "Forum";
   }
 }
 
@@ -2228,6 +2235,7 @@ header .container .social {
   .video .video-player .player-remote {
     height: 60px;
     padding: 0 30px;
+    position: relative;
   }
   .video .video-player .player-remote button.play {
     width: 23px;
@@ -2257,7 +2265,11 @@ header .container .social {
             order: 3;
   }
   .video .video-player .player-remote #volume {
-    display: none;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    background-color: transparent;
   }
   .video .content {
     height: 60px;
