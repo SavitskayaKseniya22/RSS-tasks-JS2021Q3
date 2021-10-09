@@ -1426,7 +1426,7 @@ header .container .social {
           justify-content: center;
 }
 
-.tickets .container .content form .amount .btn-small {
+.tickets .container .content form .amount .buyButton {
   color: #FFFFFF;
   background-color: var(--bg-dark);
   font: normal 300 22px/26px 'Roboto', sans-serif;
@@ -1435,7 +1435,7 @@ header .container .social {
   letter-spacing: 2px;
 }
 
-.tickets .container .content form .amount .btn-small:hover {
+.tickets .container .content form .amount .buyButton:hover {
   color: var(--bg-dark);
   background-color: var(--font-gold);
 }
@@ -1541,7 +1541,7 @@ header .container .social {
     margin-top: 15px;
     margin-bottom: 20px;
   }
-  .tickets .container .content form .amount .btn-small {
+  .tickets .container .content form .amount .buyButton {
     font: normal 300 16px/16px 'Roboto', sans-serif;
   }
 }
@@ -1716,9 +1716,6 @@ header .container .social {
   padding-top: 5px;
   border-top: 2px solid var(--dark-red);
   padding-top: 18px;
-}
-
-.booking-tickets .container > div:first-child .entry-ticket .ticketsAmount ul {
   height: 50px;
 }
 
@@ -1757,7 +1754,11 @@ header .container .social {
   width: 30%;
   height: 100%;
   padding-left: 0;
-  visibility: hidden;
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+  visibility: visible;
+  text-align: center;
 }
 
 .booking-tickets .container > div:first-child .entry-ticket .ticketsAmount li .counter button {

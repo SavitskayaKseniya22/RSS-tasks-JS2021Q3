@@ -10,9 +10,27 @@ videoSlider.addEventListener('slid.bs.carousel', function (event) {
     //alert(event.from);
     //alert(event.to);
     //alert(event.direction)
+    /*let sources = videoPlayer.querySelectorAll("source")
+    sources[0].src = "assets/video/video1.mp4"
+    sources[1].src = "assets/video/video1.webm"
+    let div = document.createElement('video');
+    div.id = "video-player";
+    div.width = "1440";
+    div.height = "650";
 
+    let source1 = document.createElement('source');
+    source1.src = "assets/video/video1.mp4";
+    div.append(source1)
+    videoPlayer.append(div)*/
 
-
+    let sources = videoPlayer.querySelectorAll("source")
+    sources[0].src = "assets/video/video" + event.to + ".mp4"
+    sources[1].src = "assets/video/video" + event.to + ".webm"
+    videoPlayer.poster = "assets/video/poster" + event.to + ".jpg"
+    videoPlayer.load()
+    buttonPlay.style.visibility = "visible";
+    playerRemotePlay.style.backgroundImage = "url(assets/svg/play.svg)";
+    buttonPlay.after(videoPlayer)
 
 
     if (event.to == 3) {
@@ -39,5 +57,14 @@ videoSlider.addEventListener('slid.bs.carousel', function (event) {
     }
 
 
-
 })
+//player.stopVideo()
+// onStateChange
+let videoItems = document.querySelectorAll("#video-slider .carousel-item iframe")
+
+for (const item of videoItems) {
+    item.onStateChange = function () {
+        alert(1)
+    }
+
+}

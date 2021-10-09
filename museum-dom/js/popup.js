@@ -1,8 +1,8 @@
-let btn = document.querySelector(".btn-small")
+let buyButton = document.querySelector(".buyButton")
 let cross = document.querySelector(".close-cross")
 let modal = document.querySelector(".booking-tickets")
 
-btn.addEventListener("click", function (event) {
+buyButton.addEventListener("click", function (event) {
     modal.classList.remove("toggleVis")
     modal.style.left = "0";
     modal.style.top = "0"

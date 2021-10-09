@@ -351,37 +351,37 @@
 
 
 
-                <div id="video-slider" class="carousel slide" data-bs-ride="carousel">
+                <div id="video-slider" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
 
                     <div class="carousel-inner playlist">
                         <div class="carousel-item active" style="display: block;">
 
                             <iframe width="452" height="254" src="https://www.youtube.com/embed/zp1BXPX8jcU"
-                                title="YouTube video player" frameborder="0"
+                                enablejsapi=1 title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen class="d-block w-100"></iframe>
                         </div>
                         <div class="carousel-item" style="display: block;">
                             <iframe width="452" height="254" src="https://www.youtube.com/embed/aWmJ5DgyWPI"
-                                title="YouTube video player"
+                                enablejsapi=1 title="YouTube video player"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen loading="lazy" class="d-block w-100"></iframe>
                         </div>
                         <div class="carousel-item" style="display: block;">
                             <iframe width="452" height="254" src="https://www.youtube.com/embed/Vi5D6FKhRmo"
-                                title="YouTube video player"
+                                enablejsapi=1 title="YouTube video player"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen loading="lazy" class="d-block w-100"></iframe>
                         </div>
                         <div class="carousel-item">
                             <iframe width="452" height="254" src="https://www.youtube.com/embed/NOhDysLnTvY"
-                                title="YouTube video player"
+                                enablejsapi=1 title="YouTube video player"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen loading="lazy" class="d-block w-100"></iframe>
                         </div>
                         <div class="carousel-item">
                             <iframe width="452" height="254" src="https://www.youtube.com/embed/2OR0OCr6uRE"
-                                title="YouTube video player" frameborder="0"
+                                enablejsapi=1 title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen class="d-block w-100"></iframe>
                         </div>
@@ -470,23 +470,23 @@
                             <h4>Amount</h4>
 
                             <p>Basic 18+</p>
-                            <div class="counter">
-                                <button type="button"><img src="assets/svg/–.svg" alt="minus"></button><input
-                                    type="number" value="1"><button type="button"><img src="assets/svg/+.svg"
-                                        alt="plus"></button>
+                            <div class="counter basic">
+                                <button type="button" class="minus"><img src="assets/svg/–.svg" alt="minus"></button>
+                                <input type="number" value="0" min="1" max="100">
+                                <button type="button" class="plus"><img src="assets/svg/+.svg" alt="plus"></button>
                             </div>
 
                             <p>Senior 65+</p>
-                            <div class="counter">
-                                <button type="button"><img src="assets/svg/–.svg" alt="minus"></button><input
-                                    type="number" value="1"><button type="button"><img src="assets/svg/+.svg"
-                                        alt="plus"></button>
+                            <div class="counter senior">
+                                <button type="button" class="minus"><img src="assets/svg/–.svg" alt="minus"></button>
+                                <input type="number" value="0" min="10" max="100">
+                                <button type="button" class="plus"><img src="assets/svg/+.svg" alt="plus"></button>
                             </div>
 
-                            <h4 class="total">Total<span> € 220</span></h4>
+                            <h4 class="total">Total €<span class="total-sum">0"</span></h4>
                             <input type="checkbox" id="toggle2" checked>
                             <label for="toggle2">
-                                <button type="button" class="btn-small btn">Buy Now</button>
+                                <button type="button" class="btn buyButton">Buy Now</button>
                             </label>
 
                         </div>
@@ -507,14 +507,10 @@
 
                     <form action="#" id="booking-tickets">
                         <ul>
-                            <li class="chooseDate">Date<input type="date" value="" required name="date" id="date">
-                            </li>
-
+                            <li class="chooseDate">Date<input type="date" value="" required name="date" id="date"></li>
                             <li class="chooseTime">Time<input type="time" required name="time" id="time"></li>
-
                             <li class="writeName">Name<input type="text" required name="name" id="name"
                                     placeholder="Name"></li>
-
                             <li class="writeEmail">E-mail<input type="email" required name="email" id="email"
                                     placeholder="E-mail"></li>
                             <li class="writePhone">Phone<input type="tel" id="phone" name="phone" required
@@ -523,34 +519,37 @@
                                     <option value="value1">Значение 1</option>
                                     <option value="value2" selected>Значение 2</option>
                                 </select></li>
-
                         </ul>
 
                         <div class="entry-ticket">
                             <h5>Entry Ticket</h5>
-                            <div class="ticketsAmount">
-                                <ul>
-                                    <li>
-                                        <div>Basic 18+ (20 €)</div>
-                                        <div class="counter"><button><img src="assets/svg/-white.svg"
-                                                    alt="minus"></button><input type="number" name="amount-of-basic"
-                                                id="amount-of-basic"><button><img src="assets/svg/+white.svg"
-                                                    alt="plus"></button></div>
-                                    </li>
-                                    <li>
-                                        <div>Senior 65+ (10 €)</div>
-                                        <div class="counter"><button><img src="assets/svg/-white.svg"
-                                                    alt="minus"></button><input type="number" name="new-amount-of-basic"
-                                                id="new-amount-of-basic"><button><img src="assets/svg/+white.svg"
-                                                    alt="plus"></button></div>
-                                    </li>
 
-                                </ul>
+                            <ul class="ticketsAmount">
+                                <li>
+                                    <div>Basic 18+ (20 €)</div>
+                                    <div class="counter basic">
+                                        <button type="button" class="minus"><img src="assets/svg/-white.svg"
+                                                alt="minus"></button>
+                                        <input type="number" name="amount-of-basic" id="amount-of-basic" value="0"
+                                            min="10" max="100">
+                                        <button type="button" class="plus"><img src="assets/svg/+white.svg"
+                                                alt="plus"></button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>Senior 65+ (10 €)</div>
+                                    <div class="counter senior">
+                                        <button type="button" class="minus"><img src="assets/svg/-white.svg"
+                                                alt="minus"></button>
+                                        <input type="number" name="new-amount-of-basic" id="new-amount-of-basic"
+                                            value="0" min="10" max="100">
+                                        <button type="button" class="plus"><img src="assets/svg/+white.svg"
+                                                alt="plus"></button>
+                                    </div>
+                                </li>
 
+                            </ul>
 
-
-
-                            </div>
 
                         </div>
                     </form>
@@ -702,6 +701,7 @@
     <script src="js/map.js"></script>
     <script src="js/slider-video.js"></script>
     <script src="js/custom-player.js"></script>
+    <script src="js/tickets.js"></script>
     <script src="https://unpkg.com/beerslider/dist/BeerSlider.js"></script>
     <script>
         new BeerSlider(document.getElementById('slider'));

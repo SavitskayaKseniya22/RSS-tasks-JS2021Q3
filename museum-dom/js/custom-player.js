@@ -35,6 +35,9 @@ playerRemotePlay.addEventListener("click", function () {
 videoPlayer.addEventListener("click", function () {
     playPause()
 })
+videoPlayer.addEventListener("durationchange", function () {
+
+})
 
 
 document.addEventListener("keydown", function (event) {
@@ -102,12 +105,11 @@ volumeRange.addEventListener("input", function () {
 
 //длительность и перемотка
 let remoteRange = document.querySelector(".player-remote #remote");
-window.onload = function () {
+
+videoPlayer.addEventListener("durationchange", function () {
     remoteRange.max = videoPlayer.duration;
     remoteRange.value = 0;
-
-};
-
+})
 
 videoPlayer.addEventListener("timeupdate", function () {
     remoteRange.value = videoPlayer.currentTime

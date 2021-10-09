@@ -1608,7 +1608,7 @@ header {
                     }
 
 
-                    .btn-small {
+                    .buyButton {
                         color: #FFFFFF;
                         background-color: var(--bg-dark);
 
@@ -1769,7 +1769,7 @@ header {
 
                         }
 
-                        .btn-small {
+                        .buyButton {
                             font: normal 300 16px/16px 'Roboto', sans-serif;
 
 
@@ -1815,10 +1815,6 @@ header {
     transition: left .6s ease-out, opacity .6s;
 
 
-
-
-
-
     .close-cross {
         position: absolute;
         right: calc(((100vw - 1440px)/2) + 30px);
@@ -1827,8 +1823,6 @@ header {
         z-index: 22222222;
 
     }
-
-
 
     .container {
         background-color: white;
@@ -1839,7 +1833,6 @@ header {
         position: absolute;
         left: calc((100vw - 1440px)/2);
         top: calc((100vh - 845px)/2);
-
 
         &>div:first-child {
             width: 400px;
@@ -1963,10 +1956,8 @@ header {
                     padding-top: 5px;
                     border-top: 2px solid var(--dark-red);
                     padding-top: 18px;
+                    height: 50px;
 
-                    ul {
-                        height: 50px;
-                    }
 
                     li {
                         border: none;
@@ -1994,11 +1985,11 @@ header {
 
                             input[type="number"] {
                                 width: 30%;
-
                                 height: 100%;
-
                                 padding-left: 0;
-                                visibility: hidden;
+                                appearance: textfield;
+                                visibility: visible;
+                                text-align: center;
 
                             }
 
