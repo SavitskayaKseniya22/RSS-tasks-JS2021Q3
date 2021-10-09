@@ -483,7 +483,7 @@
                                 <button type="button" class="plus"><img src="assets/svg/+.svg" alt="plus"></button>
                             </div>
 
-                            <h4 class="total">Total €<span class="total-sum">0"</span></h4>
+                            <h4 class="total">Total €<span class="total-sum">0</span></h4>
                             <input type="checkbox" id="toggle2" checked>
                             <label for="toggle2">
                                 <button type="button" class="btn buyButton">Buy Now</button>
@@ -526,7 +526,7 @@
 
                             <ul class="ticketsAmount">
                                 <li>
-                                    <div>Basic 18+ (20 €)</div>
+                                    <div>Basic 18+ (<span class="basic-cost">0</span> €)</div>
                                     <div class="counter basic">
                                         <button type="button" class="minus"><img src="assets/svg/-white.svg"
                                                 alt="minus"></button>
@@ -537,7 +537,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <div>Senior 65+ (10 €)</div>
+                                    <div>Senior 65+ (<span class="senior-cost">0</span> €)</div>
                                     <div class="counter senior">
                                         <button type="button" class="minus"><img src="assets/svg/-white.svg"
                                                 alt="minus"></button>
@@ -563,12 +563,20 @@
                             <li class="choosen-time">16 : 30</li>
                             <li class="choosen-type">Temporary exhibition</li>
                         </ul>
-                        <ul class="total-summ">
-                            <li>Basic (20 €)<span>40 €</span></li>
-                            <li>Senior (10 €)<span>20 €</span> </li>
+                        <ul class="total-summary">
+                            <li>
+                                <div class="num-summary"></div> Basic (<span class="basic-cost">0</span> €)<span
+                                    class="tt"><span class="total-basic">0</span>
+                                    €</span>
+                            </li>
+                            <li>
+                                <div class="num-summary"></div> Senior (<span class="senior-cost">0</span> €)<span
+                                    class="tt"><span class="total-senior">0</span>
+                                    €</span>
+                            </li>
                         </ul>
 
-                        <h4>Total: <span>60 €</span></h4>
+                        <h4>Total: <span><span class="total-sum-overwiew">0</span> €</span></h4>
                     </div>
 
                     <form action="#" class="credit-card">

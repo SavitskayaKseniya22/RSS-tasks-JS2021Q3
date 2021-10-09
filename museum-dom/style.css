@@ -1623,11 +1623,16 @@ header .container .social {
 .booking-tickets .container > div:first-child form input,
 .booking-tickets .container > div:first-child form select,
 .booking-tickets .container > div:first-child form option {
-  width: 100%;
-  height: 45px;
+  width: calc(100% - 86px);
+  height: 43px;
   color: var(--bg-dark);
-  padding-left: 43px;
-  visibility: hidden;
+  padding: 0;
+  margin-left: 45px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 1;
+  border: none;
 }
 
 .booking-tickets .container > div:first-child form ::-webkit-input-placeholder {
@@ -1657,8 +1662,9 @@ header .container .social {
   background-repeat: no-repeat;
   background-position: left 15px center;
   border: 1px solid black;
-  padding-left: 43px;
+  padding-left: 45px;
   line-height: 45px;
+  position: relative;
 }
 
 .booking-tickets .container > div:first-child form .chooseDate,
@@ -1759,10 +1765,15 @@ header .container .social {
           appearance: textfield;
   visibility: visible;
   text-align: center;
+  position: relative;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  margin-left: 0;
 }
 
 .booking-tickets .container > div:first-child .entry-ticket .ticketsAmount li .counter button {
   background-color: #030303;
+  padding: 0;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 35%;
@@ -1821,25 +1832,44 @@ header .container .social {
   background-image: url("assets/svg/check_circle_outline.svg");
 }
 
-.booking-tickets .container > div:last-child .overview .total-summ {
+.booking-tickets .container > div:last-child .overview .total-summary {
   font: normal 400 22px/26px "Roboto";
   margin-top: 22px;
   margin-bottom: 12px;
   border-bottom: 2px solid var(--dark-red);
 }
 
-.booking-tickets .container > div:last-child .overview .total-summ li {
-  padding-left: 42px;
+.booking-tickets .container > div:last-child .overview .total-summary li {
   margin-bottom: 6px;
-  background-image: url("assets/svg/total-counts.svg");
-  background-repeat: no-repeat;
-  background-position: left center;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+}
+
+.booking-tickets .container > div:last-child .overview .total-summary li .num-summary {
+  width: 32px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: black;
+  margin-right: 10px;
+  -ms-flex-item-align: center;
+      align-self: center;
+  color: #A4A4A3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.booking-tickets .container > div:last-child .overview .total-summary li .tt {
+  margin-left: auto;
 }
 
 .booking-tickets .container > div:last-child .overview h4 {

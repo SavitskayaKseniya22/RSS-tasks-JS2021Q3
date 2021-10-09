@@ -1870,11 +1870,18 @@ header {
                 input,
                 select,
                 option {
-                    width: 100%;
-                    height: 45px;
+                    width: calc(100% - 86px);
+                    height: 43px;
                     color: var(--bg-dark);
-                    padding-left: 43px;
-                    visibility: hidden;
+                    padding: 0;
+                    margin-left: 45px;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    opacity: 1;
+
+                    border: none;
+
                 }
 
                 ::placeholder {
@@ -1890,8 +1897,10 @@ header {
                     background-repeat: no-repeat;
                     background-position: left 15px center;
                     border: 1px solid black;
-                    padding-left: 43px;
+                    padding-left: 45px;
                     line-height: 45px;
+                    position: relative;
+
 
                 }
 
@@ -1990,6 +1999,11 @@ header {
                                 appearance: textfield;
                                 visibility: visible;
                                 text-align: center;
+                                position: relative;
+                                flex-shrink: 0;
+                                margin-left: 0;
+
+
 
                             }
 
@@ -1997,12 +2011,13 @@ header {
 
                             button {
                                 background-color: #030303;
-
+                                padding: 0;
                                 flex-shrink: 0;
                                 width: 35%;
                                 display: flex;
                                 align-items: center;
                                 justify-content: space-around;
+
 
 
 
@@ -2063,21 +2078,37 @@ header {
 
                 }
 
-                .total-summ {
+                .total-summary {
                     font: normal 400 22px/26px "Roboto";
                     margin-top: 22px;
                     margin-bottom: 12px;
                     border-bottom: 2px solid var(--dark-red);
 
                     li {
-                        padding-left: 42px;
-                        margin-bottom: 6px;
-                        background-image: url("assets/svg/total-counts.svg");
-                        background-repeat: no-repeat;
-                        background-position: left center;
-                        display: flex;
-                        justify-content: space-between;
 
+                        margin-bottom: 6px;
+                        display: flex;
+
+                        .num-summary {
+                            width: 32px;
+                            height: 20px;
+                            border-radius: 5px;
+                            background-color: black;
+                            margin-right: 10px;
+                            align-self: center;
+                            color: #A4A4A3;
+                            ;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            font-size: 18px;
+                            line-height: 21px;
+                        }
+
+
+                        .tt {
+                            margin-left: auto;
+                        }
                     }
                 }
 
