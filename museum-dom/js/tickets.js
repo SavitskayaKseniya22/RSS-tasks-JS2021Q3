@@ -17,7 +17,8 @@ window.onload = function () {
     inputs[0].value = myStorage.basicValue
     inputs[1].value = myStorage.seniorValue
     if (myStorage.totalSum) {
-        totalSum.innerText = myStorage.totalSum
+        // totalSum.innerText = myStorage.totalSum
+        printTotal(totalSum)
     } else {
         myStorage.totalSum = totalSum.innerText;
     }
@@ -32,13 +33,17 @@ for (const item of pluses) {
         if (item.parentNode.className == "counter basic") {
             myStorage.totalSum = Number(totalSum.innerText) + getCost()
             myStorage.basicValue++;
-            totalSum.innerText = myStorage.totalSum;
-            totalSumOverwiew.innerText = myStorage.totalSum;
+            //totalSum.innerText = myStorage.totalSum;
+            printTotal(totalSum)
+            //totalSumOverwiew.innerText = myStorage.totalSum;
+            printTotal(totalSumOverwiew)
         } else {
             myStorage.totalSum = Number(totalSum.innerText) + (getCost() / 2)
             myStorage.seniorValue++;
-            totalSum.innerText = myStorage.totalSum;
-            totalSumOverwiew.innerText = myStorage.totalSum
+            //totalSum.innerText = myStorage.totalSum;
+            printTotal(totalSum)
+            //totalSumOverwiew.innerText = myStorage.totalSum
+            printTotal(totalSumOverwiew)
 
         }
     })
@@ -52,14 +57,18 @@ for (const item of minuses) {
             if (item.parentNode.className == "counter basic") {
                 myStorage.totalSum = Number(totalSum.innerText) - getCost()
                 myStorage.basicValue--;
-                totalSum.innerText = myStorage.totalSum;
-                totalSumOverwiew.innerText = myStorage.totalSum;
+                //totalSum.innerText = myStorage.totalSum;
+                printTotal(totalSum)
+                //totalSumOverwiew.innerText = myStorage.totalSum;
+                printTotal(totalSumOverwiew)
 
             } else {
                 myStorage.totalSum = Number(totalSum.innerText) - (getCost() / 2)
                 myStorage.seniorValue--;
-                totalSum.innerText = myStorage.totalSum
-                totalSumOverwiew.innerText = myStorage.totalSum;
+                //totalSum.innerText = myStorage.totalSum
+                printTotal(totalSum)
+                //totalSumOverwiew.innerText = myStorage.totalSum;
+                printTotal(totalSumOverwiew)
 
             }
         }
@@ -78,14 +87,17 @@ for (const item of ticketTypeInputs) {
 
 function recalculation() {
     myStorage.totalSum = basicValue.value * getCost() + seniorValue.value * (getCost() / 2)
-    totalSum.innerText = myStorage.totalSum
-    totalSumOverwiew.innerText = myStorage.totalSum;
+    //totalSum.innerText = myStorage.totalSum
+    printTotal(totalSum)
+    //totalSumOverwiew.innerText = myStorage.totalSum;
+    printTotal(totalSumOverwiew)
 }
+let ticketTypeAcive = ticketType.querySelector("input[type='radio']:checked")
 
 function getCost() {
-    let ticketTypeAcive = ticketType.querySelector("input[type='radio']:checked")
+
     let cost;
-    switch (ticketTypeAcive.id) {
+    switch (myStorage.ticketTypeAcive) {
         case "Permanent":
             cost = 20
             break;
@@ -100,6 +112,7 @@ function getCost() {
 }
 
 //выезжающая форма
+
 let ticketsAmountPopup = document.querySelectorAll(".ticketsAmount input[type='number']")
 let totalSumOverwiew = document.querySelector(".total-sum-overwiew")
 let totalBasic = document.querySelector(".total-basic")
@@ -112,21 +125,37 @@ let numSummarys = document.querySelectorAll(".num-summary")
 
 let selectType = document.querySelector(".selectType select")
 let choosenType = document.querySelector(".choosen-type")
-buyButton.addEventListener("click", function () {
-    ticketsAmountPopup[0].value = myStorage.basicValue
-    ticketsAmountPopup[1].value = myStorage.seniorValue
 
-    totalSumOverwiew.innerText = myStorage.totalSum
-    totalBasic.innerText = myStorage.basicValue * getCost()
-    totalSenior.innerText = myStorage.seniorValue * (getCost() / 2)
-
+function printCost() {
     costBasic[0].innerText = getCost()
     costBasic[1].innerText = getCost()
     costSenior[0].innerText = getCost() / 2
     costSenior[1].innerText = getCost() / 2
+}
 
+function printTotalSeparate() {
+    totalBasic.innerText = myStorage.basicValue * getCost()
+    totalSenior.innerText = myStorage.seniorValue * (getCost() / 2)
+}
+
+function printValues() {
     numSummarys[0].innerText = myStorage.basicValue
     numSummarys[1].innerText = myStorage.seniorValue
+}
+
+function printTotal(obj) {
+    obj.innerText = myStorage.totalSum
+}
+
+buyButton.addEventListener("click", function () {
+    ticketsAmountPopup[0].value = myStorage.basicValue
+    ticketsAmountPopup[1].value = myStorage.seniorValue
+
+    //totalSumOverwiew.innerText = myStorage.totalSum
+    printTotal(totalSumOverwiew)
+    printTotalSeparate()
+    printCost()
+    printValues()
 
 
     choosenType.innerText = document.getElementById(myStorage.ticketTypeAcive).nextSibling.innerText;
@@ -155,11 +184,8 @@ for (const item of buttons) {
         basicValue.value = myStorage.basicValue
         seniorValue.value = myStorage.seniorValue
 
-        numSummarys[0].innerText = myStorage.basicValue
-        numSummarys[1].innerText = myStorage.seniorValue
-
-        totalBasic.innerText = myStorage.basicValue * getCost()
-        totalSenior.innerText = myStorage.seniorValue * (getCost() / 2)
+        printValues()
+        printTotalSeparate()
 
 
     })
@@ -170,9 +196,16 @@ selectType.addEventListener("change", function () {
         if (item.selected) {
             myStorage.ticketTypeAcive = item.value;
             choosenType.innerText = item.innerText
-
+            recalculation()
+            printTotalSeparate()
+            printCost()
+            for (const elem of ticketTypeInputs) {
+                elem.removeAttribute("checked")
+                if (elem.id == myStorage.ticketTypeAcive) {
+                    elem.checked = "true"
+                }
+            }
         }
-
     }
 })
 
@@ -217,10 +250,10 @@ dateControl.addEventListener("change", function () {
 })
 
 //время
-let timeControl = document.querySelector('#booking-tickets input[type="time"]');
+let timeControl = document.querySelector('.chooseTime select');
 let choosenTime = document.querySelector(".choosen-time")
 choosenTime.innerText = "09:00";
-timeControl.addEventListener("input", function () {
+timeControl.addEventListener("change", function () {
     choosenTime.innerText = timeControl.value;
 })
 

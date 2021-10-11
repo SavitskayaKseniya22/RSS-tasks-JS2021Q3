@@ -1072,62 +1072,38 @@ header .container .social {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  /*
-        .img-comp-container {
-            position: relative;
-            height: 700px;
-            width: 720px;
-
-            .img-comp-img {
-                position: absolute;
-
-                width: auto;
-                height: auto;
-                overflow: hidden;
-
-                &.imgBefore {}
-
-                &.imgAfter {
-                    width: 50%;
-                    overflow: hidden;
-                    top: 0;
-                    left: 0;
-                }
-
-            }
-            .img-comp-slider {
-                position: absolute;
-                top: 0;
-                left: calc(50% - 20px);
-                z-index: 9;
-                cursor: ew-resize;
-                
-                width: 40px;
-                height: 100%;
-                background-color: transparent;
-
-                background-image: url(assets/img/explore-slider/exploreSlider.png);
-                background-repeat: no-repeat;
-            }
-
-        }*/
 }
 
-.explore .container .beer-handle {
-  display: block;
+.explore .container .img-comp-container {
+  position: relative;
+  height: 700px;
+  width: 720px;
+}
+
+.explore .container .img-comp-container .img-comp-img {
+  position: absolute;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+}
+
+.explore .container .img-comp-container .img-comp-img.imgAfter {
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+.explore .container .img-comp-container .img-comp-slider {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 20px);
+  z-index: 9;
+  cursor: ew-resize;
   width: 40px;
   height: 100%;
   background-color: transparent;
   background-image: url(assets/img/explore-slider/exploreSlider.png);
   background-repeat: no-repeat;
-}
-
-.explore .container .beer-handle::after {
-  content: none;
-}
-
-.explore .container .beer-handle::before {
-  content: none;
 }
 
 .explore .container .content {
@@ -1158,11 +1134,6 @@ header .container .social {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-  }
-  .explore .container .beer-slider {
-    width: 720px;
-    height: 700px;
-    margin: auto;
   }
   .explore .container .content {
     width: 100%;
@@ -1200,19 +1171,6 @@ header .container .social {
     height: 551px;
     padding: 40px 0;
   }
-  .explore .container .beer-slider {
-    width: 380px;
-    height: 368px;
-  }
-  .explore .container .beer-handle {
-    display: block;
-    width: 20px;
-    height: 100%;
-    background-color: transparent;
-    background-image: url(assets/img/explore-slider/exploreSlider.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
   .explore .container h2 {
     margin-bottom: 40px;
   }
@@ -1242,14 +1200,15 @@ header .container .social {
 }
 
 .gallery .picture-inner-container .popDiv {
-  position: absolute;
+  position: fixed;
   color: black;
-  top: 0;
-  left: 0;
   z-index: 999999999999;
   background-color: rgba(255, 255, 255, 0.418);
   border: 2px solid white;
   padding: 15px;
+  opacity: 1;
+  -webkit-transition: opacity .5s;
+  transition: opacity .5s;
 }
 
 .gallery .picture-inner-container .popDiv .popDivSpan {
@@ -1737,9 +1696,15 @@ header .container .social {
   background-position: left 15px center;
 }
 
-.booking-tickets .container > div:first-child form .chooseTime input::-webkit-calendar-picker-indicator {
+.booking-tickets .container > div:first-child form .chooseTime select {
   background-image: url("assets/svg/arrow.svg");
   background-size: 17px 17px;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-position: right center;
+  border-radius: 0;
 }
 
 .booking-tickets .container > div:first-child form .writeName {
@@ -1965,7 +1930,7 @@ header .container .social {
   position: relative;
 }
 
-.booking-tickets .container > div:last-child .card {
+.booking-tickets .container > div:last-child .bankCard {
   width: 360px;
   height: 211px;
   background-color: #BCBCBC;
@@ -1985,11 +1950,16 @@ header .container .social {
 }
 
 .booking-tickets .container > div:last-child input {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   height: 35px;
   border: none;
   outline: none;
   margin-top: 5px;
   margin-bottom: 10px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .booking-tickets .container > div:last-child #cardNum {
@@ -2191,7 +2161,7 @@ header .container .social {
     height: 565px;
     position: relative;
   }
-  .booking-tickets .container > div:last-child .card {
+  .booking-tickets .container > div:last-child .bankCard {
     width: 330px;
     height: 209px;
     font: normal 400 11px/13px "Roboto";

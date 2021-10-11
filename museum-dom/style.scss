@@ -1225,24 +1225,9 @@ header {
         display: flex;
         justify-content: space-between;
 
-        .beer-handle {
-            display: block;
-            width: 40px;
-            height: 100%;
-            background-color: transparent;
-            background-image: url(assets/img/explore-slider/exploreSlider.png);
-            background-repeat: no-repeat;
 
-            &::after {
-                content: none;
-            }
 
-            &::before {
-                content: none;
-            }
-        }
 
-        /*
         .img-comp-container {
             position: relative;
             height: 700px;
@@ -1258,29 +1243,28 @@ header {
                 &.imgBefore {}
 
                 &.imgAfter {
-                    width: 50%;
+
                     overflow: hidden;
                     top: 0;
                     left: 0;
                 }
 
             }
+
             .img-comp-slider {
                 position: absolute;
                 top: 0;
                 left: calc(50% - 20px);
                 z-index: 9;
                 cursor: ew-resize;
-                
                 width: 40px;
                 height: 100%;
                 background-color: transparent;
-
                 background-image: url(assets/img/explore-slider/exploreSlider.png);
                 background-repeat: no-repeat;
             }
 
-        }*/
+        }
 
 
         .content {
@@ -1313,11 +1297,7 @@ header {
             //   background-image: url(assets/img/explore-slider/exploreSlider.png), url(assets/img/explore-slider/beforeShort.jpg), url(assets/img/explore-slider/after.jpg);
             //   background-repeat: no-repeat, no-repeat, no-repeat;
             //   background-position: left 550px bottom 60px, left 132px bottom 60px, center bottom 60px;
-            .beer-slider {
-                width: 720px;
-                height: 700px;
-                margin: auto;
-            }
+
 
             .content {
                 width: 100%;
@@ -1368,23 +1348,7 @@ header {
             // background-repeat: no-repeat, no-repeat, no-repeat;
             // background-position: left 225px bottom 40px, left bottom 40px, center bottom 40px;
             // background-size: 20px 368px, 235px 368px, 380px 368px;
-            .beer-slider {
-                width: 380px;
-                height: 368px;
 
-            }
-
-            .beer-handle {
-                display: block;
-                width: 20px;
-                height: 100%;
-                background-color: transparent;
-                background-image: url(assets/img/explore-slider/exploreSlider.png);
-                background-repeat: no-repeat;
-                background-size: contain;
-
-
-            }
 
             h2 {
 
@@ -1431,14 +1395,16 @@ header {
         column-count: 3;
 
         .popDiv {
-            position: absolute;
+
+            position: fixed;
             color: black;
-            top: 0;
-            left: 0;
+
             z-index: 999999999999;
             background-color: rgba(255, 255, 255, 0.418);
             border: 2px solid white;
             padding: 15px;
+            opacity: 1;
+            transition: opacity .5s;
 
             .popDivSpan {
                 border-bottom: 1px solid var(--dark-red);
@@ -1977,9 +1943,14 @@ header {
                     background-image: url("assets/svg/Time.svg");
                     background-position: left 15px center;
 
-                    input::-webkit-calendar-picker-indicator {
+
+                    select {
                         background-image: url("assets/svg/arrow.svg");
                         background-size: 17px 17px;
+                        background-repeat: no-repeat;
+                        appearance: none;
+                        background-position: right center;
+                        border-radius: 0;
                     }
 
                 }
@@ -2208,7 +2179,7 @@ header {
 
             }
 
-            .card {
+            .bankCard {
                 width: 360px;
                 height: 211px;
                 background-color: #BCBCBC;
@@ -2227,15 +2198,18 @@ header {
                 top: 0;
                 left: 30px;
                 z-index: 150;
+
             }
 
 
             input {
+                flex-shrink: 0;
                 height: 35px;
                 border: none;
                 outline: none;
                 margin-top: 5px;
                 margin-bottom: 10px;
+                appearance: none;
             }
 
             #cardNum {
@@ -2245,6 +2219,7 @@ header {
             #expDateMonth,
             #expDateYear {
                 width: 100px;
+
             }
 
             #expDateMonth {
@@ -2459,7 +2434,7 @@ header {
                     position: relative;
                 }
 
-                .card {
+                .bankCard {
                     width: 330px;
                     height: 209px;
                     font: normal 400 11px/13px "Roboto";

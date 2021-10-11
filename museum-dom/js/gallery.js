@@ -32,10 +32,7 @@ for (let i = 0; i < arr.length; i++) {
         let popDiv = document.createElement('div');
         popDiv.classList.add('popDiv')
 
-
-
         let index = sourceArr.indexOf(arr[i])
-
 
         let popDivTitle = document.createElement('h4');
         popDivTitle.classList.add('popDivTitle')
@@ -54,22 +51,33 @@ for (let i = 0; i < arr.length; i++) {
 
         let popDivA = document.createElement('a');
         popDivA.classList.add('popDivA')
+        popDivA.setAttribute("target", "_blank")
         popDivA.innerText = "Go to Wiki";
         popDivA.href = infoArts[index].anchor;
-        popDiv.append(popDivA)
 
+        document.addEventListener("scroll", function (event) {
+
+            setTimeout(() => {
+                popDiv.style.opacity = "0"
+            }, 360);
+            setTimeout(() => {
+                popDiv.remove()
+            }, 600);
+        })
+        popDiv.append(popDivA)
+        //let x = event.clientX
+        // let y = event.clientY
+        // alert(event.clientX + ":" + event.clientY)
+        // popDiv.style.top = y + "px";
+        // popDiv.style.left = x + "px"
+
+        let coords = event.target.getBoundingClientRect();
+        popDiv.style.left = coords.left - 20 + "px";
+        popDiv.style.top = coords.top + 20 + "px";
 
         pictureInnerContainer.append(popDiv)
-
-
-
-
-
     })
-
     pictureInnerContainer.append(img);
-
-
 }
 
 
@@ -85,13 +93,8 @@ function showVisible() {
         if (isVisible(img)) {
             img.style.opacity = "1";
             img.style.transform = "scaleX(1.02) translateY(-100px)";
-
-
-
-
         }
     }
-
 }
 
 function closeVisible() {
@@ -100,11 +103,8 @@ function closeVisible() {
         if (!isVisible(img)) {
             img.style.opacity = "0";
             img.style.transform = "none"
-
-
         }
     }
-
 }
 
 window.addEventListener('scroll', showVisible);
