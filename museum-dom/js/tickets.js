@@ -110,7 +110,8 @@ let costSenior = document.querySelectorAll(".senior-cost")
 
 let numSummarys = document.querySelectorAll(".num-summary")
 
-
+let selectType = document.querySelector(".selectType select")
+let choosenType = document.querySelector(".choosen-type")
 buyButton.addEventListener("click", function () {
     ticketsAmountPopup[0].value = myStorage.basicValue
     ticketsAmountPopup[1].value = myStorage.seniorValue
@@ -126,6 +127,20 @@ buyButton.addEventListener("click", function () {
 
     numSummarys[0].innerText = myStorage.basicValue
     numSummarys[1].innerText = myStorage.seniorValue
+
+
+    choosenType.innerText = document.getElementById(myStorage.ticketTypeAcive).nextSibling.innerText;
+
+
+
+    for (const item of selectType.options) {
+        item.removeAttribute("selected")
+        if (choosenType.innerText == item.innerText) {
+            item.selected = "true"
+
+        }
+    }
+
 })
 
 let buttons = document.querySelectorAll(".ticketsAmount button")
@@ -150,12 +165,101 @@ for (const item of buttons) {
     })
 }
 
+selectType.addEventListener("change", function () {
+    for (const item of selectType.options) {
+        if (item.selected) {
+            myStorage.ticketTypeAcive = item.value;
+            choosenType.innerText = item.innerText
+
+        }
+
+    }
+})
 
 
 
 //дата
-var dateControl = document.querySelector('#booking-tickets input[type="date"]');
+function parseDate(s) {
+    var b = s.split(/\D/);
+    return new Date(b[0], --b[1], b[2]);
+}
+let dateControl = document.querySelector('#booking-tickets input[type="date"]');
 let nowDate = new Date();
-let str = "";
-str = nowDate.getFullYear() + "-" + nowDate.getMonth() + "-" + nowDate.getDate()
-alert(str)
+let minStr = nowDate.getFullYear() + "-" + (nowDate.getMonth() + 1) + "-" + nowDate.getDate();
+dateControl.addEventListener("", function () {})
+dateControl.min = minStr
+dateControl.value = minStr
+
+
+function printChoosenDayWeek(date) {
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let weekDay = days[date.getDay()]
+    let choosenDayWeek = document.querySelector(".choosen-day-week")
+    choosenDayWeek.innerText = weekDay
+}
+
+function printChoosenDay(date) {
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    let chooseMonth = months[date.getMonth()]
+    let choosenDay = document.querySelector(".choosen-date-month-day")
+    choosenDay.innerText = chooseMonth + " " + date.getDate()
+}
+
+printChoosenDayWeek(nowDate)
+printChoosenDay(nowDate)
+
+
+dateControl.addEventListener("change", function () {
+    let dateChoosen = parseDate(dateControl.value)
+    printChoosenDayWeek(dateChoosen)
+    printChoosenDay(dateChoosen)
+
+})
+
+//время
+let timeControl = document.querySelector('#booking-tickets input[type="time"]');
+let choosenTime = document.querySelector(".choosen-time")
+choosenTime.innerText = "09:00";
+timeControl.addEventListener("input", function () {
+    choosenTime.innerText = timeControl.value;
+})
+
+//валидация
+let writeName = document.querySelector(".writeName input")
+let writeEmail = document.querySelector(".writeEmail input")
+let writePhone = document.querySelector(".writePhone input")
+
+function makeWarning(item) {
+    item.style.border = "2px solid red"
+    alert("Wrong!")
+
+    setTimeout(() => {
+        item.style.border = "1px solid black"
+    }, 600);
+
+}
+writeName.addEventListener("blur", function () {
+    if (!/^[а-яА-Яa-zA-Z\s]{3,15}$/gi.test(writeName.value)) {
+        makeWarning(writeName.parentNode)
+    }
+})
+writeEmail.addEventListener("blur", function () {
+    if (!/^[\w_-]{3,15}@[a-zA-Z-]{4,}\.[a-zA-Z-]{2,}$/gi.test(writeEmail.value)) {
+        makeWarning(writeEmail.parentNode)
+    }
+
+})
+
+writePhone.addEventListener("blur", function () {
+    const result = Array.from(writePhone.value).filter(num => !/[a-zA-Z-]/gi.test(num));
+    if (result.length <= 10) {
+        if (!/^(\d{2,3}[-\s]?)?(\d{2,3}[-\s]?)?(\d{2,3}[-\s]?)?(\d{2,3}[-\s]?)?$/gi.test(writePhone.value)) {
+            makeWarning(writePhone.parentNode)
+        }
+    } else {
+        makeWarning(writePhone.parentNode)
+    }
+
+
+
+})

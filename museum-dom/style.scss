@@ -31,6 +31,25 @@ svg {
 }
 
 
+.arrowScroll {
+
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    z-index: 999999999999;
+    border-radius: 50%;
+    border: 10px solid var(--dark-red);
+    color: var(--font-gold);
+
+}
+
+
+
 .dark-theme {
     background-color: var(--bg-dark);
     color: #FFFFFF;
@@ -1116,7 +1135,7 @@ header {
             font: normal 300 20px/23px 'Roboto', sans-serif;
             column-gap: 16px;
 
-            iframe {
+            div {
                 width: 694px;
                 height: 454px;
             }
@@ -1148,7 +1167,7 @@ header {
             row-gap: 25px;
             flex-direction: column;
 
-            iframe {
+            div {
                 width: 728px;
                 height: 476px;
             }
@@ -1411,10 +1430,32 @@ header {
         column-gap: 36px;
         column-count: 3;
 
+        .popDiv {
+            position: absolute;
+            color: black;
+            top: 0;
+            left: 0;
+            z-index: 999999999999;
+            background-color: rgba(255, 255, 255, 0.418);
+            border: 2px solid white;
+            padding: 15px;
+
+            .popDivSpan {
+                border-bottom: 1px solid var(--dark-red);
+                border-top: 1px solid var(--dark-red);
+            }
+
+        }
+
         &>* {
             margin-bottom: 24px;
             transition: all .6s;
 
+        }
+
+        .gallery-img {
+            position: relative;
+            z-index: 777777;
         }
 
         img:nth-child(1),
@@ -1870,8 +1911,8 @@ header {
                 input,
                 select,
                 option {
-                    width: calc(100% - 86px);
-                    height: 43px;
+                    width: calc(100% - 60px);
+                    height: 100%;
                     color: var(--bg-dark);
                     padding: 0;
                     margin-left: 45px;
@@ -1879,7 +1920,7 @@ header {
                     left: 0;
                     top: 0;
                     opacity: 1;
-
+                    flex: 0;
                     border: none;
 
                 }
@@ -1898,6 +1939,7 @@ header {
                     background-position: left 15px center;
                     border: 1px solid black;
                     padding-left: 45px;
+                    padding-right: 15px;
                     line-height: 45px;
                     position: relative;
 
@@ -1908,18 +1950,37 @@ header {
                 .chooseTime {
                     width: 190px;
                     float: left;
+
                 }
 
                 .chooseDate {
                     margin-right: 20px;
-                    background-image: url("assets/svg/date.svg"), url("assets/svg/arrow.svg");
-                    background-position: left 15px center, right 15px center;
+                    background-image: url("assets/svg/date.svg");
+                    background-position: left 15px center;
+
+                    input::-webkit-calendar-picker-indicator {
+                        background-image: url("assets/svg/arrow.svg");
+                        background-size: 17px 17px;
+                    }
+
+                    input::-webkit-datetime-edit-field {
+                        padding: 0;
+                    }
+
+
+
+
 
                 }
 
                 .chooseTime {
-                    background-image: url("assets/svg/Time.svg"), url("assets/svg/arrow.svg");
-                    background-position: left 15px center, right 15px center;
+                    background-image: url("assets/svg/Time.svg");
+                    background-position: left 15px center;
+
+                    input::-webkit-calendar-picker-indicator {
+                        background-image: url("assets/svg/arrow.svg");
+                        background-size: 17px 17px;
+                    }
 
                 }
 
@@ -1937,8 +1998,23 @@ header {
                 }
 
                 .selectType {
-                    background-image: url("assets/svg/ballot.svg"), url("assets/svg/arrow.svg");
-                    background-position: left 15px center, right 15px center;
+                    background-image: url("assets/svg/ballot.svg");
+                    background-position: left 15px center;
+
+                    select {
+                        background-image: url("assets/svg/arrow.svg");
+                        background-size: 17px 17px;
+                        background-repeat: no-repeat;
+                        appearance: none;
+                        background-position: right center;
+                        border-radius: 0;
+
+                        option {
+                            height: 45px;
+                            width: 400px;
+                        }
+                    }
+
                 }
 
 
@@ -1991,9 +2067,10 @@ header {
                             height: 25px;
                             border: 1px solid black;
                             display: flex;
+                            justify-content: space-between;
 
                             input[type="number"] {
-                                width: 30%;
+                                width: 30px;
                                 height: 100%;
                                 padding-left: 0;
                                 appearance: textfield;

@@ -28,6 +28,25 @@ svg {
   fill: #FFFFFF;
 }
 
+.arrowScroll {
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 999999999999;
+  border-radius: 50%;
+  border: 10px solid var(--dark-red);
+  color: var(--font-gold);
+}
+
 .dark-theme {
   background-color: var(--bg-dark);
   color: #FFFFFF;
@@ -984,7 +1003,7 @@ header .container .social {
     -webkit-column-gap: 16px;
             column-gap: 16px;
   }
-  .contacts .content iframe {
+  .contacts .content div {
     width: 694px;
     height: 454px;
   }
@@ -1016,7 +1035,7 @@ header .container .social {
         -ms-flex-direction: column;
             flex-direction: column;
   }
-  .contacts .content iframe {
+  .contacts .content div {
     width: 728px;
     height: 476px;
   }
@@ -1222,10 +1241,31 @@ header .container .social {
           column-count: 3;
 }
 
+.gallery .picture-inner-container .popDiv {
+  position: absolute;
+  color: black;
+  top: 0;
+  left: 0;
+  z-index: 999999999999;
+  background-color: rgba(255, 255, 255, 0.418);
+  border: 2px solid white;
+  padding: 15px;
+}
+
+.gallery .picture-inner-container .popDiv .popDivSpan {
+  border-bottom: 1px solid var(--dark-red);
+  border-top: 1px solid var(--dark-red);
+}
+
 .gallery .picture-inner-container > * {
   margin-bottom: 24px;
   -webkit-transition: all .6s;
   transition: all .6s;
+}
+
+.gallery .picture-inner-container .gallery-img {
+  position: relative;
+  z-index: 777777;
 }
 
 .gallery .picture-inner-container img:nth-child(1),
@@ -1623,8 +1663,8 @@ header .container .social {
 .booking-tickets .container > div:first-child form input,
 .booking-tickets .container > div:first-child form select,
 .booking-tickets .container > div:first-child form option {
-  width: calc(100% - 86px);
-  height: 43px;
+  width: calc(100% - 60px);
+  height: 100%;
   color: var(--bg-dark);
   padding: 0;
   margin-left: 45px;
@@ -1632,6 +1672,9 @@ header .container .social {
   left: 0;
   top: 0;
   opacity: 1;
+  -webkit-box-flex: 0;
+      -ms-flex: 0;
+          flex: 0;
   border: none;
 }
 
@@ -1663,6 +1706,7 @@ header .container .social {
   background-position: left 15px center;
   border: 1px solid black;
   padding-left: 45px;
+  padding-right: 15px;
   line-height: 45px;
   position: relative;
 }
@@ -1675,13 +1719,27 @@ header .container .social {
 
 .booking-tickets .container > div:first-child form .chooseDate {
   margin-right: 20px;
-  background-image: url("assets/svg/date.svg"), url("assets/svg/arrow.svg");
-  background-position: left 15px center, right 15px center;
+  background-image: url("assets/svg/date.svg");
+  background-position: left 15px center;
+}
+
+.booking-tickets .container > div:first-child form .chooseDate input::-webkit-calendar-picker-indicator {
+  background-image: url("assets/svg/arrow.svg");
+  background-size: 17px 17px;
+}
+
+.booking-tickets .container > div:first-child form .chooseDate input::-webkit-datetime-edit-field {
+  padding: 0;
 }
 
 .booking-tickets .container > div:first-child form .chooseTime {
-  background-image: url("assets/svg/Time.svg"), url("assets/svg/arrow.svg");
-  background-position: left 15px center, right 15px center;
+  background-image: url("assets/svg/Time.svg");
+  background-position: left 15px center;
+}
+
+.booking-tickets .container > div:first-child form .chooseTime input::-webkit-calendar-picker-indicator {
+  background-image: url("assets/svg/arrow.svg");
+  background-size: 17px 17px;
 }
 
 .booking-tickets .container > div:first-child form .writeName {
@@ -1697,8 +1755,24 @@ header .container .social {
 }
 
 .booking-tickets .container > div:first-child form .selectType {
-  background-image: url("assets/svg/ballot.svg"), url("assets/svg/arrow.svg");
-  background-position: left 15px center, right 15px center;
+  background-image: url("assets/svg/ballot.svg");
+  background-position: left 15px center;
+}
+
+.booking-tickets .container > div:first-child form .selectType select {
+  background-image: url("assets/svg/arrow.svg");
+  background-size: 17px 17px;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-position: right center;
+  border-radius: 0;
+}
+
+.booking-tickets .container > div:first-child form .selectType select option {
+  height: 45px;
+  width: 400px;
 }
 
 .booking-tickets .container > div:first-child .entry-ticket {
@@ -1754,10 +1828,13 @@ header .container .social {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .booking-tickets .container > div:first-child .entry-ticket .ticketsAmount li .counter input[type="number"] {
-  width: 30%;
+  width: 30px;
   height: 100%;
   padding-left: 0;
   -webkit-appearance: textfield;
