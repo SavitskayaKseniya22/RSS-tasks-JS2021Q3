@@ -6,21 +6,21 @@ let basicValue = document.querySelector(" .basic input[type='number']")
 let seniorValue = document.querySelector(" .senior input[type='number']")
 
 
-myStorage = window.localStorage;
-myStorage.setItem('basicValue', +basicValue.value);
-myStorage.setItem('seniorValue', +seniorValue.value);
-myStorage.setItem('ticketTypeAcive', ticketType.querySelector("input[type='radio']:checked").id);
+ticketsStorageS = window.localStorage;
+ticketsStorageS.setItem('basicValue', +basicValue.value);
+ticketsStorageS.setItem('seniorValue', +seniorValue.value);
+ticketsStorageS.setItem('ticketTypeAcive', ticketType.querySelector("input[type='radio']:checked").id);
 
 
 window.onload = function () {
     let inputs = document.querySelectorAll(".counter input[type='number']")
-    inputs[0].value = myStorage.basicValue
-    inputs[1].value = myStorage.seniorValue
-    if (myStorage.totalSum) {
-        // totalSum.innerText = myStorage.totalSum
+    inputs[0].value = ticketsStorageS.basicValue
+    inputs[1].value = ticketsStorageS.seniorValue
+    if (ticketsStorageS.totalSum) {
+        // totalSum.innerText = ticketsStorageS.totalSum
         printTotal(totalSum)
     } else {
-        myStorage.totalSum = totalSum.innerText;
+        ticketsStorageS.totalSum = totalSum.innerText;
     }
 
 
@@ -31,18 +31,18 @@ for (const item of pluses) {
         let input = (item.parentNode).querySelector("input")
         input.value++;
         if (item.parentNode.className == "counter basic") {
-            myStorage.totalSum = Number(totalSum.innerText) + getCost()
-            myStorage.basicValue++;
-            //totalSum.innerText = myStorage.totalSum;
+            ticketsStorageS.totalSum = Number(totalSum.innerText) + getCost()
+            ticketsStorageS.basicValue++;
+            //totalSum.innerText = ticketsStorageS.totalSum;
             printTotal(totalSum)
-            //totalSumOverwiew.innerText = myStorage.totalSum;
+            //totalSumOverwiew.innerText = ticketsStorageS.totalSum;
             printTotal(totalSumOverwiew)
         } else {
-            myStorage.totalSum = Number(totalSum.innerText) + (getCost() / 2)
-            myStorage.seniorValue++;
-            //totalSum.innerText = myStorage.totalSum;
+            ticketsStorageS.totalSum = Number(totalSum.innerText) + (getCost() / 2)
+            ticketsStorageS.seniorValue++;
+            //totalSum.innerText = ticketsStorageS.totalSum;
             printTotal(totalSum)
-            //totalSumOverwiew.innerText = myStorage.totalSum
+            //totalSumOverwiew.innerText = ticketsStorageS.totalSum
             printTotal(totalSumOverwiew)
 
         }
@@ -55,19 +55,19 @@ for (const item of minuses) {
         if (input.value >= 1) {
             input.value--;
             if (item.parentNode.className == "counter basic") {
-                myStorage.totalSum = Number(totalSum.innerText) - getCost()
-                myStorage.basicValue--;
-                //totalSum.innerText = myStorage.totalSum;
+                ticketsStorageS.totalSum = Number(totalSum.innerText) - getCost()
+                ticketsStorageS.basicValue--;
+                //totalSum.innerText = ticketsStorageS.totalSum;
                 printTotal(totalSum)
-                //totalSumOverwiew.innerText = myStorage.totalSum;
+                //totalSumOverwiew.innerText = ticketsStorageS.totalSum;
                 printTotal(totalSumOverwiew)
 
             } else {
-                myStorage.totalSum = Number(totalSum.innerText) - (getCost() / 2)
-                myStorage.seniorValue--;
-                //totalSum.innerText = myStorage.totalSum
+                ticketsStorageS.totalSum = Number(totalSum.innerText) - (getCost() / 2)
+                ticketsStorageS.seniorValue--;
+                //totalSum.innerText = ticketsStorageS.totalSum
                 printTotal(totalSum)
-                //totalSumOverwiew.innerText = myStorage.totalSum;
+                //totalSumOverwiew.innerText = ticketsStorageS.totalSum;
                 printTotal(totalSumOverwiew)
 
             }
@@ -79,17 +79,17 @@ let ticketTypeInputs = ticketType.querySelectorAll("input[type='radio']")
 for (const item of ticketTypeInputs) {
     item.onchange = function () {
         recalculation()
-        myStorage.ticketTypeAcive = ticketType.querySelector("input[type='radio']:checked").id;
+        ticketsStorageS.ticketTypeAcive = ticketType.querySelector("input[type='radio']:checked").id;
 
     }
 }
 
 
 function recalculation() {
-    myStorage.totalSum = basicValue.value * getCost() + seniorValue.value * (getCost() / 2)
-    //totalSum.innerText = myStorage.totalSum
+    ticketsStorageS.totalSum = basicValue.value * getCost() + seniorValue.value * (getCost() / 2)
+    //totalSum.innerText = ticketsStorageS.totalSum
     printTotal(totalSum)
-    //totalSumOverwiew.innerText = myStorage.totalSum;
+    //totalSumOverwiew.innerText = ticketsStorageS.totalSum;
     printTotal(totalSumOverwiew)
 }
 let ticketTypeAcive = ticketType.querySelector("input[type='radio']:checked")
@@ -97,7 +97,7 @@ let ticketTypeAcive = ticketType.querySelector("input[type='radio']:checked")
 function getCost() {
 
     let cost;
-    switch (myStorage.ticketTypeAcive) {
+    switch (ticketsStorageS.ticketTypeAcive) {
         case "Permanent":
             cost = 20
             break;
@@ -134,31 +134,31 @@ function printCost() {
 }
 
 function printTotalSeparate() {
-    totalBasic.innerText = myStorage.basicValue * getCost()
-    totalSenior.innerText = myStorage.seniorValue * (getCost() / 2)
+    totalBasic.innerText = ticketsStorageS.basicValue * getCost()
+    totalSenior.innerText = ticketsStorageS.seniorValue * (getCost() / 2)
 }
 
 function printValues() {
-    numSummarys[0].innerText = myStorage.basicValue
-    numSummarys[1].innerText = myStorage.seniorValue
+    numSummarys[0].innerText = ticketsStorageS.basicValue
+    numSummarys[1].innerText = ticketsStorageS.seniorValue
 }
 
 function printTotal(obj) {
-    obj.innerText = myStorage.totalSum
+    obj.innerText = ticketsStorageS.totalSum
 }
 
 buyButton.addEventListener("click", function () {
-    ticketsAmountPopup[0].value = myStorage.basicValue
-    ticketsAmountPopup[1].value = myStorage.seniorValue
+    ticketsAmountPopup[0].value = ticketsStorageS.basicValue
+    ticketsAmountPopup[1].value = ticketsStorageS.seniorValue
 
-    //totalSumOverwiew.innerText = myStorage.totalSum
+    //totalSumOverwiew.innerText = ticketsStorageS.totalSum
     printTotal(totalSumOverwiew)
     printTotalSeparate()
     printCost()
     printValues()
 
 
-    choosenType.innerText = document.getElementById(myStorage.ticketTypeAcive).nextSibling.innerText;
+    choosenType.innerText = document.getElementById(ticketsStorageS.ticketTypeAcive).nextSibling.innerText;
 
 
 
@@ -178,11 +178,11 @@ for (const item of buttons) {
 
     item.addEventListener("click", function () {
 
-        myStorage.basicValue = ticketsAmountPopup[0].value
-        myStorage.seniorValue = ticketsAmountPopup[1].value
+        ticketsStorageS.basicValue = ticketsAmountPopup[0].value
+        ticketsStorageS.seniorValue = ticketsAmountPopup[1].value
 
-        basicValue.value = myStorage.basicValue
-        seniorValue.value = myStorage.seniorValue
+        basicValue.value = ticketsStorageS.basicValue
+        seniorValue.value = ticketsStorageS.seniorValue
 
         printValues()
         printTotalSeparate()
@@ -194,14 +194,14 @@ for (const item of buttons) {
 selectType.addEventListener("change", function () {
     for (const item of selectType.options) {
         if (item.selected) {
-            myStorage.ticketTypeAcive = item.value;
+            ticketsStorageS.ticketTypeAcive = item.value;
             choosenType.innerText = item.innerText
             recalculation()
             printTotalSeparate()
             printCost()
             for (const elem of ticketTypeInputs) {
                 elem.removeAttribute("checked")
-                if (elem.id == myStorage.ticketTypeAcive) {
+                if (elem.id == ticketsStorageS.ticketTypeAcive) {
                     elem.checked = "true"
                 }
             }
