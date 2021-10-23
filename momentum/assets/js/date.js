@@ -21,7 +21,7 @@ function getDate(date) {
     let engMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     if (myStorage.language == "en") {
         month = engMonths[getDateObj().nowDate.getMonth()]
-        return month + " " + day
+        return `${month} ${day}`
     } else {
         month = rusMonths[getDateObj().nowDate.getMonth()]
         return `${day} ${month}`
@@ -66,33 +66,77 @@ function getPeriod() {
 
     let objDate = getDateObj()
 
-    switch (objDate) {
-        case objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59:
-            return "morning"
-        case objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59:
-            return "afternoon"
-        case objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59:
-            return "evening"
-        default:
-            return "night"
-    }
-
-
     /*
-        if (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-            return "Morning"
-        } else
-        if (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-            return "Afternoon"
-        } else
-        if (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-            return "Evening"
-        } else {
-            return "Night"
-        }*/
+    let period;
+    switch (objDate.hours, objDate.minutes) {
+        case (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59):
+            period = "morning";
+            break;
+        case (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59):
+            period = "afternoon";
+            break;
+        case (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59):
+            period = "evening";
+            break;
+        case objDate.hours >= 24:
+            period = "night";
+    }
+    return period
+    */
+
+
+
+    if (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+        return "morning"
+    } else
+    if (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+        return "afternoon"
+    } else
+    if (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+        return "evening"
+    } else {
+        return "night"
+    }
 }
 
 function printGreetings(node, period) {
+    let objPeriod = {
+        morning: {
+            en: "Good morning, ",
+            ru: "Доброе утро, "
+        },
+        afternoon: {
+            en: "Good afternoon, ",
+            ru: "Добрый день, "
+        },
+        evening: {
+            en: "Good evening, ",
+            ru: "Добрый вечер, "
+        },
+        night: {
+            en: "Good night, ",
+            ru: "Доброй ночи, "
+        },
+
+    }
+    node.innerText = objPeriod[period][myStorage.language]
+
+    /*
+switch (period) {
+        case "morning":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+        case "afternoon":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+        case "evening":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+        case "night":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+    }
+
     switch (period) {
         case "morning":
             if (myStorage.language == "en") {
@@ -115,24 +159,29 @@ function printGreetings(node, period) {
                 node.innerText = "Добрый вечер, ";
             }
             break
-        default:
+        case "night":
             if (myStorage.language == "en") {
                 node.innerText = "Good night, ";
             } else {
                 node.innerText = "Доброй ночи, ";
             }
             break
-    }
+    }*/
     printPlaceholder()
 }
 
 function printPlaceholder() {
-
-    if (myStorage.language == "en") {
-        userName.placeholder = "[Enter name]"
-    } else {
-        userName.placeholder = "[Введите имя]";
+    let objPlaceholder = {
+        en: "[Enter name]",
+        ru: "[Введите имя]"
     }
+    userName.placeholder = objPlaceholder[myStorage.language]
+    /* if (myStorage.language == "en") {
+         userName.placeholder = "[Enter name]"
+     } else {
+         userName.placeholder = "[Введите имя]";
+     }
+     */
 }
 /*
     if (period == "Morning") {
@@ -156,9 +205,20 @@ printGreetings(greetings, getPeriod())
 let time = document.querySelector(".time");
 
 
+function makeLength(prop) {
+    if (String(prop).length == 1) {
+        return `0${String(prop)}`
+    }
+    return prop
+}
+
 function printTime(node) {
     let objDate = getDateObj()
+    objDate.seconds = makeLength(objDate.seconds)
+    objDate.minutes = makeLength(objDate.minutes)
+    objDate.hours = makeLength(objDate.hours)
 
+    /*
     if (String(objDate.seconds).length == 1) {
         objDate.seconds = "0" + objDate.seconds
     }
@@ -167,9 +227,9 @@ function printTime(node) {
     }
     if (String(objDate.hours).length == 1) {
         objDate.hours = "0" + objDate.hours
-    }
+    }*/
 
-    node.innerText = objDate.hours + ":" + objDate.minutes + ":" + objDate.seconds
+    node.innerText = `${objDate.hours}:${objDate.minutes}:${objDate.seconds}`
 }
 
 function showTime() {
@@ -179,76 +239,6 @@ function showTime() {
 showTime();
 
 
-
-//bg
-let slidePrev = document.querySelector(".slide-prev")
-let slideNext = document.querySelector(".slide-next")
-
-
-function changeBG() {
-
-    let array = random(20)
-    let period = getPeriod()
-    const img = new Image();
-    img.src;
-    if (String(array[0]).length == 1) {
-        img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
-
-    } else {
-        img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
-    }
-
-    img.onload = () => {
-        document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`;
-    };
-
-
-
-    slidePrev.addEventListener("click", function () {
-        let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
-        let substr = img.src.slice(0, img.src.length - 6)
-        let changeSrc;
-        if (String(numSrc - 1).length == 1) {
-            if (numSrc - 1 == 0) {
-                changeSrc = `${substr}20.jpg`;
-            } else {
-                changeSrc = `${substr}0${numSrc - 1}.jpg`;
-            }
-        } else {
-            changeSrc = `${substr + (numSrc - 1)}.jpg`;
-        }
-        img.src = changeSrc;
-
-        img.onload = () => {
-            document.body.style.background = `url(${changeSrc}) center/cover, rgba(0, 0, 0, 0.5)`
-        };
-
-    })
-
-    slideNext.addEventListener("click", function () {
-        let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
-        let substr = img.src.slice(0, img.src.length - 6)
-        let changeSrc;
-        if (String(Number(numSrc) + 1).length == 1) {
-            changeSrc = `${substr}0${Number(numSrc) + 1}.jpg`;
-        } else {
-            if (Number(numSrc) + 1 == 21) {
-                changeSrc = `${substr}01.jpg`;
-            } else {
-                changeSrc = `${substr + (Number(numSrc) + 1)}.jpg`;
-            }
-
-        }
-        img.src = changeSrc;
-        img.onload = () => {
-            document.body.style.background = `url(${changeSrc}) center/cover, rgba(0, 0, 0, 0.5)`
-        };
-
-
-    })
-
-
-}
 
 function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -269,4 +259,3 @@ function random(max) {
     return arr
 
 }
-changeBG()
