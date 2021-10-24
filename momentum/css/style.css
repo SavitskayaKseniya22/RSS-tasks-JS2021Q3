@@ -4,6 +4,8 @@
   /* Путь к файлу со шрифтом */
 }
 
+
+
 li {
   list-style-type: none;
 }
@@ -46,22 +48,45 @@ body {
   row-gap: 30px;
   position: relative;
   z-index: 999999;
+  width: 20%;
+  padding-top: 20px;
 }
 
 .customPlayer {
 
-  width: 300px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.534);
+  width: 100%;
+
+  background-color: rgba(255, 255, 255, 0.200);
+
   display: flex;
-  padding: 0 15px;
-  font-size: 12px;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: bolder;
   align-items: center;
   justify-content: space-between;
-  color: black;
 
+  flex-wrap: wrap;
+  row-gap: 30px;
 
+}
 
+.activeTrackTitle {
+  font-weight: bolder;
+
+}
+
+.durationBlock {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.volumeBlock {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .customPlayer input[type=range] {
@@ -70,12 +95,11 @@ body {
 }
 
 .durationAudio {
-  width: 100px;
-
+  width: 70%;
 }
 
 .volumeAudio {
-  width: 60px;
+  width: 70%;
 
 }
 
@@ -122,7 +146,7 @@ input[type="range"]::-moz-range-progress {
 
 
 .changeVolumeAudio {
-  width: 15px;
+  width: 25px;
   height: 25px;
   border: none;
   background-color: transparent;
@@ -159,7 +183,8 @@ input[type="range"]::-moz-range-progress {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 120px;
+  width: 50%;
+  padding: 0 20px;
 
 }
 
@@ -212,6 +237,8 @@ input[type="range"]::-moz-range-progress {
   opacity: .8;
   cursor: pointer;
   transition: .3s;
+  position: relative;
+  z-index: 999999;
 }
 
 .player-icon:hover,
@@ -305,6 +332,7 @@ input[type="range"]::-moz-range-progress {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 40vh;
   min-height: 260px;
@@ -385,7 +413,7 @@ input[type="range"]::-moz-range-progress {
   height: 30vh;
   min-height: 160px;
   padding: 20px;
-  position: relative;
+
 }
 
 .change-quote {
@@ -403,11 +431,13 @@ input[type="range"]::-moz-range-progress {
 
 .settings {
   position: absolute;
-  left: 30px;
+  left: 20px;
   bottom: 30px;
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+  width: 25%;
+
 
 
 }
@@ -417,6 +447,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .toggleSettings {
+  width: 100%;
   width: 30px;
   height: 30px;
   background-color: transparent;
@@ -426,13 +457,28 @@ input[type="range"]::-moz-range-progress {
 }
 
 .settingsPopup {
-  border-radius: 20px;
-  padding: 30px;
-  background-color: rgba(255, 255, 255, 0.466);
+  width: 100%;
+  padding: 30px 0;
+
+  display: flex;
+  row-gap: 20px;
+  flex-wrap: wrap;
+  column-gap: 2%;
+
+}
+
+.settingsPopup div {
+  width: 49%;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
+}
 
+.settingsPopup h3 {
+  width: 100%;
 }
 
 .scaleBlock {
@@ -440,15 +486,24 @@ input[type="range"]::-moz-range-progress {
 
 }
 
-h4 {
-  margin-bottom: -10px;
+
+
+.settingsPopup ul {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+
+
 }
 
-.visibility li {
+.settings li {
   width: 60%;
   display: flex;
   justify-content: space-between;
   margin: auto;
+
 }
 
 .invis {
@@ -458,6 +513,157 @@ h4 {
 .transition {
   transition: .3s ease-in-out;
 }
+
+
+
+
+
+
+
+
+
+.todolist {
+
+  width: 100%;
+  font-size: 20px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  row-gap: 30px;
+  flex-shrink: 0;
+  flex-direction: column;
+  position: relative;
+  margin-top: 50px;
+  align-items: center;
+
+}
+
+.todolist h2 {
+  color: rgba(255, 255, 255, 0.500);
+}
+
+
+.todolist ol {
+  width: 25%;
+
+  margin: auto;
+  height: 101px;
+  display: flex;
+  row-gap: 15px;
+  flex-direction: column;
+
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+
+
+
+
+#todoText {
+  width: 40%;
+  border: none;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.200);
+  font-size: 20px;
+  height: 60px;
+  padding: 0 15px;
+
+
+}
+
+.todolistItem {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.todolistItemRewrite {
+  background-color: rgba(255, 255, 255, 0.200);
+  border: none;
+  color: white;
+  font-size: 20px;
+}
+
+.deleteButton {
+  height: 20px;
+  width: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url("/momentum/assets/svg/close-cross.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+.todolistItemCheckbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+
+}
+
+
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+.openListButton {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: calc(100vw - 75%);
+  top: 75px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  background-image: url(/momentum/assets/svg/slider-next.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: rotate(90deg);
+  opacity: .8;
+  transition: .3s;
+}
+
+.openListButtonToTop {
+  transform: rotate(-90deg);
+}
+
+.openListButton:hover {
+  opacity: 1;
+  transition: .3s;
+}
+
+.todolist ol.openList {
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 350px;
+  width: 20%;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .time {

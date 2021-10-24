@@ -25,6 +25,14 @@ if (!myStorage.blocks) {
 let visibilityBlocksAll = document.querySelectorAll(".visibility input")
 
 window.addEventListener("load", function () {
+    if (myStorage.todoContainer) {
+        let todoArray = myStorage.todoContainer.split(", ")
+        for (const item of todoArray) {
+            checklist(item)
+        }
+    }
+
+
 
     let arrayBlocks = myStorage.blocks.split(",")
     for (const elem of visibilityBlocksAll) {
@@ -68,6 +76,7 @@ for (const item of languages) {
         printGreetings(greetings, getPeriod())
         printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
         translateSettings()
+        translateTODO()
     })
 }
 
@@ -98,11 +107,17 @@ function translateSettings() {
             en: ["Settings"],
             ru: ["Настройки"]
 
+        },
+        language: {
+            en: ["English", "Russian"],
+            ru: ["Английский", "Русский"]
+
         }
     }
     let labelsVisibility = document.querySelectorAll(".visibility label")
     let titlesSettings = document.querySelectorAll("h4")
     let titleMainSettings = document.querySelectorAll("h3")
+    let languageChoice = document.querySelectorAll(".language label")
 
     function translateItems(collection, prop) {
         for (let i = 0; i < collection.length; i++) {
@@ -112,6 +127,7 @@ function translateSettings() {
     translateItems(labelsVisibility, objTranslate.labels)
     translateItems(titlesSettings, objTranslate.titleSmall)
     translateItems(titleMainSettings, objTranslate.titleBig)
+    translateItems(languageChoice, objTranslate.language)
 }
 
 
