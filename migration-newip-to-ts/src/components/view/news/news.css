@@ -1,7 +1,16 @@
+.news {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1em;
+    
+}
+
 .news__item {
     display: flex;
     flex-direction: column;
-    margin: 1rem auto;
+    margin: 1rem 0;
     margin-bottom: 1.6%;
     background: #fff;
     color: #333;
@@ -122,6 +131,7 @@
 }
 
 @media (min-width: 640px) {
+
     .news__item {
         flex-direction: row;
         max-width: 700px;
@@ -163,4 +173,5 @@
     .news__item.alt .news__meta-details {
         padding-left: 25px;
     }
+
 }

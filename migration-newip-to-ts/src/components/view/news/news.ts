@@ -1,7 +1,6 @@
 import './news.css';
 import { IArticle } from '../../controller/loader'
 
-
 class News {
     draw(data: IArticle[]) {
         const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;

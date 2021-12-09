@@ -2,7 +2,6 @@ import AppLoader from './appLoader';
 import { IData } from '../controller/loader'
 import { CallbackType } from '../controller/loader'
 
-
 class AppController extends AppLoader {
     getSources(callback: CallbackType<IData>) {
         super.getResp(
