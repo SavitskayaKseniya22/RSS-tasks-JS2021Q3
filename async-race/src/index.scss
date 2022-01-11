@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+html {
+  font-size: 20px;
+}
+* {
+  box-sizing: border-box;
+}
+ul {
+  padding: 0;
+}
+li {
+  list-style-type: none;
+}
+h3 {
+  margin: 0;
+}
+body {
+  min-height: 100vh;
+  background-color: #a8dadc;
+  font-family: "Jura", sans-serif;
+}
+.car {
+  width: 100%;
+  background-color: #f1faee;
+  padding: 1rem;
+  padding-bottom: 0;
+  border-bottom: 3px dashed #457b9d;
+}
+.track {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 1rem;
+  .car-pic {
+    width: 5rem;
+  }
+  .banner-pic {
+    width: 3rem;
+  }
+}
+.buttons-container {
+  display: flex;
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
+}
+button {
+  width: 5rem;
+  cursor: pointer;
+}

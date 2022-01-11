@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "description": "My new js application",
+  "description": "async-race",
   "private": true,
   "name": "async-race",
   "scripts": {
