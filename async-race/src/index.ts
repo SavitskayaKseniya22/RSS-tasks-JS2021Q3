@@ -1,4 +1,9 @@
+import "./generateHTML";
+import "./navigation";
+import "./controlPanel";
 import { getRandomName, getRandomColor } from "./utils";
+
+const main = document.querySelector("main");
 
 async function getAllCars() {
   const response = await fetch("http://127.0.0.1:3000/garage");
@@ -76,7 +81,7 @@ const body = document.querySelector("body");
 
 getAllCars().then((value) => {
   value.forEach((element: CarType) => {
-    body.innerHTML += new Car(element).renderCar();
+    main.innerHTML += new Car(element).renderCar();
   });
 });
 
@@ -99,4 +104,8 @@ document.addEventListener("click", function (e) {
     const id = getID(target);
     stopEngine(id);
   }
+});
+
+createCar({ name: getRandomName(), color: getRandomColor() }).then((value) => {
+  main.innerHTML = new Car(value).renderCar() + main.innerHTML;
 });

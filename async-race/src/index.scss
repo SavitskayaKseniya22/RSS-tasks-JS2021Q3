@@ -6,14 +6,31 @@ html {
 * {
   box-sizing: border-box;
 }
-ul {
+ul,
+h2,
+h3 {
   padding: 0;
+  margin: 0;
 }
 li {
   list-style-type: none;
 }
-h3 {
-  margin: 0;
+h2 {
+  font-size: 3rem;
+  font-style: italic;
+  text-align: center;
+}
+
+a {
+  color: #f1faee;
+  text-decoration: none;
+  transition: 0.5s;
+}
+a:hover {
+  color: #1d3557;
+}
+a:active {
+  color: #ceb31e;
 }
 body {
   min-height: 100vh;
@@ -21,11 +38,13 @@ body {
   font-family: "Jura", sans-serif;
 }
 .car {
-  width: 100%;
   background-color: #f1faee;
   padding: 1rem;
-  padding-bottom: 0;
   border-bottom: 3px dashed #457b9d;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 }
 .track {
   width: 100%;
@@ -33,19 +52,55 @@ body {
   align-items: flex-end;
   justify-content: space-between;
   padding: 0 1rem;
+  position: relative;
+
   .car-pic {
     width: 5rem;
   }
   .banner-pic {
+    position: absolute;
     width: 3rem;
+    right: 1rem;
   }
 }
 .buttons-container {
   display: flex;
-  row-gap: 0.5rem;
   column-gap: 0.5rem;
 }
 button {
-  width: 5rem;
   cursor: pointer;
+  width: 7rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 1em;
+  align-items: center;
+  background-color: #457b9d;
+}
+.header {
+  min-height: 200px;
+  padding: 1em;
+  position: relative;
+  background-color: #457b9d;
+}
+.navigation {
+  position: absolute;
+  display: flex;
+  column-gap: 0.5rem;
+  right: 1rem;
+  top: 1rem;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
+  width: 25%;
+  & > * {
+    display: flex;
+    justify-content: space-between;
+  }
 }
