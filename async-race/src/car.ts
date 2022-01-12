@@ -1,4 +1,4 @@
-import { deleteCar, startEngine, stopEngine, getCar, updateCar } from "./api";
+import { deleteCar, startEngine, stopEngine, getCar } from "./api";
 import { getID } from "./utils";
 export interface CarType {
   name: string;
@@ -30,25 +30,15 @@ export class Car {
         stopEngine(id);
       } else if (target.className === "selectCar") {
         const id = getID(target);
-        console.log(id);
 
         getCar(id).then((value) => {
           (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
           (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
-          document.addEventListener("click", function (e) {
-            if ((e.target as HTMLElement).className === "update-confirm") {
-              updateCar(id, {
-                name: (document.querySelector(".update-name") as HTMLInputElement).value,
-                color: (document.querySelector(".update-color") as HTMLInputElement).value,
-              });
-              const element = document.querySelector(`[data-num="${id}"]`) as HTMLInputElement;
-              const title = element.querySelector("h3");
-              title.innerHTML = (document.querySelector(".update-name") as HTMLInputElement).value;
-
-              const img = element.querySelector(".car-pic") as HTMLImageElement;
-              img.style.backgroundColor = (document.querySelector(".update-color") as HTMLInputElement).value;
-            }
+          const element = document.querySelector(`.car[data-num="${id}"]`);
+          document.querySelectorAll(".active").forEach((activeElement) => {
+            activeElement.classList.remove("active");
           });
+          element.classList.add("active");
         });
       }
     });

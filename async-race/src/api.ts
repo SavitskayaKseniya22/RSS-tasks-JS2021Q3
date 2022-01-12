@@ -56,3 +56,14 @@ export async function updateCar(id: number, data = {}) {
   const car = await response.json();
   return car;
 }
+
+export async function getCars(page = 1, limit = 7) {
+  const response = await fetch(`http://127.0.0.1:3000/garage?_page=${page}&_limit=${limit}`, {
+    method: "GET",
+  });
+
+  return {
+    items: await response.json(),
+    count: response.headers.get("X-Total-Count"),
+  };
+}

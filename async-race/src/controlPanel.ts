@@ -1,5 +1,5 @@
 import { getRandomName, getRandomColor } from "./utils";
-import { createCar, deleteCar, getAllCars } from "./api";
+import { createCar, deleteCar, getAllCars, updateCar } from "./api";
 import { Car, CarType } from "./car";
 
 export class ControlPanel {
@@ -29,7 +29,18 @@ export class ControlPanel {
         createCar({ name: name, color: color }).then((value) => {
           main.innerHTML = new Car(value).renderCar() + main.innerHTML;
         });
-      } else if (target.className === "update-confirm") {
+      } else if (target.className === "update-confirm" && document.querySelector(`.active`)) {
+        const element = document.querySelector(`.active`) as HTMLElement;
+        const name = (document.querySelector(".update-name") as HTMLInputElement).value;
+        const color = (document.querySelector(".update-color") as HTMLInputElement).value;
+        updateCar(+element.dataset.num, {
+          name: name,
+          color: color,
+        });
+        const title = element.querySelector("h3");
+        title.innerHTML = name;
+        const img = element.querySelector(".car-pic") as HTMLImageElement;
+        img.style.backgroundColor = color;
       }
     });
   }
