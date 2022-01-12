@@ -22,4 +22,8 @@ export function getRandomName() {
   return `${carType} ${carModel}`;
 }
 
-//export function paintCar() {}
+export function getID(target: HTMLButtonElement) {
+  const parent = target.closest(".car") as HTMLElement;
+  const id = +parent.dataset.num;
+  return id;
+}

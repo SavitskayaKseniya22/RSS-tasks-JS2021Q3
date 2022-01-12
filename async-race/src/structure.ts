@@ -1,6 +1,11 @@
-function printStructure() {
-  return `<header class="header">
-  <h2>Async race</h2>
+export class Structure {
+  structure: string;
+  constructor(container: HTMLElement) {
+    container.innerHTML = this.printStructure();
+  }
+  printStructure() {
+    return `<header class="header">
+  <h1>Async race</h1>
   </header>
   <main class="main"></main>
   <footer class="footer">
@@ -14,6 +19,5 @@ function printStructure() {
     </div>
     <div>© 2021</div>
   </footer>`;
+  }
 }
-
-document.querySelector("body").innerHTML = printStructure();
