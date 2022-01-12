@@ -3,17 +3,19 @@ import { createCar, deleteCar, getAllCars, updateCar } from "./api";
 import { Car, CarType } from "./car";
 
 export class ControlPanel {
-  constructor(container: HTMLElement, main: HTMLElement) {
+  carContainer: HTMLElement;
+  constructor(container: HTMLElement) {
+    this.carContainer = document.querySelector(".cars-container");
     container.innerHTML += this.printControlPanel();
 
-    document.addEventListener("click", function (e) {
+    document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       if (target.className === "generate") {
         let i = 0;
         while (i < 100) {
           i++;
           createCar({ name: getRandomName(), color: getRandomColor() }).then((value) => {
-            main.innerHTML = new Car(value).renderCar() + main.innerHTML;
+            //main.innerHTML += new Car(value).renderCar();
           });
         }
       } else if (target.className === "remove-all") {
@@ -22,12 +24,12 @@ export class ControlPanel {
             deleteCar(element.id);
           });
         });
-        main.innerHTML = "";
+        this.carContainer.innerHTML = "";
       } else if (target.className === "create-confirm") {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
         createCar({ name: name, color: color }).then((value) => {
-          main.innerHTML = new Car(value).renderCar() + main.innerHTML;
+          // main.innerHTML += new Car(value).renderCar();
         });
       } else if (target.className === "update-confirm" && document.querySelector(`.active`)) {
         const element = document.querySelector(`.active`) as HTMLElement;

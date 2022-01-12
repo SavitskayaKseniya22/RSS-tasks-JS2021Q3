@@ -3,28 +3,37 @@ import { ControlPanel } from "./controlPanel";
 import { Navigation } from "./navigation";
 import { getCars } from "./api";
 import { Car, CarType } from "./car";
+import { Pagination } from "./pagination";
 
 export class Page {
   structure: Structure;
   controlPanel: ControlPanel;
   navigation: Navigation;
   body: HTMLBodyElement;
-  main: HTMLElement;
   header: HTMLElement;
-  constructor(activePage = "garage") {
+  main: HTMLElement;
+  pagination: Pagination;
+  activeCarPage: string;
+  constructor(activePage = "garage", activeCarPage = "1") {
     this.body = document.querySelector("body");
     this.structure = new Structure(this.body);
-    this.main = document.querySelector("main");
-    this.header = document.querySelector("header");
+    this.main = document.querySelector(".main");
+    this.header = document.querySelector(".header");
     this.navigation = new Navigation(this.header);
-    if (activePage == "garage") {
-      this.controlPanel = new ControlPanel(this.header, this.main);
+    this.activeCarPage = activeCarPage;
+
+    window.localStorage.getItem("activeCarPage")
+      ? (this.activeCarPage = window.localStorage.getItem("activeCarPage"))
+      : window.localStorage.setItem("activeCarPage", this.activeCarPage);
+
+    if (activePage === "garage") {
+      this.main.innerHTML = `<h3>page ${this.activeCarPage}</h3>` + this.main.innerHTML;
+      this.pagination = new Pagination(this.main);
+      this.controlPanel = new ControlPanel(this.header);
+
       this.printCars();
-
       (document.querySelector("input.to-garage") as HTMLInputElement).checked = true;
-
       getCars().then((cars) => {
-        console.log(cars);
         this.header.innerHTML = `<h2>garage(${cars.count})</h2>` + this.header.innerHTML;
       });
     } else {
@@ -33,9 +42,9 @@ export class Page {
     }
   }
   printCars() {
-    getCars().then((cars) => {
+    getCars(+this.activeCarPage).then((cars) => {
       cars.items.forEach((car: CarType) => {
-        this.main.innerHTML = new Car(car).renderCar() + this.main.innerHTML;
+        new Car(car);
       });
     });
   }

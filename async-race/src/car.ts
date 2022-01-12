@@ -10,10 +10,13 @@ export class Car {
   name: string;
   color: string;
   id: number;
+  carContainer: HTMLElement;
   constructor(carItem: CarType) {
     this.name = carItem.name;
     this.color = carItem.color;
     this.id = carItem.id;
+    this.carContainer = document.querySelector(".cars-container");
+    this.carContainer.innerHTML += this.renderCar();
 
     document.addEventListener("click", function (e) {
       const target = e.target as HTMLButtonElement;

@@ -128,26 +128,31 @@ body {
     }
   }
 }
-
+.main {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.buttons-container {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .car {
   background-color: #f1faee;
   padding: 1rem;
   border-bottom: 3px dashed #457b9d;
-  margin: 0.5rem;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  width: 100%;
 
   &.active {
     background-color: white;
   }
 
-  .buttons-container {
-    display: flex;
-    column-gap: 0.5rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
   .track {
     width: 100%;
     display: flex;

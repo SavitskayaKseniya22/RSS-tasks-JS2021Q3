@@ -7,7 +7,12 @@ export class Structure {
     return `<header class="header">
   <h1>Async race</h1>
   </header>
-  <main class="main"></main>
+  <main class="main">
+  <ul class="cars-container">
+  </ul>
+  
+  
+  </main>
   <footer class="footer">
     <div>
       <a href="https://rs.school/js/" target="_blank">
