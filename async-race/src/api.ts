@@ -28,6 +28,7 @@ export async function startEngine(id: number) {
     method: "PATCH",
   });
   const car = await response.json();
+  console.log(car);
   return car;
 }
 export async function stopEngine(id: number) {

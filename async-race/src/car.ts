@@ -26,13 +26,13 @@ export class Car {
       <li><button class="removeCar">Remove</button></li>
 
     <li>
-    <input type="radio" id="start-engine" name="engine" value="start" class="startEngine" />
-    <label for="start-engine">Start engine</label>
+    <input type="radio" id="start-engine${this.id}" name="engine${this.id}" value="start" class="startEngine" />
+    <label for="start-engine${this.id}">Start engine</label>
     </li>
 
     <li>
-    <input type="radio" id="stop-engine" name="engine" value="stop" class="stopEngine" />
-    <label for="stop-engine">Stop engine</label>
+    <input type="radio" id="stop-engine${this.id}" name="engine${this.id}" value="stop" class="stopEngine" />
+    <label for="stop-engine${this.id}">Stop engine</label>
     </li>
 
     </ul>
@@ -50,8 +50,7 @@ document.addEventListener("click", (e) => {
   if (target.className === "removeCar") {
     const id = getID(target);
     deleteCar(id).then(() => {
-      const savedCount = window.localStorage.getItem("activeCarPage");
-      getCars(+savedCount).then((cars) => {
+      getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
         document.querySelector(".cars-container").innerHTML = "";
         document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
         cars.items.forEach((car: CarType) => {
@@ -59,9 +58,6 @@ document.addEventListener("click", (e) => {
         });
       });
     });
-
-    const parent = target.closest(".car") as HTMLElement;
-    parent.remove();
   } else if (target.className === "startEngine") {
     const id = getID(target);
     startEngine(id);

@@ -1,17 +1,26 @@
+import { Page } from "./page";
 export class Structure {
   structure: string;
+
   constructor(container: HTMLElement) {
     container.innerHTML = this.printStructure();
   }
   printStructure() {
     return `<header class="header">
-  <h1>Async race</h1>
+    <h1>Async race</h1>
+    <ul class="navigation">
+      <li>
+        <input type="radio" id="to-garage" name="navigation" value="garage" class="to-garage" checked  />
+        <label for="to-garage">to Garage</label>
+      </li>
+      <li>
+        <input type="radio" id="to-winners" name="navigation" value="winners" class="to-winners" />
+        <label for="to-winners">to Winners</label>
+      </li>
+    </ul>
   </header>
   <main class="main">
-  <ul class="cars-container">
-  </ul>
-  
-  
+    <ul class="cars-container"></ul>
   </main>
   <footer class="footer">
     <div>
@@ -26,3 +35,13 @@ export class Structure {
   </footer>`;
   }
 }
+
+document.addEventListener("click", function (e) {
+  if ((e.target as HTMLElement).className === "to-garage") {
+    window.localStorage.setItem("activePage", "garage");
+    new Page();
+  } else if ((e.target as HTMLElement).className === "to-winners") {
+    window.localStorage.setItem("activePage", "winners");
+    new Page();
+  }
+});

@@ -3,19 +3,19 @@ import { createCar, deleteCar, getAllCars, updateCar, getCars } from "./api";
 import { Car, CarType } from "./car";
 
 export class ControlPanel {
-  carContainer: HTMLElement;
   constructor(container: HTMLElement) {
-    this.carContainer = document.querySelector(".cars-container");
     container.innerHTML += this.printControlPanel();
 
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       if (target.className === "generate") {
-        let i = 0;
-        while (i < 100) {
-          i++;
-          createCar({ name: getRandomName(), color: getRandomColor() }).then(() => {});
-        }
+        this.generateCars(100).then(() => {
+          getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+            cars.items.forEach((car: CarType) => {
+              new Car(car);
+            });
+          });
+        });
       } else if (target.className === "remove-all") {
         getAllCars().then((value) => {
           value.forEach((element: CarType) => {
@@ -23,20 +23,14 @@ export class ControlPanel {
           });
         });
         document.querySelector(".page-number").innerHTML = `page 1`;
-        this.carContainer.innerHTML = "";
+        document.querySelector(".cars-container").innerHTML = "";
+        document.querySelector(".cars-count").innerHTML = `garage(0)`;
       } else if (target.className === "create-confirm") {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
-        createCar({ name: name, color: color }).then(() => {
-          /*
-          const savedCount = window.localStorage.getItem("activeCarPage");
-          getCars(+savedCount).then((cars) => {
-            cars.items.forEach((car: CarType) => {
-              new Car(car);
-            });
-          });*/
+        createCar({ name: name, color: color }).then((car) => {
+          new Car(car);
           getCars().then((cars) => {
-            //переписать
             document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
           });
         });
@@ -55,10 +49,17 @@ export class ControlPanel {
       }
     });
   }
+  async generateCars(amount: number) {
+    let i = 0;
+    while (i < amount) {
+      i++;
+      await createCar({ name: getRandomName(), color: getRandomColor() });
+    }
+  }
   printControlPanel() {
     return `<div class="control-panel">
     <div class="create">
-      <input class="create-name" type="text" />
+      <input class="create-name" type="text" placeholder="Enter car name"  />
       <input class="create-color" type="color" />
       <button class="create-confirm">Create</button>
     </div>

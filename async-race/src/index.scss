@@ -102,6 +102,9 @@ body {
     top: 1rem;
     flex-wrap: wrap;
   }
+  .cars-count {
+    order: -1;
+  }
 
   .control-panel {
     display: flex;
@@ -133,6 +136,11 @@ body {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  flex-grow: 1;
+  justify-content: space-between;
+  .page-number {
+    order: -1;
+  }
 }
 .buttons-container {
   display: flex;
@@ -140,34 +148,38 @@ body {
   align-items: center;
   flex-wrap: wrap;
 }
-.car {
-  background-color: #f1faee;
-  padding: 1rem;
-  border-bottom: 3px dashed #457b9d;
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
-  width: 100%;
-
-  &.active {
-    background-color: white;
-  }
-
-  .track {
-    width: 100%;
+.cars-container {
+  flex-grow: 1;
+  justify-content: flex-start;
+  .car {
+    background-color: #f1faee;
+    padding: 1rem;
+    border-bottom: 3px dashed #457b9d;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding: 0 1rem;
-    position: relative;
+    flex-direction: column;
+    row-gap: 1rem;
+    width: 100%;
 
-    .car-pic {
-      width: 5rem;
+    &.active {
+      background-color: white;
     }
-    .banner-pic {
-      position: absolute;
-      width: 3rem;
-      right: 1rem;
+
+    .track {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 1rem;
+      position: relative;
+
+      .car-pic {
+        width: 5rem;
+      }
+      .banner-pic {
+        position: absolute;
+        width: 3rem;
+        right: 1rem;
+      }
     }
   }
 }
