@@ -27,14 +27,14 @@ export class Page {
       : window.localStorage.setItem("activeCarPage", this.activeCarPage);
 
     if (activePage === "garage") {
-      this.main.innerHTML = `<h3>page ${this.activeCarPage}</h3>` + this.main.innerHTML;
+      this.main.innerHTML = `<h3 class="page-number">page ${this.activeCarPage}</h3>` + this.main.innerHTML;
       this.pagination = new Pagination(this.main);
       this.controlPanel = new ControlPanel(this.header);
 
       this.printCars();
       (document.querySelector("input.to-garage") as HTMLInputElement).checked = true;
       getCars().then((cars) => {
-        this.header.innerHTML = `<h2>garage(${cars.count})</h2>` + this.header.innerHTML;
+        this.header.innerHTML = `<h2 class="cars-count">garage(${cars.count})</h2>` + this.header.innerHTML;
       });
     } else {
       this.header.innerHTML = "<h2>winners</h2>" + this.header.innerHTML;

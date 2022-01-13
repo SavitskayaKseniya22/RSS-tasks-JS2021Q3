@@ -1,4 +1,3 @@
-import { Page } from "./page";
 import { getCars } from "./api";
 import { Car, CarType } from "./car";
 
@@ -9,23 +8,9 @@ export class Pagination {
     container.innerHTML += this.printCarPage();
     document.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).className === "prev-page" && +window.localStorage.getItem("activeCarPage") > 1) {
-        document.querySelector(".cars-container").innerHTML = "";
-        const count = window.localStorage.getItem("activeCarPage");
-        window.localStorage.setItem("activeCarPage", String(+count - 1));
-        getCars(+count - 1).then((cars) => {
-          cars.items.forEach((car: CarType) => {
-            new Car(car);
-          });
-        });
+        this.updateCarPage("decrease");
       } else if ((e.target as HTMLElement).className === "next-page") {
-        document.querySelector(".cars-container").innerHTML = "";
-        const count = window.localStorage.getItem("activeCarPage");
-        window.localStorage.setItem("activeCarPage", String(+count + 1));
-        getCars(+count + 1).then((cars) => {
-          cars.items.forEach((car: CarType) => {
-            new Car(car);
-          });
-        });
+        this.updateCarPage("increase");
       }
     });
   }
@@ -35,5 +20,18 @@ export class Pagination {
     <li><button class="next-page">Next</button></li>
     
   </ul>`;
+  }
+  updateCarPage(operation: string) {
+    document.querySelector(".cars-container").innerHTML = "";
+    const savedCount = window.localStorage.getItem("activeCarPage");
+    let count: number;
+    operation === "decrease" ? (count = +savedCount - 1) : (count = +savedCount + 1);
+    window.localStorage.setItem("activeCarPage", String(count));
+    getCars(count).then((cars) => {
+      cars.items.forEach((car: CarType) => {
+        new Car(car);
+      });
+    });
+    document.querySelector(".page-number").innerHTML = `page ${count}`;
   }
 }

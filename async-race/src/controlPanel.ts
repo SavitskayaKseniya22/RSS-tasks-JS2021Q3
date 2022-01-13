@@ -1,5 +1,5 @@
 import { getRandomName, getRandomColor } from "./utils";
-import { createCar, deleteCar, getAllCars, updateCar } from "./api";
+import { createCar, deleteCar, getAllCars, updateCar, getCars } from "./api";
 import { Car, CarType } from "./car";
 
 export class ControlPanel {
@@ -14,9 +14,7 @@ export class ControlPanel {
         let i = 0;
         while (i < 100) {
           i++;
-          createCar({ name: getRandomName(), color: getRandomColor() }).then((value) => {
-            //main.innerHTML += new Car(value).renderCar();
-          });
+          createCar({ name: getRandomName(), color: getRandomColor() }).then(() => {});
         }
       } else if (target.className === "remove-all") {
         getAllCars().then((value) => {
@@ -24,12 +22,23 @@ export class ControlPanel {
             deleteCar(element.id);
           });
         });
+        document.querySelector(".page-number").innerHTML = `page 1`;
         this.carContainer.innerHTML = "";
       } else if (target.className === "create-confirm") {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
-        createCar({ name: name, color: color }).then((value) => {
-          // main.innerHTML += new Car(value).renderCar();
+        createCar({ name: name, color: color }).then(() => {
+          /*
+          const savedCount = window.localStorage.getItem("activeCarPage");
+          getCars(+savedCount).then((cars) => {
+            cars.items.forEach((car: CarType) => {
+              new Car(car);
+            });
+          });*/
+          getCars().then((cars) => {
+            //переписать
+            document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
+          });
         });
       } else if (target.className === "update-confirm" && document.querySelector(`.active`)) {
         const element = document.querySelector(`.active`) as HTMLElement;

@@ -1,4 +1,4 @@
-import { deleteCar, startEngine, stopEngine, getCar } from "./api";
+import { deleteCar, startEngine, stopEngine, getCar, getCars } from "./api";
 import { getID } from "./utils";
 export interface CarType {
   name: string;
@@ -17,34 +17,6 @@ export class Car {
     this.id = carItem.id;
     this.carContainer = document.querySelector(".cars-container");
     this.carContainer.innerHTML += this.renderCar();
-
-    document.addEventListener("click", function (e) {
-      const target = e.target as HTMLButtonElement;
-      if (target.className === "removeCar") {
-        const id = getID(target);
-        deleteCar(id);
-        const parent = target.closest(".car") as HTMLElement;
-        parent.remove();
-      } else if (target.className === "startEngine") {
-        const id = getID(target);
-        startEngine(id);
-      } else if (target.className === "stopEngine") {
-        const id = getID(target);
-        stopEngine(id);
-      } else if (target.className === "selectCar") {
-        const id = getID(target);
-
-        getCar(id).then((value) => {
-          (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
-          (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
-          const element = document.querySelector(`.car[data-num="${id}"]`);
-          document.querySelectorAll(".active").forEach((activeElement) => {
-            activeElement.classList.remove("active");
-          });
-          element.classList.add("active");
-        });
-      }
-    });
   }
   renderCar() {
     return `<li class="car" data-num=${this.id}>
@@ -71,3 +43,42 @@ export class Car {
   </li>`;
   }
 }
+
+document.addEventListener("click", (e) => {
+  const target = e.target as HTMLButtonElement;
+
+  if (target.className === "removeCar") {
+    const id = getID(target);
+    deleteCar(id).then(() => {
+      const savedCount = window.localStorage.getItem("activeCarPage");
+      getCars(+savedCount).then((cars) => {
+        document.querySelector(".cars-container").innerHTML = "";
+        document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
+        cars.items.forEach((car: CarType) => {
+          new Car(car);
+        });
+      });
+    });
+
+    const parent = target.closest(".car") as HTMLElement;
+    parent.remove();
+  } else if (target.className === "startEngine") {
+    const id = getID(target);
+    startEngine(id);
+  } else if (target.className === "stopEngine") {
+    const id = getID(target);
+    stopEngine(id);
+  } else if (target.className === "selectCar") {
+    const id = getID(target);
+
+    getCar(id).then((value) => {
+      (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
+      (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
+      const element = document.querySelector(`.car[data-num="${id}"]`);
+      document.querySelectorAll(".active").forEach((activeElement) => {
+        activeElement.classList.remove("active");
+      });
+      element.classList.add("active");
+    });
+  }
+});
