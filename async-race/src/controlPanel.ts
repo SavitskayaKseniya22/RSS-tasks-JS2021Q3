@@ -72,20 +72,28 @@ export class ControlPanel {
             const id = car.id;
             return drive(id);
           });
-          Promise.race(promises).then((id: number) => {
-            getWinner(id).then(
+          Promise.race(promises).then((car: TimeWinnerType) => {
+            getWinner(car.id).then(
               (winner: WinnerType) => {
                 const data = {
                   wins: winner.wins + 1,
-                  time: 2,
+                  time: car.time,
                 };
-                updateWinner(id, data);
+                updateWinner(car.id, data).then(() => {
+                  getWinners().then((winners) => {
+                    console.log(winners);
+                  });
+                });
               },
               () => {
                 createWinner({
-                  id: id,
+                  id: car.id,
                   wins: 1,
-                  time: 1,
+                  time: car.time,
+                }).then(() => {
+                  getWinners().then((winners) => {
+                    console.log(winners);
+                  });
                 });
               },
             );
@@ -132,5 +140,9 @@ export class ControlPanel {
 export interface WinnerType {
   id: number;
   wins: number;
+  time: number;
+}
+export interface TimeWinnerType {
+  id: number;
   time: number;
 }

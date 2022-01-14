@@ -108,6 +108,11 @@ export async function getWinner(id: number) {
       "Content-Type": "application/json",
     },
   });
-  const car = await response.json();
-  return car;
+
+  if (response.status === 200) {
+    const car = await response.json();
+    return car;
+  } else {
+    throw new Error("error");
+  }
 }

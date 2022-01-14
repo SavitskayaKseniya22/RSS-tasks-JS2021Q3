@@ -94,7 +94,7 @@ export async function drive(id: number) {
       changeDriveMode(id, "drive").then(
         () => {
           updateEngineButton("stop", id);
-          resolve(id);
+          resolve({ id: id, time: getTime(car.velocity, car.distance) });
         },
         () => {
           pauseCar(id);
