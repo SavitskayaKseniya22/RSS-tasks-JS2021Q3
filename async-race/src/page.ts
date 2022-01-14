@@ -16,25 +16,11 @@ export class Page {
 
   constructor(activePage = "garage", activeCarPage = "1") {
     this.body = document.querySelector("body");
-    this.structure = new Structure(this.body);
-    this.main = document.querySelector(".main");
-    this.header = document.querySelector(".header");
+    this.structure = new Structure();
+    this.pagination = new Pagination();
+    this.controlPanel = new ControlPanel();
     this.activeCarPage = activeCarPage;
     this.activePage = activePage;
-
-    window.localStorage.getItem("activeCarPage")
-      ? (this.activeCarPage = window.localStorage.getItem("activeCarPage"))
-      : window.localStorage.setItem("activeCarPage", this.activeCarPage);
-
-    window.localStorage.getItem("activePage")
-      ? (this.activePage = window.localStorage.getItem("activePage"))
-      : window.localStorage.setItem("activePage", this.activePage);
-
-    if (this.activePage === "garage") {
-      this.printGarage();
-    } else {
-      this.printWinners();
-    }
   }
   printCars() {
     getCars().then((cars) => {
@@ -45,14 +31,33 @@ export class Page {
     });
   }
   printGarage() {
+    window.localStorage.getItem("activeCarPage")
+      ? (this.activeCarPage = window.localStorage.getItem("activeCarPage"))
+      : window.localStorage.setItem("activeCarPage", this.activeCarPage);
+
+    this.main = document.querySelector(".main");
+    this.header = document.querySelector(".header");
     this.main.innerHTML += `<h3 class="page-number">page ${this.activeCarPage}</h3>`;
-    this.pagination = new Pagination(this.main);
-    this.controlPanel = new ControlPanel(this.header);
+    this.header.innerHTML += this.controlPanel.printControlPanel();
+    this.main.innerHTML += this.pagination.printCarPage();
     this.printCars();
     (document.querySelector("input.to-garage") as HTMLInputElement).checked = true;
   }
   printWinners() {
     this.header.innerHTML += "<h2>winners</h2>";
     (document.querySelector("input.to-winners") as HTMLInputElement).checked = true;
+  }
+  updatePage() {
+    window.localStorage.getItem("activePage")
+      ? (this.activePage = window.localStorage.getItem("activePage"))
+      : window.localStorage.setItem("activePage", this.activePage);
+
+    if (this.activePage === "garage") {
+      this.body.innerHTML = this.structure.printStructure();
+      this.printGarage();
+    } else {
+      this.body.innerHTML = this.structure.printStructure();
+      this.printWinners();
+    }
   }
 }

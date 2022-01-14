@@ -1,2 +1,3 @@
 import { Page } from "./page";
-new Page();
+export const currentPage = new Page();
+currentPage.updatePage();

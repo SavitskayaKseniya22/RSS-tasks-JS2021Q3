@@ -3,14 +3,13 @@ import { createCar, deleteCar, getAllCars, updateCar, getCars } from "./api";
 import { Car, CarType, drive, stopCar } from "./car";
 
 export class ControlPanel {
-  constructor(container: HTMLElement) {
-    container.innerHTML += this.printControlPanel();
-
+  constructor() {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       if (target.className === "generate") {
         this.generateCars(100).then(() => {
           getCars().then((cars) => {
+            document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
             document.querySelector(".cars-container").innerHTML = "";
             cars.items.forEach((car: CarType) => {
               new Car(car);
@@ -26,6 +25,7 @@ export class ControlPanel {
         document.querySelector(".page-number").innerHTML = `page 1`;
         document.querySelector(".cars-container").innerHTML = "";
         document.querySelector(".cars-count").innerHTML = `garage(0)`;
+        window.localStorage.setItem("activeCarPage", "1");
       } else if (target.className === "create-confirm") {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
@@ -102,5 +102,3 @@ export class ControlPanel {
   </div>`;
   }
 }
-
-//export function printCurrentPage() {}

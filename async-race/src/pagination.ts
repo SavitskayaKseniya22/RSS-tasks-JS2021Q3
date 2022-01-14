@@ -2,10 +2,7 @@ import { getCars } from "./api";
 import { Car, CarType } from "./car";
 
 export class Pagination {
-  carContainer: HTMLUListElement;
-  constructor(container: HTMLElement) {
-    this.carContainer = document.querySelector(".cars-container");
-    container.innerHTML += this.printCarPage();
+  constructor() {
     document.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).className === "prev-page" && +window.localStorage.getItem("activeCarPage") > 1) {
         this.updateCarPage("decrease");

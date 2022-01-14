@@ -1,10 +1,6 @@
-import { Page } from "./page";
-export class Structure {
-  structure: string;
+import { currentPage } from "./index";
 
-  constructor(container: HTMLElement) {
-    container.innerHTML = this.printStructure();
-  }
+export class Structure {
   printStructure() {
     return `<header class="header">
     <h1>Async race</h1>
@@ -39,9 +35,9 @@ export class Structure {
 document.addEventListener("click", function (e) {
   if ((e.target as HTMLElement).className === "to-garage") {
     window.localStorage.setItem("activePage", "garage");
-    new Page();
+    currentPage.updatePage();
   } else if ((e.target as HTMLElement).className === "to-winners") {
     window.localStorage.setItem("activePage", "winners");
-    new Page();
+    currentPage.updatePage();
   }
 });
