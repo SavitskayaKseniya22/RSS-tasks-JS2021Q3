@@ -1,6 +1,6 @@
 import { deleteCar, changeDriveMode, getCar, getCars } from "./api";
-import { getID } from "./utils";
-import { getTime } from "./utils";
+
+import { getTime, getID } from "./utils";
 
 export interface CarType {
   name: string;
@@ -37,7 +37,7 @@ export class Car {
     </li>
 
     <li>
-    <input type="radio" id="stop-engine${this.id}" name="engine${this.id}" value="stop" class="stopEngine" checked />
+    <input type="radio" id="stop-engine${this.id}" name="engine${this.id}" value="stop" class="stopEngine" checked disabled />
     <label for="stop-engine${this.id}">Stop engine</label>
     </li>
 
@@ -69,7 +69,7 @@ document.addEventListener("click", (e) => {
     drive(id);
   } else if (target.className === "stopEngine") {
     const id = getID(target);
-    pauseCar(id);
+    stopCar(id);
   } else if (target.className === "selectCar") {
     const id = getID(target);
 
@@ -132,4 +132,12 @@ function setAnimation(id: number, car: EngineType) {
 }
 function updateEngineButton(button: "start" | "stop", id: number) {
   (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
+
+  if (button === "start") {
+    (document.querySelector(`#start-engine${id}`) as HTMLInputElement).disabled = true;
+    (document.querySelector(`#stop-engine${id}`) as HTMLInputElement).disabled = false;
+  } else {
+    (document.querySelector(`#start-engine${id}`) as HTMLInputElement).disabled = false;
+    (document.querySelector(`#stop-engine${id}`) as HTMLInputElement).disabled = true;
+  }
 }

@@ -9,6 +9,7 @@ import {
   createWinner,
   getWinner,
   updateWinner,
+  getCar,
 } from "./api";
 import { Car, CarType, drive, stopCar } from "./car";
 
@@ -69,41 +70,32 @@ export class ControlPanel {
       } else if (target.className === "race") {
         getCars().then((cars) => {
           const promises = cars.items.map((car: CarType) => {
-            const id = car.id;
-            return drive(id);
+            return drive(car.id);
           });
-          Promise.race(promises).then((car: TimeWinnerType) => {
-            getWinner(car.id).then(
+          Promise.race(promises).then((carResult: TimeWinnerType) => {
+            getWinner(carResult.id).then(
               (winner: WinnerType) => {
                 const data = {
                   wins: winner.wins + 1,
-                  time: car.time,
+                  time: carResult.time,
                 };
-                updateWinner(car.id, data).then(() => {
-                  getWinners().then((winners) => {
-                    console.log(winners);
-                  });
-                });
+                updateWinner(carResult.id, data);
               },
               () => {
                 createWinner({
-                  id: car.id,
+                  id: carResult.id,
                   wins: 1,
-                  time: car.time,
-                }).then(() => {
-                  getWinners().then((winners) => {
-                    console.log(winners);
-                  });
+                  time: carResult.time,
                 });
               },
             );
+            //printWinnerScreen(carResult.name, carResult.time);
           });
         });
       } else if (target.className === "reset") {
         getCars().then((cars) => {
           cars.items.forEach((car: CarType) => {
-            const id = car.id;
-            stopCar(id);
+            stopCar(car.id);
           });
         });
       }
@@ -145,4 +137,10 @@ export interface WinnerType {
 export interface TimeWinnerType {
   id: number;
   time: number;
+  name: string;
+}
+
+function printWinnerScreen(name: string, time: number) {
+  const message = `<p class="winnerMessage">${name} went first\n (${time})<p>`;
+  document.querySelector(".cars-container").innerHTML += message;
 }

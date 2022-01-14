@@ -50,6 +50,10 @@ input[type="radio"] {
 input:checked + label {
   background-color: #1d3557;
 }
+input:disabled + label {
+  background-color: gray;
+}
+
 li {
   min-height: 30px;
 }
