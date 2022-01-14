@@ -44,6 +44,7 @@ export class Page {
     (document.querySelector("input.to-garage") as HTMLInputElement).checked = true;
   }
   printWinners() {
+    this.header = document.querySelector(".header");
     this.header.innerHTML += "<h2>winners</h2>";
     (document.querySelector("input.to-winners") as HTMLInputElement).checked = true;
   }

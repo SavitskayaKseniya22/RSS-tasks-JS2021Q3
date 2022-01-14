@@ -1,5 +1,5 @@
 import { getRandomName, getRandomColor } from "./utils";
-import { createCar, deleteCar, getAllCars, updateCar, getCars } from "./api";
+import { createCar, deleteCar, getAllCars, updateCar, getCars, getWinners } from "./api";
 import { Car, CarType, drive, stopCar } from "./car";
 
 export class ControlPanel {
@@ -58,11 +58,11 @@ export class ControlPanel {
         (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
       } else if (target.className === "race") {
         getCars().then((cars) => {
-          console.log(cars);
-          cars.items.forEach((car: CarType) => {
+          const promises = cars.items.map((car: CarType) => {
             const id = car.id;
-            drive(id);
+            return drive(id);
           });
+          Promise.race(promises).then((result) => console.log(result));
         });
       } else if (target.className === "reset") {
         getCars().then((cars) => {

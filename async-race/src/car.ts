@@ -85,19 +85,22 @@ document.addEventListener("click", (e) => {
   }
 });
 
-export function drive(id: number) {
-  unsetAnimation(id);
-  changeDriveMode(id, "started").then((car: EngineType) => {
-    updateEngineButton("start", id);
-    setAnimation(id, car);
-    changeDriveMode(id, "drive").then(
-      () => {
-        updateEngineButton("stop", id);
-      },
-      () => {
-        pauseCar(id);
-      },
-    );
+export async function drive(id: number) {
+  return new Promise((resolve, reject) => {
+    unsetAnimation(id);
+    changeDriveMode(id, "started").then((car: EngineType) => {
+      updateEngineButton("start", id);
+      setAnimation(id, car);
+      changeDriveMode(id, "drive").then(
+        () => {
+          updateEngineButton("stop", id);
+          resolve(id);
+        },
+        () => {
+          pauseCar(id);
+        },
+      );
+    });
   });
 }
 export function pauseCar(id: number) {

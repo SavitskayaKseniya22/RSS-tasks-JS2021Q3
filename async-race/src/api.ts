@@ -63,3 +63,17 @@ export async function getCars(page = 1, limit = 7) {
     count: response.headers.get("X-Total-Count"),
   };
 }
+
+export async function getWinners(page = 1, limit = 7, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
+  const response = await fetch(
+    `http://127.0.0.1:3000//winners?_page=${page}&_limit=${limit}&_sort=${sort}&_order=${order}`,
+    {
+      method: "GET",
+    },
+  );
+
+  return {
+    items: await response.json(),
+    count: response.headers.get("X-Total-Count"),
+  };
+}
