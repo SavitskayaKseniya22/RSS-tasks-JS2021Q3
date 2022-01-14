@@ -28,7 +28,7 @@ export class Page {
 
     window.localStorage.getItem("activePage")
       ? (this.activePage = window.localStorage.getItem("activePage"))
-      : window.localStorage.setItem("activeCarPage", this.activePage);
+      : window.localStorage.setItem("activePage", this.activePage);
 
     if (this.activePage === "garage") {
       this.printGarage();

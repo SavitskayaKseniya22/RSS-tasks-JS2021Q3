@@ -1,9 +1,15 @@
-import { deleteCar, startEngine, stopEngine, getCar, getCars } from "./api";
+import { deleteCar, changeDriveMode, getCar, getCars } from "./api";
 import { getID } from "./utils";
+import { getTime } from "./utils";
+
 export interface CarType {
   name: string;
   color: string;
   id: number;
+}
+export interface EngineType {
+  velocity: number;
+  distance: number;
 }
 
 export class Car {
@@ -31,13 +37,13 @@ export class Car {
     </li>
 
     <li>
-    <input type="radio" id="stop-engine${this.id}" name="engine${this.id}" value="stop" class="stopEngine" />
+    <input type="radio" id="stop-engine${this.id}" name="engine${this.id}" value="stop" class="stopEngine" checked />
     <label for="stop-engine${this.id}">Stop engine</label>
     </li>
 
     </ul>
     <div class="track">
-      <img src="./images/car.svg" alt="car" class="car-pic" style="background-color:${this.color}"  />
+      <img src="./images/car.svg" alt="car" class="car-pic car-pic${this.id}" style="background-color:${this.color}"  />
       <img src="./images/banner.svg" alt="banner" class="banner-pic" />
     </div>
   </li>`;
@@ -60,10 +66,10 @@ document.addEventListener("click", (e) => {
     });
   } else if (target.className === "startEngine") {
     const id = getID(target);
-    startEngine(id);
+    drive(id);
   } else if (target.className === "stopEngine") {
     const id = getID(target);
-    stopEngine(id);
+    pauseCar(id);
   } else if (target.className === "selectCar") {
     const id = getID(target);
 
@@ -78,3 +84,49 @@ document.addEventListener("click", (e) => {
     });
   }
 });
+
+export function drive(id: number) {
+  unsetAnimation(id);
+  changeDriveMode(id, "started").then((car: EngineType) => {
+    updateEngineButton("start", id);
+    setAnimation(id, car);
+    changeDriveMode(id, "drive").then(
+      () => {
+        updateEngineButton("stop", id);
+      },
+      () => {
+        pauseCar(id);
+      },
+    );
+  });
+}
+export function pauseCar(id: number) {
+  changeDriveMode(id, "stopped").then(() => {
+    updateEngineButton("stop", id);
+    const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+    carImg.style.animationPlayState = "paused";
+  });
+}
+export function stopCar(id: number) {
+  changeDriveMode(id, "stopped").then(() => {
+    updateEngineButton("stop", id);
+    unsetAnimation(id);
+  });
+}
+
+function unsetAnimation(id: number) {
+  const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+  carImg.classList.remove("car-pic-animation");
+  carImg.style.animationDuration = "unset";
+  carImg.style.animationPlayState = "unset";
+}
+function setAnimation(id: number, car: EngineType) {
+  const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+  const time = getTime(car.velocity, car.distance);
+  carImg.classList.add("car-pic-animation");
+  carImg.style.animationDuration = `${time}ms`;
+  carImg.style.animationPlayState = "running";
+}
+function updateEngineButton(button: "start" | "stop", id: number) {
+  (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
+}

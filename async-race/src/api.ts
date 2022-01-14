@@ -23,21 +23,15 @@ export async function deleteCar(id: number) {
   return car;
 }
 
-export async function startEngine(id: number) {
-  const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=started`, {
+export async function changeDriveMode(id: number, status: "started" | "stopped" | "drive") {
+  const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=${status}`, {
     method: "PATCH",
   });
   const car = await response.json();
-  console.log(car);
+
   return car;
 }
-export async function stopEngine(id: number) {
-  const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=stopped`, {
-    method: "PATCH",
-  });
-  const car = await response.json();
-  return car;
-}
+
 export async function getCar(id: number) {
   const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
     method: "GET",

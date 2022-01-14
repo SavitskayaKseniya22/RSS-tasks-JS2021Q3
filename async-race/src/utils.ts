@@ -27,3 +27,6 @@ export function getID(target: HTMLButtonElement) {
   const id = +parent.dataset.num;
   return id;
 }
+export function getTime(v: number, d: number) {
+  return d / v;
+}

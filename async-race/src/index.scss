@@ -168,17 +168,35 @@ body {
       width: 100%;
       display: flex;
       align-items: flex-end;
-      justify-content: space-between;
+
       padding: 0 1rem;
       position: relative;
 
       .car-pic {
         width: 5rem;
+        position: relative;
+        left: 0;
       }
+      .car-pic-animation {
+        animation-name: drive;
+        animation-fill-mode: forwards;
+        animation-direction: normal;
+      }
+
+      @keyframes drive {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 95%;
+        }
+      }
+
       .banner-pic {
         position: absolute;
         width: 3rem;
-        right: 1rem;
+        right: 3rem;
       }
     }
   }

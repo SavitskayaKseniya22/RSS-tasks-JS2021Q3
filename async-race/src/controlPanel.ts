@@ -1,6 +1,6 @@
 import { getRandomName, getRandomColor } from "./utils";
 import { createCar, deleteCar, getAllCars, updateCar, getCars } from "./api";
-import { Car, CarType } from "./car";
+import { Car, CarType, drive, stopCar } from "./car";
 
 export class ControlPanel {
   constructor(container: HTMLElement) {
@@ -29,8 +29,14 @@ export class ControlPanel {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
         createCar({ name: name, color: color }).then((car) => {
-          new Car(car);
-          getCars().then((cars) => {
+          getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+            const idArray: number[] = [];
+            cars.items.forEach((car: CarType) => {
+              idArray.push(car.id);
+            });
+            if (idArray.includes(car.id)) {
+              new Car(car);
+            }
             document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
           });
         });
@@ -46,6 +52,22 @@ export class ControlPanel {
         title.innerHTML = name;
         const img = element.querySelector(".car-pic") as HTMLImageElement;
         img.style.backgroundColor = color;
+      } else if (target.className === "race") {
+        getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+          console.log(cars);
+          cars.items.forEach((car: CarType) => {
+            const id = car.id;
+            drive(id);
+          });
+        });
+      } else if (target.className === "reset") {
+        getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+          console.log(cars);
+          cars.items.forEach((car: CarType) => {
+            const id = car.id;
+            stopCar(id);
+          });
+        });
       }
     });
   }
