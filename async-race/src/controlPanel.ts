@@ -10,7 +10,8 @@ export class ControlPanel {
       const target = e.target as HTMLButtonElement;
       if (target.className === "generate") {
         this.generateCars(100).then(() => {
-          getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+          getCars().then((cars) => {
+            document.querySelector(".cars-container").innerHTML = "";
             cars.items.forEach((car: CarType) => {
               new Car(car);
             });
@@ -29,7 +30,7 @@ export class ControlPanel {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
         createCar({ name: name, color: color }).then((car) => {
-          getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+          getCars().then((cars) => {
             const idArray: number[] = [];
             cars.items.forEach((car: CarType) => {
               idArray.push(car.id);
@@ -52,8 +53,11 @@ export class ControlPanel {
         title.innerHTML = name;
         const img = element.querySelector(".car-pic") as HTMLImageElement;
         img.style.backgroundColor = color;
+        element.classList.remove("active");
+        (document.querySelector(".update-name") as HTMLInputElement).value = "";
+        (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
       } else if (target.className === "race") {
-        getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+        getCars().then((cars) => {
           console.log(cars);
           cars.items.forEach((car: CarType) => {
             const id = car.id;
@@ -61,8 +65,7 @@ export class ControlPanel {
           });
         });
       } else if (target.className === "reset") {
-        getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
-          console.log(cars);
+        getCars().then((cars) => {
           cars.items.forEach((car: CarType) => {
             const id = car.id;
             stopCar(id);
@@ -86,7 +89,7 @@ export class ControlPanel {
       <button class="create-confirm">Create</button>
     </div>
     <div class="update">
-      <input class="update-name" type="text" />
+      <input class="update-name" type="text" placeholder="Change car name" />
       <input class="update-color" type="color" />
       <button class="update-confirm">Update</button>
     </div>
@@ -99,3 +102,5 @@ export class ControlPanel {
   </div>`;
   }
 }
+
+//export function printCurrentPage() {}

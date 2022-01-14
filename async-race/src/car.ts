@@ -56,7 +56,7 @@ document.addEventListener("click", (e) => {
   if (target.className === "removeCar") {
     const id = getID(target);
     deleteCar(id).then(() => {
-      getCars(+window.localStorage.getItem("activeCarPage") || 1).then((cars) => {
+      getCars().then((cars) => {
         document.querySelector(".cars-container").innerHTML = "";
         document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
         cars.items.forEach((car: CarType) => {

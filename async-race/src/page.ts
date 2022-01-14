@@ -37,7 +37,7 @@ export class Page {
     }
   }
   printCars() {
-    getCars(+this.activeCarPage).then((cars) => {
+    getCars().then((cars) => {
       this.header.innerHTML += `<h2 class="cars-count">garage(${cars.count})</h2>`;
       cars.items.forEach((car: CarType) => {
         new Car(car);
