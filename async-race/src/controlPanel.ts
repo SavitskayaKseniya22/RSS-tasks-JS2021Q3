@@ -1,5 +1,15 @@
 import { getRandomName, getRandomColor } from "./utils";
-import { createCar, deleteCar, getAllCars, updateCar, getCars, getWinners } from "./api";
+import {
+  createCar,
+  deleteCar,
+  getAllCars,
+  updateCar,
+  getCars,
+  getWinners,
+  createWinner,
+  getWinner,
+  updateWinner,
+} from "./api";
 import { Car, CarType, drive, stopCar } from "./car";
 
 export class ControlPanel {
@@ -62,7 +72,24 @@ export class ControlPanel {
             const id = car.id;
             return drive(id);
           });
-          Promise.race(promises).then((result) => console.log(result));
+          Promise.race(promises).then((id: number) => {
+            getWinner(id).then(
+              (winner: WinnerType) => {
+                const data = {
+                  wins: winner.wins + 1,
+                  time: 2,
+                };
+                updateWinner(id, data);
+              },
+              () => {
+                createWinner({
+                  id: id,
+                  wins: 1,
+                  time: 1,
+                });
+              },
+            );
+          });
         });
       } else if (target.className === "reset") {
         getCars().then((cars) => {
@@ -101,4 +128,9 @@ export class ControlPanel {
     </ul>
   </div>`;
   }
+}
+export interface WinnerType {
+  id: number;
+  wins: number;
+  time: number;
 }
