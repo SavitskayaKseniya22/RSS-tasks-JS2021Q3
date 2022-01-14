@@ -53,7 +53,7 @@ export async function updateCar(id: number, data = {}) {
 }
 
 export async function getCars(page = 1, limit = 7) {
-  const currentPage = +window.localStorage.getItem("activeCarPage") || page;
+  const currentPage = +window.localStorage.getItem("activeGaragePage") || page;
   const response = await fetch(`http://127.0.0.1:3000/garage?_page=${currentPage}&_limit=${limit}`, {
     method: "GET",
   });

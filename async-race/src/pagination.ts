@@ -4,14 +4,28 @@ import { Car, CarType } from "./car";
 export class Pagination {
   constructor() {
     document.addEventListener("click", (e) => {
-      if ((e.target as HTMLElement).className === "prev-page" && +window.localStorage.getItem("activeCarPage") > 1) {
-        this.updateCarPage("decrease");
-      } else if ((e.target as HTMLElement).className === "next-page") {
-        this.updateCarPage("increase");
+      if (window.localStorage.getItem("activePage") === "Garage") {
+        if (
+          (e.target as HTMLElement).className === "prev-page" &&
+          +window.localStorage.getItem("activeGaragePage") > 1
+        ) {
+          this.updateCarPage("decrease");
+        } else if ((e.target as HTMLElement).className === "next-page") {
+          this.updateCarPage("increase");
+        }
+      } else {
+        if (
+          (e.target as HTMLElement).className === "prev-page" &&
+          +window.localStorage.getItem("activeWinnersPage") > 1
+        ) {
+          this.updateWinnersPage("decrease");
+        } else if ((e.target as HTMLElement).className === "next-page") {
+          this.updateWinnersPage("increase");
+        }
       }
     });
   }
-  printCarPage() {
+  printPagination() {
     return `<ul class="buttons-container">
     <li><button class="prev-page">Prev</button></li>
     <li><button class="next-page">Next</button></li>
@@ -20,15 +34,22 @@ export class Pagination {
   }
   updateCarPage(operation: string) {
     document.querySelector(".cars-container").innerHTML = "";
-    const savedCount = window.localStorage.getItem("activeCarPage");
-    let count: number;
-    operation === "decrease" ? (count = +savedCount - 1) : (count = +savedCount + 1);
-    window.localStorage.setItem("activeCarPage", String(count));
+    const count = this.updateCount(operation);
     getCars(count).then((cars) => {
       cars.items.forEach((car: CarType) => {
         new Car(car);
       });
     });
     document.querySelector(".page-number").innerHTML = `page ${count}`;
+  }
+  updateCount(operation: string) {
+    const savedCount = window.localStorage.getItem("activeGaragePage");
+    let count: number;
+    operation === "decrease" ? (count = +savedCount - 1) : (count = +savedCount + 1);
+    window.localStorage.setItem("activeGaragePage", String(count));
+    return count;
+  }
+  updateWinnersPage(operation: string) {
+    const count = this.updateCount(operation);
   }
 }

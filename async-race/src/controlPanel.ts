@@ -36,7 +36,7 @@ export class ControlPanel {
         document.querySelector(".page-number").innerHTML = `page 1`;
         document.querySelector(".cars-container").innerHTML = "";
         document.querySelector(".cars-count").innerHTML = `garage(0)`;
-        window.localStorage.setItem("activeCarPage", "1");
+        window.localStorage.setItem("activeGaragePage", "1");
       } else if (target.className === "create-confirm") {
         const name = (document.querySelector(".create-name") as HTMLInputElement).value;
         const color = (document.querySelector(".create-color") as HTMLInputElement).value;
