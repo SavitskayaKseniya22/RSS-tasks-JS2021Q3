@@ -4,7 +4,7 @@ import { Car, CarType } from "./car";
 export class Pagination {
   constructor() {
     document.addEventListener("click", (e) => {
-      if (window.localStorage.getItem("activePage") === "Garage") {
+      if (window.localStorage.getItem("activePage") === "garage") {
         if (
           (e.target as HTMLElement).className === "prev-page" &&
           +window.localStorage.getItem("activeGaragePage") > 1
@@ -33,7 +33,7 @@ export class Pagination {
   </ul>`;
   }
   updateCarPage(operation: string) {
-    document.querySelector(".cars-container").innerHTML = "";
+    document.querySelector(".container").innerHTML = "";
     const count = this.updateCount(operation);
     getCars(count).then((cars) => {
       cars.items.forEach((car: CarType) => {
@@ -43,10 +43,10 @@ export class Pagination {
     document.querySelector(".page-number").innerHTML = `page ${count}`;
   }
   updateCount(operation: string) {
-    const savedCount = window.localStorage.getItem("activeGaragePage");
+    const savedCount = window.localStorage.getItem("activegaragePage");
     let count: number;
     operation === "decrease" ? (count = +savedCount - 1) : (count = +savedCount + 1);
-    window.localStorage.setItem("activeGaragePage", String(count));
+    window.localStorage.setItem("activegaragePage", String(count));
     return count;
   }
   updateWinnersPage(operation: string) {

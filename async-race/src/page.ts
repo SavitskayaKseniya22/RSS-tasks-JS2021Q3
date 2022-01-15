@@ -17,7 +17,7 @@ export class Page {
   winners: Winners;
   activeWinnersPage: string;
 
-  constructor(activePage = "Garage", activeGaragePage = "1", activeWinnersPage = "1") {
+  constructor(activePage = "garage", activeGaragePage = "1", activeWinnersPage = "1") {
     this.body = document.querySelector("body");
     this.structure = new Structure();
     this.pagination = new Pagination();
@@ -46,6 +46,7 @@ export class Page {
       : window.localStorage.setItem("activeGaragePage", this.activeGaragePage);
 
     this.main.innerHTML += `<h3 class="page-number">page ${this.activeGaragePage}</h3>`;
+    this.main.innerHTML += `<div class="race-result"></div>`;
     this.header.innerHTML += this.controlPanel.printControlPanel();
     this.printCars();
   }
@@ -55,7 +56,8 @@ export class Page {
       : window.localStorage.setItem("activeWinnersPage", this.activeWinnersPage);
 
     this.main.innerHTML += `<h3 class="page-number">page ${this.activeWinnersPage}</h3>`;
-    this.main.innerHTML += this.winners.printTable();
+    document.querySelector(".container").innerHTML += this.winners.printTable();
+    this.winners.makeTableTr();
     this.printWinnersCount();
   }
   updatePage() {
@@ -66,13 +68,13 @@ export class Page {
     this.body.innerHTML = this.structure.printStructure();
     this.main = document.querySelector(".main");
     this.header = document.querySelector(".header");
-    this.main.innerHTML += this.pagination.printPagination();
 
-    if (this.activePage === "Garage") {
+    if (this.activePage === "garage") {
       this.printGarage();
     } else {
       this.printWinners();
     }
+    this.main.innerHTML += this.pagination.printPagination();
     (document.querySelector(`input.to-${this.activePage}`) as HTMLInputElement).checked = true;
   }
 }

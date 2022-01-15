@@ -21,11 +21,11 @@ export class Car {
     this.name = carItem.name;
     this.color = carItem.color;
     this.id = carItem.id;
-    this.carContainer = document.querySelector(".cars-container");
+    this.carContainer = document.querySelector(".container");
     this.carContainer.innerHTML += this.renderCar();
   }
   renderCar() {
-    return `<li class="car" data-num=${this.id}>
+    return `<div class="car" data-num=${this.id}>
     <h3>${this.name}</h3>
     <ul class="buttons-container">
       <li><button class="selectCar">Select</button></li>
@@ -46,7 +46,7 @@ export class Car {
       <img src="./images/car.svg" alt="car" class="car-pic car-pic${this.id}" style="background-color:${this.color}"  />
       <img src="./images/banner.svg" alt="banner" class="banner-pic" />
     </div>
-  </li>`;
+  </div>`;
   }
 }
 
@@ -57,7 +57,7 @@ document.addEventListener("click", (e) => {
     const id = getID(target);
     deleteCar(id).then(() => {
       getCars().then((cars) => {
-        document.querySelector(".cars-container").innerHTML = "";
+        document.querySelector(".container").innerHTML = "";
         document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
         cars.items.forEach((car: CarType) => {
           new Car(car);

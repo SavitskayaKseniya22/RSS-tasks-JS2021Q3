@@ -6,17 +6,17 @@ export class Structure {
     <h1>Async race</h1>
     <ul class="navigation">
       <li>
-        <input type="radio" id="to-garage" name="navigation" value="Garage" class="to-garage" checked  />
-        <label for="to-garage">to Garage</label>
+        <input type="radio" id="to-garage" name="navigation" value="garage" class="to-garage" checked  />
+        <label for="to-garage">to garage</label>
       </li>
       <li>
-        <input type="radio" id="to-winners" name="navigation" value="Winners" class="to-winners" />
-        <label for="to-winners">to Winners</label>
+        <input type="radio" id="to-winners" name="navigation" value="winners" class="to-winners" />
+        <label for="to-winners">to winners</label>
       </li>
     </ul>
   </header>
   <main class="main">
-    <ul class="cars-container"></ul>
+    <div class="container"></div>
   </main>
   <footer class="footer">
     <div>
@@ -34,10 +34,10 @@ export class Structure {
 
 document.addEventListener("click", function (e) {
   if ((e.target as HTMLElement).className === "to-garage") {
-    window.localStorage.setItem("activePage", "Garage");
+    window.localStorage.setItem("activePage", "garage");
     currentPage.updatePage();
   } else if ((e.target as HTMLElement).className === "to-winners") {
-    window.localStorage.setItem("activePage", "Winners");
+    window.localStorage.setItem("activePage", "winners");
     currentPage.updatePage();
   }
 });

@@ -21,7 +21,7 @@ export class ControlPanel {
         this.generateCars(100).then(() => {
           getCars().then((cars) => {
             document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
-            document.querySelector(".cars-container").innerHTML = "";
+            document.querySelector(".container").innerHTML = "";
             cars.items.forEach((car: CarType) => {
               new Car(car);
             });
@@ -34,7 +34,7 @@ export class ControlPanel {
           });
         });
         document.querySelector(".page-number").innerHTML = `page 1`;
-        document.querySelector(".cars-container").innerHTML = "";
+        document.querySelector(".container").innerHTML = "";
         document.querySelector(".cars-count").innerHTML = `garage(0)`;
         window.localStorage.setItem("activeGaragePage", "1");
       } else if (target.className === "create-confirm") {
@@ -72,7 +72,11 @@ export class ControlPanel {
           const promises = cars.items.map((car: CarType) => {
             return drive(car.id);
           });
-          Promise.race(promises).then((carResult: TimeWinnerType) => {
+          Promise.race(promises).then((carResult: WinnerType) => {
+            getCar(carResult.id).then((car: CarType) => {
+              printWinnerScreen(car.name, carResult.time);
+              document.addEventListener("click", removeWinnerScreen, { once: true });
+            });
             getWinner(carResult.id).then(
               (winner: WinnerType) => {
                 const data = {
@@ -89,7 +93,7 @@ export class ControlPanel {
                 });
               },
             );
-            //printWinnerScreen(carResult.name, carResult.time);
+            console.log(carResult);
           });
         });
       } else if (target.className === "reset") {
@@ -134,13 +138,14 @@ export interface WinnerType {
   wins: number;
   time: number;
 }
-export interface TimeWinnerType {
-  id: number;
-  time: number;
-  name: string;
-}
 
 function printWinnerScreen(name: string, time: number) {
-  const message = `<p class="winnerMessage">${name} went first\n (${time})<p>`;
-  document.querySelector(".cars-container").innerHTML += message;
+  const message = `<h2>Race is over!</h2>
+  <p class="winnerMessage">${name} went first\n (${time})<p>`;
+  document.querySelector(".race-result").innerHTML += message;
+  document.querySelector(".race-result").classList.add("active");
+}
+function removeWinnerScreen() {
+  document.querySelector(".race-result").innerHTML += "";
+  document.querySelector(".race-result").classList.remove("active");
 }
