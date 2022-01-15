@@ -1,7 +1,6 @@
-import { getCars } from "./api";
-import { Car } from "./car";
 import { Winners } from "./winners";
-import { CarType } from "./types";
+
+import { updateCarContainer } from "./garage";
 
 export class Pagination {
   winners: Winners;
@@ -37,14 +36,8 @@ export class Pagination {
   }
 
   updateGarage(operation: string) {
-    const count = this.updateCount(operation, "activeGaragePage");
-    document.querySelector(".page-number").innerHTML = `page ${count}`;
-    document.querySelector(".container").innerHTML = "";
-    getCars(count).then((cars) => {
-      cars.items.forEach((car: CarType) => {
-        new Car(car);
-      });
-    });
+    this.updateCount(operation, "activeGaragePage");
+    updateCarContainer();
   }
 
   updateCount(operation: string, prop: string) {
@@ -62,3 +55,15 @@ export class Pagination {
     this.winners.makeTableTr();
   }
 }
+
+/*
+getCars().then((cars) => {
+  const idArray: number[] = [];
+  cars.items.forEach((car: CarType) => {
+    idArray.push(car.id);
+  });
+  if (idArray.includes(car.id)) {
+    new Car(car);
+  }
+  document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
+});*/

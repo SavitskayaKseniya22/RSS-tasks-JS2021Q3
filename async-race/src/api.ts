@@ -22,6 +22,13 @@ export async function deleteCar(id: number) {
   const car = await response.json();
   return car;
 }
+export async function deleteWinner(id: number) {
+  const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+    method: "DELETE",
+  });
+  const car = await response.json();
+  return car;
+}
 
 export async function changeDriveMode(id: number, status: "started" | "stopped" | "drive") {
   const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=${status}`, {
@@ -64,7 +71,7 @@ export async function getCars(page = 1, limit = 7) {
   };
 }
 
-export async function getWinners(page = 1, limit = 7, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
+export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
   const currentPage = +window.localStorage.getItem("activeWinnersPage") || page;
   const response = await fetch(
     `http://127.0.0.1:3000/winners?_page=${currentPage}&_limit=${limit}&_sort=${sort}&_order=${order}`,

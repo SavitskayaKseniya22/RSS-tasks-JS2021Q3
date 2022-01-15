@@ -14,7 +14,6 @@ export class Garage {
   printGarage(main: HTMLElement, header: HTMLElement) {
     main.innerHTML += `<h3 class="page-number">page ${this.activeGaragePage}</h3>`;
     main.innerHTML += `<div class="race-result"></div>`;
-
     getCars().then((cars) => {
       header.innerHTML += `<h2 class="cars-count">garage(${cars.count})</h2>`;
       cars.items.forEach((car: CarType) => {
@@ -22,4 +21,16 @@ export class Garage {
       });
     });
   }
+}
+
+export function updateCarContainer(count?: number) {
+  document.querySelector(".container").innerHTML = "";
+  const num = count || +window.localStorage.getItem("activeGaragePage");
+  getCars(num).then((cars) => {
+    document.querySelector(".page-number").innerHTML = `page ${num}`;
+    document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
+    cars.items.forEach((car: CarType) => {
+      new Car(car);
+    });
+  });
 }

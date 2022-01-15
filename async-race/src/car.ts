@@ -1,18 +1,18 @@
-import { deleteCar, changeDriveMode, getCar, getCars } from "./api";
+import { deleteCar, changeDriveMode, getCar, deleteWinner } from "./api";
 import { getTime, getID } from "./utils";
 import { CarType, EngineType } from "./types";
+import { updateCarContainer } from "./garage";
 
 export class Car {
   name: string;
   color: string;
   id: number;
-  carContainer: HTMLElement;
+
   constructor(carItem: CarType) {
     this.name = carItem.name;
     this.color = carItem.color;
     this.id = carItem.id;
-    this.carContainer = document.querySelector(".container");
-    this.carContainer.innerHTML += this.renderCar();
+    document.querySelector(".container").innerHTML += this.renderCar();
   }
   renderCar() {
     return `<div class="car" data-num=${this.id}>
@@ -42,41 +42,37 @@ export class Car {
 
 document.addEventListener("click", (e) => {
   const target = e.target as HTMLButtonElement;
-
-  if (target.className === "removeCar") {
-    const id = getID(target);
-    deleteCar(id).then(() => {
-      getCars().then((cars) => {
-        document.querySelector(".container").innerHTML = "";
-        document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
-        cars.items.forEach((car: CarType) => {
-          new Car(car);
+  switch (target.className) {
+    case "removeCar":
+      const removeId = getID(target);
+      deleteCar(removeId).then(() => {
+        deleteWinner(removeId);
+        updateCarContainer();
+      });
+      break;
+    case "startEngine":
+      drive(getID(target));
+      break;
+    case "stopEngine":
+      stopCar(getID(target));
+      break;
+    case "selectCar":
+      const id = getID(target);
+      getCar(id).then((value) => {
+        (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
+        (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
+        const element = document.querySelector(`.car[data-num="${id}"]`);
+        document.querySelectorAll(".active").forEach((activeElement) => {
+          activeElement.classList.remove("active");
         });
+        element.classList.add("active");
       });
-    });
-  } else if (target.className === "startEngine") {
-    const id = getID(target);
-    drive(id);
-  } else if (target.className === "stopEngine") {
-    const id = getID(target);
-    stopCar(id);
-  } else if (target.className === "selectCar") {
-    const id = getID(target);
-
-    getCar(id).then((value) => {
-      (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
-      (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
-      const element = document.querySelector(`.car[data-num="${id}"]`);
-      document.querySelectorAll(".active").forEach((activeElement) => {
-        activeElement.classList.remove("active");
-      });
-      element.classList.add("active");
-    });
+      break;
   }
 });
 
 export async function drive(id: number) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     unsetAnimation(id);
     changeDriveMode(id, "started").then((car: EngineType) => {
       updateEngineButton("start", id);
@@ -93,6 +89,7 @@ export async function drive(id: number) {
     });
   });
 }
+
 export function pauseCar(id: number) {
   changeDriveMode(id, "stopped").then(() => {
     updateEngineButton("stop", id);
@@ -100,6 +97,7 @@ export function pauseCar(id: number) {
     carImg.style.animationPlayState = "paused";
   });
 }
+
 export function stopCar(id: number) {
   changeDriveMode(id, "stopped").then(() => {
     updateEngineButton("stop", id);

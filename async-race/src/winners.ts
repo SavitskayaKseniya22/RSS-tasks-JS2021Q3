@@ -31,13 +31,14 @@ export class Winners {
     });
   }
   printTableTr(car: CarType, winner: WinnerType) {
+    const timeInSec = (winner.time / 1000).toFixed(3);
     return `
     <tr>
       <td>${car.id}</td>
       <td>${car.color}</td>
       <td>${car.name}</td>
       <td>${winner.wins}</td>
-      <td>${winner.time}</td>
+      <td>${timeInSec}</td>
     </tr>
  `;
   }

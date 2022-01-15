@@ -1,6 +1,5 @@
 import { Structure } from "./structure";
 import { ControlPanel } from "./controlPanel";
-
 import { Pagination } from "./pagination";
 import { Winners } from "./winners";
 import { Garage } from "./garage";
