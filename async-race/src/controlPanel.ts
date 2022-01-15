@@ -5,13 +5,13 @@ import {
   getAllCars,
   updateCar,
   getCars,
-  getWinners,
   createWinner,
   getWinner,
   updateWinner,
   getCar,
 } from "./api";
-import { Car, CarType, drive, stopCar } from "./car";
+import { Car, drive, stopCar } from "./car";
+import { CarType, WinnerType } from "./types";
 
 export class ControlPanel {
   constructor() {
@@ -133,19 +133,14 @@ export class ControlPanel {
   </div>`;
   }
 }
-export interface WinnerType {
-  id: number;
-  wins: number;
-  time: number;
-}
 
 function printWinnerScreen(name: string, time: number) {
   const message = `<h2>Race is over!</h2>
   <p class="winnerMessage">${name} went first\n (${time})<p>`;
-  document.querySelector(".race-result").innerHTML += message;
+  document.querySelector(".race-result").innerHTML = message;
   document.querySelector(".race-result").classList.add("active");
 }
 function removeWinnerScreen() {
-  document.querySelector(".race-result").innerHTML += "";
+  document.querySelector(".race-result").innerHTML = "";
   document.querySelector(".race-result").classList.remove("active");
 }

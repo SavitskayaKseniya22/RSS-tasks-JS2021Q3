@@ -1,16 +1,6 @@
 import { deleteCar, changeDriveMode, getCar, getCars } from "./api";
-
 import { getTime, getID } from "./utils";
-
-export interface CarType {
-  name: string;
-  color: string;
-  id: number;
-}
-export interface EngineType {
-  velocity: number;
-  distance: number;
-}
+import { CarType, EngineType } from "./types";
 
 export class Car {
   name: string;
@@ -123,6 +113,7 @@ function unsetAnimation(id: number) {
   carImg.style.animationDuration = "unset";
   carImg.style.animationPlayState = "unset";
 }
+
 function setAnimation(id: number, car: EngineType) {
   const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
   const time = getTime(car.velocity, car.distance);
@@ -130,9 +121,9 @@ function setAnimation(id: number, car: EngineType) {
   carImg.style.animationDuration = `${time}ms`;
   carImg.style.animationPlayState = "running";
 }
+
 function updateEngineButton(button: "start" | "stop", id: number) {
   (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
-
   if (button === "start") {
     (document.querySelector(`#start-engine${id}`) as HTMLInputElement).disabled = true;
     (document.querySelector(`#stop-engine${id}`) as HTMLInputElement).disabled = false;

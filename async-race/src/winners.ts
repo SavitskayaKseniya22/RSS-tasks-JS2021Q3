@@ -1,9 +1,15 @@
 import { getWinners, getCar } from "./api";
-import { WinnerType } from "./controlPanel";
-import { CarType } from "./car";
+import { WinnerType, CarType } from "./types";
 
 export class Winners {
-  constructor() {}
+  activeWinnersPage: string;
+
+  constructor(activeWinnersPage = "1") {
+    this.activeWinnersPage = activeWinnersPage;
+    window.localStorage.getItem("activeWinnersPage")
+      ? (this.activeWinnersPage = window.localStorage.getItem("activeWinnersPage"))
+      : window.localStorage.setItem("activeWinnersPage", this.activeWinnersPage);
+  }
   printTable() {
     return `<table class="winners-table">
     <tr>
@@ -34,5 +40,13 @@ export class Winners {
       <td>${winner.time}</td>
     </tr>
  `;
+  }
+  printWinners(main: HTMLElement, header: HTMLElement) {
+    main.innerHTML += `<h3 class="page-number">page ${this.activeWinnersPage}</h3>`;
+    document.querySelector(".container").innerHTML += this.printTable();
+    this.makeTableTr();
+    getWinners().then((cars) => {
+      header.innerHTML += `<h2 class="winners-count">winners(${cars.count})</h2>`;
+    });
   }
 }
