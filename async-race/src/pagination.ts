@@ -51,8 +51,8 @@ export class Pagination {
   updateWinners(operation: string) {
     const count = this.updateCount(operation, "activeWinnersPage");
     document.querySelector(".page-number").innerHTML = `page ${count}`;
-    document.querySelector(".container").innerHTML = this.winners.printTable();
-    this.winners.makeTableTr();
+    document.querySelector(".container").innerHTML = this.winners.makeTableContainer();
+    this.winners.printTable();
   }
 }
 

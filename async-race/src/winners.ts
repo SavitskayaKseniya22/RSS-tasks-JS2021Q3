@@ -3,34 +3,72 @@ import { WinnerType, CarType } from "./types";
 
 export class Winners {
   activeWinnersPage: string;
+  sort: string;
+  order: string;
 
-  constructor(activeWinnersPage = "1") {
+  constructor(activeWinnersPage = "1", sort = "wins", order = "ASC") {
     this.activeWinnersPage = activeWinnersPage;
+    this.sort = sort;
+    this.order = order;
+
     window.localStorage.getItem("activeWinnersPage")
       ? (this.activeWinnersPage = window.localStorage.getItem("activeWinnersPage"))
       : window.localStorage.setItem("activeWinnersPage", this.activeWinnersPage);
+
+    window.localStorage.getItem("winnersSort")
+      ? (this.sort = window.localStorage.getItem("winnersSort"))
+      : window.localStorage.setItem("winnersSort", this.sort);
+
+    window.localStorage.getItem("winnersOrder")
+      ? (this.order = window.localStorage.getItem("winnersOrder"))
+      : window.localStorage.setItem("winnersOrder", this.order);
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target.closest(".by-id") || target.closest(".by-wins") || target.closest(".by-time")) {
+        this.changeSort(target);
+      }
+    });
   }
-  printTable() {
+  changeSort(target: HTMLElement) {
+    if (this.sort === target.dataset.sort) {
+      this.changeOrder();
+      this.printTable();
+    } else {
+      this.sort = target.dataset.sort;
+      window.localStorage.setItem("winnersSort", this.sort);
+      this.printTable();
+    }
+  }
+
+  changeOrder() {
+    if (this.order === "ASC") {
+      this.order = "DESC";
+    } else {
+      this.order = "ASC";
+    }
+    window.localStorage.setItem("winnersOrder", this.order);
+  }
+
+  makeTableContainer() {
     return `<table class="winners-table">
     <tr>
-      <th>Number</th>
+      <th class="by-id" >
+        <input type="radio" id="by-id" name="sort" value="by-id" /> <label for="by-id" data-sort="id">Number</label>
+      </th>
       <th>Car</th>
       <th>Name</th>
-      <th>Wins</th>
-      <th>Best time</th>
+      <th class="by-wins" data-sort="wins">
+        <input type="radio" id="by-wins" name="sort" value="by-wins" /> <label for="by-wins" data-sort="wins">Wins</label>
+      </th>
+      <th class="by-time" data-sort="time">
+        <input type="radio" id="by-time" name="sort" value="by-time" /> <label for="by-time" data-sort="wins">Best time (s)</label>
+      </th>
     </tr>
   </table>`;
   }
-  makeTableTr() {
-    getWinners().then((winners) => {
-      winners.items.forEach((winner: WinnerType) => {
-        getCar(winner.id).then((car: CarType) => {
-          document.querySelector(".winners-table").innerHTML += this.printTableTr(car, winner);
-        });
-      });
-    });
-  }
-  printTableTr(car: CarType, winner: WinnerType) {
+
+  makeTableTr(car: CarType, winner: WinnerType) {
     const timeInSec = (winner.time / 1000).toFixed(3);
     return `
     <tr>
@@ -42,10 +80,27 @@ export class Winners {
     </tr>
  `;
   }
+
+  printTable() {
+    document.querySelector(".container").innerHTML = this.makeTableContainer();
+
+    (document.querySelector(`#by-${window.localStorage.getItem("winnersSort")}`) as HTMLInputElement).setAttribute(
+      "checked",
+      "checked",
+    );
+
+    getWinners().then((winners) => {
+      winners.items.forEach((winner: WinnerType) => {
+        getCar(winner.id).then((car: CarType) => {
+          document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
+        });
+      });
+    });
+  }
+
   printWinners(main: HTMLElement, header: HTMLElement) {
     main.innerHTML += `<h3 class="page-number">page ${this.activeWinnersPage}</h3>`;
-    document.querySelector(".container").innerHTML += this.printTable();
-    this.makeTableTr();
+    this.printTable();
     getWinners().then((cars) => {
       header.innerHTML += `<h2 class="winners-count">winners(${cars.count})</h2>`;
     });

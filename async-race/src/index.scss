@@ -27,7 +27,7 @@ a:hover {
   color: #1d3557;
 }
 a:active {
-  color: #ceb31e;
+  color: #e63946;
 }
 
 h1 {
@@ -61,16 +61,18 @@ label,
 button {
   cursor: pointer;
   display: inline-block;
-  border: 1px solid #457b9d;
+  border: 1px solid white;
+  color: white;
   border-radius: 5px;
   height: 100%;
-  background-color: #1d355711;
+  background-color: #1d35575b;
   padding: 0.2rem 2rem;
+  margin: 0.1rem;
 }
 
 label:hover,
 button:hover {
-  background-color: #1d35572d;
+  background-color: #e63946;
 }
 
 body {
@@ -92,17 +94,11 @@ body {
   justify-content: space-between;
   align-items: flex-end;
 
-  label,
-  button {
-    border: 1px solid #a8dadc;
-    color: #a8dadc;
-  }
-
   .navigation {
     position: absolute;
     display: flex;
     column-gap: 0.5rem;
-    right: 1rem;
+    left: 1rem;
     top: 1rem;
     flex-wrap: wrap;
   }
@@ -148,7 +144,6 @@ body {
 }
 .buttons-container {
   display: flex;
-  column-gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -168,7 +163,7 @@ body {
 }
 .container {
   flex-grow: 1;
-  justify-content: flex-start;
+
   .car {
     background-color: #f1faee;
     padding: 1rem;
@@ -227,13 +222,31 @@ table {
   margin: auto;
 }
 th {
-  background: #1d3557;
+  background: #457b9d;
   color: white;
-  padding: 10px 20px;
+  padding: 0;
 }
 
 td {
   background: #f1faee;
+}
+
+.by-id,
+.by-wins,
+.by-time {
+  cursor: pointer;
+  label {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+    padding: 10px 20px;
+  }
+}
+.by-id:hover,
+.by-wins:hover,
+.by-time:hover {
+  background-color: #e63946;
 }
 
 .footer {

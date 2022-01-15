@@ -6,7 +6,7 @@ export class Structure {
     <h1>Async race</h1>
     <ul class="navigation">
       <li>
-        <input type="radio" id="to-garage" name="navigation" value="garage" class="to-garage" checked  />
+        <input type="radio" id="to-garage" name="navigation" value="garage" class="to-garage"  />
         <label for="to-garage">to garage</label>
       </li>
       <li>

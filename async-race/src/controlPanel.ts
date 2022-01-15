@@ -50,7 +50,7 @@ async function generateCars(amount: number) {
 function printWinnerScreen(name: string, time: number) {
   const timeInSec = (time / 1000).toFixed(3);
   const message = `<h2>Race is over!</h2>
-  <p class="winnerMessage">${name} went first\n (${timeInSec})<p>`;
+  <p class="winner-message">${name} finished first in ${timeInSec} seconds<p>`;
   document.querySelector(".race-result").innerHTML = message;
   document.querySelector(".race-result").classList.add("active");
 }

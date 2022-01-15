@@ -41,6 +41,6 @@ export class Page {
       this.winners.printWinners(this.main, this.header);
     }
     this.main.innerHTML += this.pagination.printPagination();
-    (document.querySelector(`input.to-${this.activePage}`) as HTMLInputElement).checked = true;
+    (document.querySelector(`input.to-${this.activePage}`) as HTMLInputElement).setAttribute("checked", "checked");
   }
 }
