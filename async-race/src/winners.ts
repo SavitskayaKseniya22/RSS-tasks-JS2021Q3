@@ -1,5 +1,6 @@
 import { getWinners, getCar } from "./api";
 import { WinnerType, CarType } from "./types";
+import { getCarImg } from "./car";
 
 export class Winners {
   activeWinnersPage: string;
@@ -73,7 +74,7 @@ export class Winners {
     return `
     <tr>
       <td>${car.id}</td>
-      <td>${car.color}</td>
+      <td>${getCarImg(car.color, car.id)}</td>
       <td>${car.name}</td>
       <td>${winner.wins}</td>
       <td>${timeInSec}</td>
