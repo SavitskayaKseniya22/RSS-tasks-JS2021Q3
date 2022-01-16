@@ -50,7 +50,7 @@ async function generateCars(amount: number) {
 function printWinnerScreen(name: string, time: number) {
   const timeInSec = (time / 1000).toFixed(3);
   const message = `<h2>Race is over!</h2>
-  <p class="winner-message">${name} finished first in ${timeInSec} seconds<p>`;
+  <p class="winner-message">&#9733;${name}&#9733;<br> finished first in ${timeInSec} seconds<p>`;
   document.querySelector(".race-result").innerHTML = message;
   document.querySelector(".race-result").classList.add("active");
 }
@@ -96,8 +96,8 @@ document.addEventListener("click", (e) => {
     });
     const title = element.querySelector("h3");
     title.innerHTML = name;
-    const img = element.querySelector(".car-pic") as HTMLImageElement;
-    img.style.backgroundColor = color;
+    const img = element.querySelector(".car-pic");
+    img.setAttribute("fill", color);
     element.classList.remove("active");
     (document.querySelector(".update-name") as HTMLInputElement).value = "";
     (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
