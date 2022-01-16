@@ -63,7 +63,7 @@ export class Winners {
         <input type="radio" id="by-wins" name="sort" value="by-wins" /> <label for="by-wins" data-sort="wins">Wins</label>
       </th>
       <th class="by-time" data-sort="time">
-        <input type="radio" id="by-time" name="sort" value="by-time" /> <label for="by-time" data-sort="wins">Best time (s)</label>
+        <input type="radio" id="by-time" name="sort" value="by-time" /> <label for="by-time" data-sort="time">Best time (s)</label>
       </th>
     </tr>
   </table>`;

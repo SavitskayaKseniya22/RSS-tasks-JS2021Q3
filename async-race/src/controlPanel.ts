@@ -109,9 +109,11 @@ document.addEventListener("click", (e) => {
         });
         getWinner(carResult.id).then(
           (winner: WinnerType) => {
+            let time: number;
+            carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
             const data = {
               wins: winner.wins + 1,
-              time: carResult.time,
+              time: time,
             };
             updateWinner(carResult.id, data);
           },
