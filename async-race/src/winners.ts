@@ -25,11 +25,11 @@ export class Winners {
   changeSort(target: HTMLElement) {
     if (this.sort === target.dataset.sort) {
       this.changeOrder();
-      printTable(this.raceSettings);
+      printTable();
     } else {
       this.sort = target.dataset.sort;
       updateRaceSettings("winnersSort", this.sort);
-      printTable(this.raceSettings);
+      printTable();
     }
   }
 
@@ -42,7 +42,7 @@ export class Winners {
     this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
     this.activeWinnersPage = this.raceSettings.activeWinnersPage;
     main.innerHTML += `<h3 class="page-number">page ${this.activeWinnersPage}</h3>`;
-    printTable(this.raceSettings);
+    printTable();
     getWinners().then((cars) => {
       header.innerHTML += `<h2 class="winners-count">winners(${cars.count})</h2>`;
     });
@@ -80,8 +80,9 @@ function makeTableTr(car: CarType, winner: WinnerType) {
 `;
 }
 
-function printTable(raceSettings: RaceSettingsTypes) {
+function printTable() {
   document.querySelector(".container").innerHTML = makeTableContainer();
+  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
   (document.querySelector(`#by-${raceSettings.winnersSort}`) as HTMLInputElement).setAttribute("checked", "checked");
   getWinners().then((winners) => {
     winners.items.forEach((winner: WinnerType) => {
@@ -92,7 +93,7 @@ function printTable(raceSettings: RaceSettingsTypes) {
   });
 }
 
-export function updateWinnersContainer(raceSettings: RaceSettingsTypes, count?: string) {
+export function updateWinnersContainer(count?: string) {
   document.querySelector(".page-number").innerHTML = `page ${count}`;
-  printTable(raceSettings);
+  printTable();
 }

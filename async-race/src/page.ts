@@ -32,7 +32,6 @@ export class Page {
       : window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
 
     this.activePage = this.raceSettings.activePage;
-
     this.body.innerHTML = this.structure.printStructure();
     this.main = document.querySelector(".main");
     this.header = document.querySelector(".header");

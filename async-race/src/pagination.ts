@@ -30,7 +30,7 @@ function updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
 
 function updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
   const count = updateCount(operation, "activeWinnersPage", +raceSettings.activeWinnersPage);
-  updateWinnersContainer(raceSettings, count);
+  updateWinnersContainer(count);
 }
 
 function updateContainer(operation: string, raceSettings: RaceSettingsTypes) {
@@ -43,17 +43,18 @@ function updateContainer(operation: string, raceSettings: RaceSettingsTypes) {
 
 document.addEventListener("click", (e) => {
   if ((e.target as HTMLElement).closest(".pagination")) {
+    const target = e.target as HTMLElement;
     const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
     if (raceSettings.activePage === "garage") {
-      if ((e.target as HTMLElement).className === "prev-page" && +raceSettings.activeGaragePage > 1) {
+      if (target.className === "prev-page" && +raceSettings.activeGaragePage > 1) {
         updateContainer("decrease", raceSettings);
-      } else if ((e.target as HTMLElement).className === "next-page") {
+      } else if (target.className === "next-page") {
         updateContainer("increase", raceSettings);
       }
     } else {
-      if ((e.target as HTMLElement).className === "prev-page" && +raceSettings.activeWinnersPage > 1) {
+      if (target.className === "prev-page" && +raceSettings.activeWinnersPage > 1) {
         updateContainer("decrease", raceSettings);
-      } else if ((e.target as HTMLElement).className === "next-page") {
+      } else if (target.className === "next-page") {
         updateContainer("increase", raceSettings);
       }
     }
