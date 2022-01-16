@@ -15,6 +15,7 @@ export async function createCar(data = {}) {
   const car = await response.json();
   return car;
 }
+
 export async function deleteCar(id: number) {
   const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
     method: "DELETE",
@@ -22,6 +23,7 @@ export async function deleteCar(id: number) {
   const car = await response.json();
   return car;
 }
+
 export async function deleteWinner(id: number) {
   const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
     method: "DELETE",
@@ -99,6 +101,7 @@ export async function createWinner(data = {}) {
   const car = await response.json();
   return car;
 }
+
 export async function updateWinner(id: number, data = {}) {
   const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
     method: "PUT",

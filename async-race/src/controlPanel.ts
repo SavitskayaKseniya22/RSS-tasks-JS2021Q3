@@ -9,6 +9,7 @@ import {
   getWinner,
   updateWinner,
   getCar,
+  deleteWinner,
 } from "./api";
 import { drive, stopCar } from "./car";
 import { CarType, WinnerType } from "./types";
@@ -46,6 +47,13 @@ async function generateCars(amount: number) {
     await createCar({ name: getRandomName(), color: getRandomColor() });
   }
 }
+function generateCarView(target: HTMLElement, amount: number) {
+  target.classList.add("downloading");
+  generateCars(amount).then(() => {
+    target.classList.remove("downloading");
+    updateCarContainer();
+  });
+}
 
 function printWinnerScreen(name: string, time: number) {
   const timeInSec = (time / 1000).toFixed(3);
@@ -60,86 +68,103 @@ function removeWinnerScreen() {
   document.querySelector(".race-result").classList.remove("active");
 }
 
+function stopAllCar() {
+  getCars().then((cars) => {
+    cars.items.forEach((car: CarType) => {
+      stopCar(car.id);
+    });
+  });
+}
+
+function race(target: HTMLElement) {
+  getCars().then((cars) => {
+    if (+cars.count >= 2) {
+      target.classList.add("downloading");
+      const promises = cars.items.map((car: CarType) => {
+        return drive(car.id);
+      });
+      Promise.race(promises).then((carResult: WinnerType) => {
+        target.classList.remove("downloading");
+        getCar(carResult.id).then((car: CarType) => {
+          printWinnerScreen(car.name, carResult.time);
+          document.addEventListener("click", removeWinnerScreen, { once: true });
+        });
+        getWinner(carResult.id).then(
+          (winner: WinnerType) => {
+            let time: number;
+            carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
+            const data = {
+              wins: winner.wins + 1,
+              time: time,
+            };
+            updateWinner(carResult.id, data);
+          },
+          () => {
+            createWinner({
+              id: carResult.id,
+              wins: 1,
+              time: carResult.time,
+            });
+          },
+        );
+      });
+    }
+  });
+}
+
+function updateCarView() {
+  const element = document.querySelector(`.active`) as HTMLElement;
+  const name = (document.querySelector(".update-name") as HTMLInputElement).value;
+  const color = (document.querySelector(".update-color") as HTMLInputElement).value;
+  updateCar(+element.dataset.num, {
+    name: name,
+    color: color,
+  });
+  const title = element.querySelector("h3");
+  title.innerHTML = name;
+  const img = element.querySelector(".car-pic");
+  img.setAttribute("fill", color);
+  element.classList.remove("active");
+  (document.querySelector(".update-name") as HTMLInputElement).value = "";
+  (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
+}
+
+function createCarView() {
+  const name = (document.querySelector(".create-name") as HTMLInputElement).value;
+  const color = (document.querySelector(".create-color") as HTMLInputElement).value;
+  createCar({ name: name, color: color }).then(() => {
+    updateCarContainer();
+  });
+}
+
+function removeAllCar(target: HTMLElement) {
+  target.classList.add("downloading");
+  getAllCars().then((cars) => {
+    const promises = cars.map((element: CarType) => {
+      deleteWinner(element.id);
+      return deleteCar(element.id);
+    });
+    Promise.all(promises).then(() => {
+      window.localStorage.setItem("activeGaragePage", "1");
+      updateCarContainer(1);
+      target.classList.remove("downloading");
+    });
+  });
+}
+
 document.addEventListener("click", (e) => {
   const target = e.target as HTMLButtonElement;
   if (target.className === "generate") {
-    target.classList.add("downloading");
-    generateCars(100).then(() => {
-      target.classList.remove("downloading");
-      updateCarContainer();
-    });
+    generateCarView(target, 100);
   } else if (target.className === "remove-all") {
-    target.classList.add("downloading");
-    getAllCars().then((cars) => {
-      const promises = cars.map((element: CarType) => {
-        return deleteCar(element.id);
-      });
-      Promise.all(promises).then(() => {
-        window.localStorage.setItem("activeGaragePage", "1");
-        updateCarContainer(1);
-        target.classList.remove("downloading");
-      });
-    });
+    removeAllCar(target);
   } else if (target.className === "create-confirm") {
-    const name = (document.querySelector(".create-name") as HTMLInputElement).value;
-    const color = (document.querySelector(".create-color") as HTMLInputElement).value;
-    createCar({ name: name, color: color }).then(() => {
-      updateCarContainer();
-    });
+    createCarView();
   } else if (target.className === "update-confirm" && document.querySelector(`.active`)) {
-    const element = document.querySelector(`.active`) as HTMLElement;
-    const name = (document.querySelector(".update-name") as HTMLInputElement).value;
-    const color = (document.querySelector(".update-color") as HTMLInputElement).value;
-    updateCar(+element.dataset.num, {
-      name: name,
-      color: color,
-    });
-    const title = element.querySelector("h3");
-    title.innerHTML = name;
-    const img = element.querySelector(".car-pic");
-    img.setAttribute("fill", color);
-    element.classList.remove("active");
-    (document.querySelector(".update-name") as HTMLInputElement).value = "";
-    (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
+    updateCarView();
   } else if (target.className === "race") {
-    getCars().then((cars) => {
-      if (+cars.count >= 2) {
-        target.classList.add("downloading");
-        const promises = cars.items.map((car: CarType) => {
-          return drive(car.id);
-        });
-        Promise.race(promises).then((carResult: WinnerType) => {
-          target.classList.remove("downloading");
-          getCar(carResult.id).then((car: CarType) => {
-            printWinnerScreen(car.name, carResult.time);
-            document.addEventListener("click", removeWinnerScreen, { once: true });
-          });
-          getWinner(carResult.id).then(
-            (winner: WinnerType) => {
-              let time: number;
-              carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
-              const data = {
-                wins: winner.wins + 1,
-                time: time,
-              };
-              updateWinner(carResult.id, data);
-            },
-            () => {
-              createWinner({
-                id: carResult.id,
-                wins: 1,
-                time: carResult.time,
-              });
-            },
-          );
-        });
-      }
-    });
+    race(target);
   } else if (target.className === "reset") {
-    getCars().then((cars) => {
-      cars.items.forEach((car: CarType) => {
-        stopCar(car.id);
-      });
-    });
+    stopAllCar();
   }
 });

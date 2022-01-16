@@ -1,6 +1,6 @@
 import { getWinners, getCar } from "./api";
 import { WinnerType, CarType } from "./types";
-import { getCarImg } from "./car";
+import { getCarImg } from "./utils";
 
 export class Winners {
   activeWinnersPage: string;
@@ -12,18 +12,6 @@ export class Winners {
     this.sort = sort;
     this.order = order;
 
-    window.localStorage.getItem("activeWinnersPage")
-      ? (this.activeWinnersPage = window.localStorage.getItem("activeWinnersPage"))
-      : window.localStorage.setItem("activeWinnersPage", this.activeWinnersPage);
-
-    window.localStorage.getItem("winnersSort")
-      ? (this.sort = window.localStorage.getItem("winnersSort"))
-      : window.localStorage.setItem("winnersSort", this.sort);
-
-    window.localStorage.getItem("winnersOrder")
-      ? (this.order = window.localStorage.getItem("winnersOrder"))
-      : window.localStorage.setItem("winnersOrder", this.order);
-
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.closest(".by-id") || target.closest(".by-wins") || target.closest(".by-time")) {
@@ -31,6 +19,7 @@ export class Winners {
       }
     });
   }
+
   changeSort(target: HTMLElement) {
     if (this.sort === target.dataset.sort) {
       this.changeOrder();
@@ -43,11 +32,7 @@ export class Winners {
   }
 
   changeOrder() {
-    if (this.order === "ASC") {
-      this.order = "DESC";
-    } else {
-      this.order = "ASC";
-    }
+    this.order === "ASC" ? (this.order = "DESC") : (this.order = "ASC");
     window.localStorage.setItem("winnersOrder", this.order);
   }
 
@@ -84,12 +69,10 @@ export class Winners {
 
   printTable() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-
     (document.querySelector(`#by-${window.localStorage.getItem("winnersSort")}`) as HTMLInputElement).setAttribute(
       "checked",
       "checked",
     );
-
     getWinners().then((winners) => {
       winners.items.forEach((winner: WinnerType) => {
         getCar(winner.id).then((car: CarType) => {
@@ -100,6 +83,18 @@ export class Winners {
   }
 
   printWinners(main: HTMLElement, header: HTMLElement) {
+    window.localStorage.getItem("activeWinnersPage")
+      ? (this.activeWinnersPage = window.localStorage.getItem("activeWinnersPage"))
+      : window.localStorage.setItem("activeWinnersPage", this.activeWinnersPage);
+
+    window.localStorage.getItem("winnersSort")
+      ? (this.sort = window.localStorage.getItem("winnersSort"))
+      : window.localStorage.setItem("winnersSort", this.sort);
+
+    window.localStorage.getItem("winnersOrder")
+      ? (this.order = window.localStorage.getItem("winnersOrder"))
+      : window.localStorage.setItem("winnersOrder", this.order);
+
     main.innerHTML += `<h3 class="page-number">page ${this.activeWinnersPage}</h3>`;
     this.printTable();
     getWinners().then((cars) => {

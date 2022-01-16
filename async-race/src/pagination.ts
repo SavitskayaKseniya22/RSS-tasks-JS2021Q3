@@ -6,6 +6,7 @@ export class Pagination {
   winners: Winners;
   constructor(winners: Winners) {
     this.winners = winners;
+
     document.addEventListener("click", (e) => {
       if (window.localStorage.getItem("activePage") === "garage") {
         if (

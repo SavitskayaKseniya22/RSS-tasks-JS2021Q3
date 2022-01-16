@@ -7,11 +7,13 @@ export class Garage {
 
   constructor(activeGaragePage = "1") {
     this.activeGaragePage = activeGaragePage;
+  }
+
+  printGarage(main: HTMLElement, header: HTMLElement) {
     window.localStorage.getItem("activeGaragePage")
       ? (this.activeGaragePage = window.localStorage.getItem("activeGaragePage"))
       : window.localStorage.setItem("activeGaragePage", this.activeGaragePage);
-  }
-  printGarage(main: HTMLElement, header: HTMLElement) {
+
     main.innerHTML += `<h3 class="page-number">page ${this.activeGaragePage}</h3>`;
     main.innerHTML += `<div class="race-result"></div>`;
     getCars().then((cars) => {
