@@ -1,4 +1,5 @@
 import { currentPage } from "./index";
+import { updateRaceSettings } from "./page";
 
 export class Structure {
   printStructure() {
@@ -34,10 +35,11 @@ export class Structure {
 
 document.addEventListener("click", function (e) {
   if ((e.target as HTMLElement).className === "to-garage") {
-    window.localStorage.setItem("activePage", "garage");
+    updateRaceSettings("activePage", "garage");
+
     currentPage.updatePage();
   } else if ((e.target as HTMLElement).className === "to-winners") {
-    window.localStorage.setItem("activePage", "winners");
+    updateRaceSettings("activePage", "winners");
     currentPage.updatePage();
   }
 });

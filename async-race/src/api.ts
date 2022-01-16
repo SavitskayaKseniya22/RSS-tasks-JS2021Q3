@@ -62,7 +62,7 @@ export async function updateCar(id: number, data = {}) {
 }
 
 export async function getCars(page = 1, limit = 7) {
-  const currentPage = +window.localStorage.getItem("activeGaragePage") || page;
+  const currentPage = +JSON.parse(window.localStorage.getItem("raceSettings")).activeGaragePage || page;
   const response = await fetch(`http://127.0.0.1:3000/garage?_page=${currentPage}&_limit=${limit}`, {
     method: "GET",
   });
@@ -74,9 +74,10 @@ export async function getCars(page = 1, limit = 7) {
 }
 
 export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
-  const currentPage = +window.localStorage.getItem("activeWinnersPage") || page;
-  const currentSort = window.localStorage.getItem("winnersSort") || sort;
-  const currentOrder = window.localStorage.getItem("winnersOrder") || order;
+  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+  const currentPage = +raceSettings.activeWinnersPage || page;
+  const currentSort = raceSettings.winnersSort || sort;
+  const currentOrder = raceSettings.winnersOrder || order;
   const response = await fetch(
     `http://127.0.0.1:3000/winners?_page=${currentPage}&_limit=${limit}&_sort=${currentSort}&_order=${currentOrder}`,
     {

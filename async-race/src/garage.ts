@@ -1,19 +1,18 @@
 import { getCars } from "./api";
 import { Car } from "./car";
-import { CarType } from "./types";
+import { CarType, RaceSettingsTypes } from "./types";
 
 export class Garage {
   activeGaragePage: string;
+  raceSettings: RaceSettingsTypes;
 
   constructor(activeGaragePage = "1") {
     this.activeGaragePage = activeGaragePage;
   }
 
   printGarage(main: HTMLElement, header: HTMLElement) {
-    window.localStorage.getItem("activeGaragePage")
-      ? (this.activeGaragePage = window.localStorage.getItem("activeGaragePage"))
-      : window.localStorage.setItem("activeGaragePage", this.activeGaragePage);
-
+    this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    this.activeGaragePage = this.raceSettings.activeGaragePage;
     main.innerHTML += `<h3 class="page-number">page ${this.activeGaragePage}</h3>`;
     main.innerHTML += `<div class="race-result"></div>`;
     getCars().then((cars) => {
@@ -25,11 +24,11 @@ export class Garage {
   }
 }
 
-export function updateCarContainer(count?: number) {
+export function updateCarContainer() {
   document.querySelector(".container").innerHTML = "";
-  const num = count || +window.localStorage.getItem("activeGaragePage");
-  getCars(num).then((cars) => {
-    document.querySelector(".page-number").innerHTML = `page ${num}`;
+  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+  getCars().then((cars) => {
+    document.querySelector(".page-number").innerHTML = `page ${raceSettings.activeGaragePage}`;
     document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
     cars.items.forEach((car: CarType) => {
       new Car(car);

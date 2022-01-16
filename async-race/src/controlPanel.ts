@@ -14,6 +14,7 @@ import {
 import { drive, stopCar } from "./car";
 import { CarType, WinnerType } from "./types";
 import { updateCarContainer } from "./garage";
+import { updateRaceSettings } from "./page";
 
 export class ControlPanel {
   constructor() {}
@@ -145,8 +146,8 @@ function removeAllCar(target: HTMLElement) {
       return deleteCar(element.id);
     });
     Promise.all(promises).then(() => {
-      window.localStorage.setItem("activeGaragePage", "1");
-      updateCarContainer(1);
+      updateRaceSettings("activeGaragePage", "1");
+      updateCarContainer();
       target.classList.remove("downloading");
     });
   });

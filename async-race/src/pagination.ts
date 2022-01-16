@@ -1,61 +1,64 @@
-import { Winners } from "./winners";
-
+import { RaceSettingsTypes } from "./types";
 import { updateCarContainer } from "./garage";
+import { updateRaceSettings } from "./page";
+import { updateWinnersContainer } from "./winners";
 
 export class Pagination {
-  winners: Winners;
-  constructor(winners: Winners) {
-    this.winners = winners;
+  raceSettings: RaceSettingsTypes;
+  constructor() {}
 
-    document.addEventListener("click", (e) => {
-      if (window.localStorage.getItem("activePage") === "garage") {
-        if (
-          (e.target as HTMLElement).className === "prev-page" &&
-          +window.localStorage.getItem("activeGaragePage") > 1
-        ) {
-          this.updateGarage("decrease");
-        } else if ((e.target as HTMLElement).className === "next-page") {
-          this.updateGarage("increase");
-        }
-      } else {
-        if (
-          (e.target as HTMLElement).className === "prev-page" &&
-          +window.localStorage.getItem("activeWinnersPage") > 1
-        ) {
-          this.updateWinners("decrease");
-        } else if ((e.target as HTMLElement).className === "next-page") {
-          this.updateWinners("increase");
-        }
-      }
-    });
-  }
   printPagination() {
-    return `<ul class="buttons-container">
+    return `<ul class="buttons-container pagination">
     <li><button class="prev-page">Prev</button></li>
     <li><button class="next-page">Next</button></li> 
   </ul>`;
   }
+}
 
-  updateGarage(operation: string) {
-    this.updateCount(operation, "activeGaragePage");
-    updateCarContainer();
-  }
-
-  updateCount(operation: string, prop: string) {
-    const savedCount = window.localStorage.getItem(prop);
-    let count: number;
-    operation === "decrease" ? (count = +savedCount - 1) : (count = +savedCount + 1);
-    window.localStorage.setItem(prop, String(count));
-    return count;
-  }
-
-  updateWinners(operation: string) {
-    const count = this.updateCount(operation, "activeWinnersPage");
-    document.querySelector(".page-number").innerHTML = `page ${count}`;
-    document.querySelector(".container").innerHTML = this.winners.makeTableContainer();
-    this.winners.printTable();
+function updateCount(operation: string, prop: string, pageNumber: number) {
+  if (operation === "decrease") {
+    return updateRaceSettings(prop, String(pageNumber - 1));
+  } else {
+    return updateRaceSettings(prop, String(pageNumber + 1));
   }
 }
+
+function updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
+  updateCount(operation, "activeGaragePage", +raceSettings.activeGaragePage);
+  updateCarContainer();
+}
+
+function updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
+  const count = updateCount(operation, "activeWinnersPage", +raceSettings.activeWinnersPage);
+  updateWinnersContainer(raceSettings, count);
+}
+
+function updateContainer(operation: string, raceSettings: RaceSettingsTypes) {
+  if (raceSettings.activePage === "garage") {
+    updateGarage(operation, raceSettings);
+  } else if (raceSettings.activePage === "winners") {
+    updateWinners(operation, raceSettings);
+  }
+}
+
+document.addEventListener("click", (e) => {
+  if ((e.target as HTMLElement).closest(".pagination")) {
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    if (raceSettings.activePage === "garage") {
+      if ((e.target as HTMLElement).className === "prev-page" && +raceSettings.activeGaragePage > 1) {
+        updateContainer("decrease", raceSettings);
+      } else if ((e.target as HTMLElement).className === "next-page") {
+        updateContainer("increase", raceSettings);
+      }
+    } else {
+      if ((e.target as HTMLElement).className === "prev-page" && +raceSettings.activeWinnersPage > 1) {
+        updateContainer("decrease", raceSettings);
+      } else if ((e.target as HTMLElement).className === "next-page") {
+        updateContainer("increase", raceSettings);
+      }
+    }
+  }
+});
 
 /*
 getCars().then((cars) => {
