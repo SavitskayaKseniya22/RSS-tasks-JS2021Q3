@@ -63,10 +63,13 @@ function removeWinnerScreen() {
 document.addEventListener("click", (e) => {
   const target = e.target as HTMLButtonElement;
   if (target.className === "generate") {
+    target.classList.add("downloading");
     generateCars(100).then(() => {
+      target.classList.remove("downloading");
       updateCarContainer();
     });
   } else if (target.className === "remove-all") {
+    target.classList.add("downloading");
     getAllCars().then((cars) => {
       const promises = cars.map((element: CarType) => {
         return deleteCar(element.id);
@@ -74,6 +77,7 @@ document.addEventListener("click", (e) => {
       Promise.all(promises).then(() => {
         window.localStorage.setItem("activeGaragePage", "1");
         updateCarContainer(1);
+        target.classList.remove("downloading");
       });
     });
   } else if (target.className === "create-confirm") {
@@ -99,33 +103,37 @@ document.addEventListener("click", (e) => {
     (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
   } else if (target.className === "race") {
     getCars().then((cars) => {
-      const promises = cars.items.map((car: CarType) => {
-        return drive(car.id);
-      });
-      Promise.race(promises).then((carResult: WinnerType) => {
-        getCar(carResult.id).then((car: CarType) => {
-          printWinnerScreen(car.name, carResult.time);
-          document.addEventListener("click", removeWinnerScreen, { once: true });
+      if (+cars.count >= 2) {
+        target.classList.add("downloading");
+        const promises = cars.items.map((car: CarType) => {
+          return drive(car.id);
         });
-        getWinner(carResult.id).then(
-          (winner: WinnerType) => {
-            let time: number;
-            carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
-            const data = {
-              wins: winner.wins + 1,
-              time: time,
-            };
-            updateWinner(carResult.id, data);
-          },
-          () => {
-            createWinner({
-              id: carResult.id,
-              wins: 1,
-              time: carResult.time,
-            });
-          },
-        );
-      });
+        Promise.race(promises).then((carResult: WinnerType) => {
+          target.classList.remove("downloading");
+          getCar(carResult.id).then((car: CarType) => {
+            printWinnerScreen(car.name, carResult.time);
+            document.addEventListener("click", removeWinnerScreen, { once: true });
+          });
+          getWinner(carResult.id).then(
+            (winner: WinnerType) => {
+              let time: number;
+              carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
+              const data = {
+                wins: winner.wins + 1,
+                time: time,
+              };
+              updateWinner(carResult.id, data);
+            },
+            () => {
+              createWinner({
+                id: carResult.id,
+                wins: 1,
+                time: carResult.time,
+              });
+            },
+          );
+        });
+      }
     });
   } else if (target.className === "reset") {
     getCars().then((cars) => {

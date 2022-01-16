@@ -262,6 +262,22 @@ td {
   align-items: center;
   background-color: #457b9d;
 }
+.downloading {
+  animation-duration: 2s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.9, 0.9);
+    background-color: #e63946;
+  }
+
+  100% {
+    transform: scale(1, 1);
+    background-color: #1d35575b;
+  }
+}
 
 @media (max-width: 1024px) {
   html {
