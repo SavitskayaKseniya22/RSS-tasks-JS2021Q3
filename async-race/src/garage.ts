@@ -1,10 +1,8 @@
 import { getCars } from "./api";
 import { Car } from "./car";
-import { CarType, RaceSettingsTypes } from "./types";
+import { CarType } from "./types";
 
 export class Garage {
-  raceSettings: RaceSettingsTypes;
-
   constructor() {}
 
   printGarage(main: HTMLElement, header: HTMLElement) {

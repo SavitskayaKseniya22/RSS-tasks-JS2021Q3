@@ -40,7 +40,6 @@ function updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
 
 function updateContainer(operation: string) {
   const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-
   if (raceSettings.activePage === "garage") {
     updateGarage(operation, raceSettings);
   } else if (raceSettings.activePage === "winners") {
@@ -58,15 +57,3 @@ document.addEventListener("click", (e) => {
     }
   }
 });
-
-/*
-getCars().then((cars) => {
-  const idArray: number[] = [];
-  cars.items.forEach((car: CarType) => {
-    idArray.push(car.id);
-  });
-  if (idArray.includes(car.id)) {
-    new Car(car);
-  }
-  document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
-});*/

@@ -77,8 +77,8 @@ export async function getCars(page = 1, limit = 7) {
 export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
   const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
   const currentPage = +raceSettings.activeWinnersPage || page;
-  const currentSort = raceSettings.winnersSort || sort;
-  const currentOrder = raceSettings.winnersOrder || order;
+  const currentSort = raceSettings.sort || sort;
+  const currentOrder = raceSettings.order || order;
   const response = await fetch(
     `http://127.0.0.1:3000/winners?_page=${currentPage}&_limit=${limit}&_sort=${currentSort}&_order=${currentOrder}`,
     {
@@ -90,6 +90,8 @@ export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || 
     items: await response.json(),
     count: response.headers.get("X-Total-Count"),
     pageNumber: currentPage,
+    sort: currentSort,
+    order: currentOrder,
   };
 }
 

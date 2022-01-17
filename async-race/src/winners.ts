@@ -23,26 +23,27 @@ export class Winners {
   }
 
   changeSort(target: HTMLElement) {
-    if (this.sort === target.dataset.sort) {
-      this.changeOrder();
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    if (raceSettings.sort === target.dataset.sort) {
+      this.changeOrder(raceSettings);
       updateWinnersContainer();
     } else {
       this.sort = target.dataset.sort;
-      updateRaceSettings("winnersSort", this.sort);
+      updateRaceSettings("sort", this.sort);
       updateWinnersContainer();
     }
   }
 
-  changeOrder() {
-    this.order === "ASC" ? (this.order = "DESC") : (this.order = "ASC");
-    updateRaceSettings("winnersOrder", this.order);
+  changeOrder(raceSettings: RaceSettingsTypes) {
+    raceSettings.order === "ASC" ? (this.order = "DESC") : (this.order = "ASC");
+    updateRaceSettings("order", this.order);
   }
 
   printWinners(main: HTMLElement, header: HTMLElement) {
     document.querySelector(".container").innerHTML = makeTableContainer();
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-    (document.querySelector(`#by-${raceSettings.winnersSort}`) as HTMLInputElement).setAttribute("checked", "checked");
+
     getWinners().then((winners) => {
+      (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
       main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
       header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
       winners.items.forEach((winner: WinnerType) => {
@@ -87,9 +88,9 @@ function makeTableTr(car: CarType, winner: WinnerType) {
 
 export function updateWinnersContainer() {
   document.querySelector(".container").innerHTML = makeTableContainer();
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-  (document.querySelector(`#by-${raceSettings.winnersSort}`) as HTMLInputElement).setAttribute("checked", "checked");
+
   getWinners().then((winners) => {
+    (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
     document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
     winners.items.forEach((winner: WinnerType) => {
       getCar(winner.id).then((car: CarType) => {

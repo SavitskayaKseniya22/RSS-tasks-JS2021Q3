@@ -51,8 +51,8 @@ const raceSettings: RaceSettingsTypes = {
   activePage: "garage",
   activeGaragePage: "1",
   activeWinnersPage: "1",
-  winnersOrder: "ASC",
-  winnersSort: "id",
+  order: "ASC",
+  sort: "id",
 };
 
 export function updateRaceSettings(prop: string, value: string) {

@@ -106,12 +106,14 @@ function setAnimation(id: number, car: EngineType) {
 
 function updateEngineButton(button: "start" | "stop", id: number) {
   (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
+  const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
+  const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
   if (button === "start") {
-    (document.querySelector(`#start-engine${id}`) as HTMLInputElement).disabled = true;
-    (document.querySelector(`#stop-engine${id}`) as HTMLInputElement).disabled = false;
+    start.disabled = true;
+    stop.disabled = false;
   } else {
-    (document.querySelector(`#start-engine${id}`) as HTMLInputElement).disabled = false;
-    (document.querySelector(`#stop-engine${id}`) as HTMLInputElement).disabled = true;
+    start.disabled = false;
+    stop.disabled = true;
   }
 }
 

@@ -155,17 +155,26 @@ function removeAllCar(target: HTMLElement) {
 
 document.addEventListener("click", (e) => {
   const target = e.target as HTMLButtonElement;
-  if (target.className === "generate") {
-    generateCarView(target, 100);
-  } else if (target.className === "remove-all") {
-    removeAllCar(target);
-  } else if (target.className === "create-confirm") {
-    createCarView();
-  } else if (target.className === "update-confirm" && document.querySelector(`.active`)) {
-    updateCarView();
-  } else if (target.className === "race") {
-    race(target);
-  } else if (target.className === "reset") {
-    stopAllCar();
+  switch (target.className) {
+    case "generate":
+      generateCarView(target, 100);
+      break;
+    case "remove-all":
+      removeAllCar(target);
+      break;
+    case "create-confirm":
+      createCarView();
+      break;
+    case "update-confirm":
+      if (document.querySelector(`.active`)) {
+        updateCarView();
+      }
+      break;
+    case "race":
+      race(target);
+      break;
+    case "reset":
+      stopAllCar();
+      break;
   }
 });
