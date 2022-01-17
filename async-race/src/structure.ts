@@ -1,5 +1,5 @@
 import { currentPage } from "./index";
-import { updateRaceSettings } from "./page";
+import { updateRaceSettings } from "./utils";
 
 export class Structure {
   printStructure() {
@@ -36,7 +36,6 @@ export class Structure {
 document.addEventListener("click", function (e) {
   if ((e.target as HTMLElement).className === "to-garage") {
     updateRaceSettings("activePage", "garage");
-
     currentPage.updatePage();
   } else if ((e.target as HTMLElement).className === "to-winners") {
     updateRaceSettings("activePage", "winners");

@@ -1,6 +1,6 @@
 import { RaceSettingsTypes } from "./types";
 import { updateCarContainer } from "./garage";
-import { updateRaceSettings } from "./page";
+import { updateRaceSettings } from "./utils";
 import { updateWinnersContainer } from "./winners";
 
 export class Pagination {

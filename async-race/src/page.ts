@@ -54,10 +54,3 @@ const raceSettings: RaceSettingsTypes = {
   order: "ASC",
   sort: "id",
 };
-
-export function updateRaceSettings(prop: string, value: string) {
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-  raceSettings[prop] = value;
-  window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
-  return value;
-}

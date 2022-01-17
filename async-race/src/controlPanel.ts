@@ -1,4 +1,4 @@
-import { getRandomName, getRandomColor } from "./utils";
+import { getRandomName, getRandomColor, updateRaceSettings } from "./utils";
 import {
   createCar,
   deleteCar,
@@ -14,7 +14,6 @@ import {
 import { drive, stopCar } from "./car";
 import { CarType, WinnerType } from "./types";
 import { updateCarContainer } from "./garage";
-import { updateRaceSettings } from "./page";
 
 export class ControlPanel {
   constructor() {}

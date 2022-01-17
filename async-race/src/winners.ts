@@ -1,7 +1,6 @@
 import { getWinners, getCar } from "./api";
 import { WinnerType, CarType, RaceSettingsTypes } from "./types";
-import { getCarImg } from "./utils";
-import { updateRaceSettings } from "./page";
+import { getCarImg, updateRaceSettings } from "./utils";
 
 export class Winners {
   activeWinnersPage: string;
