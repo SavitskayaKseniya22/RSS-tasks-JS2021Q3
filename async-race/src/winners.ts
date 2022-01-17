@@ -25,11 +25,11 @@ export class Winners {
   changeSort(target: HTMLElement) {
     if (this.sort === target.dataset.sort) {
       this.changeOrder();
-      printTable();
+      updateWinnersContainer();
     } else {
       this.sort = target.dataset.sort;
       updateRaceSettings("winnersSort", this.sort);
-      printTable();
+      updateWinnersContainer();
     }
   }
 
@@ -39,12 +39,17 @@ export class Winners {
   }
 
   printWinners(main: HTMLElement, header: HTMLElement) {
-    this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-    this.activeWinnersPage = this.raceSettings.activeWinnersPage;
-    main.innerHTML += `<h3 class="page-number">page ${this.activeWinnersPage}</h3>`;
-    printTable();
-    getWinners().then((cars) => {
-      header.innerHTML += `<h2 class="winners-count">winners(${cars.count})</h2>`;
+    document.querySelector(".container").innerHTML = makeTableContainer();
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    (document.querySelector(`#by-${raceSettings.winnersSort}`) as HTMLInputElement).setAttribute("checked", "checked");
+    getWinners().then((winners) => {
+      main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
+      header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
+      winners.items.forEach((winner: WinnerType) => {
+        getCar(winner.id).then((car: CarType) => {
+          document.querySelector(".winners-table").innerHTML += makeTableTr(car, winner);
+        });
+      });
     });
   }
 }
@@ -80,20 +85,16 @@ function makeTableTr(car: CarType, winner: WinnerType) {
 `;
 }
 
-function printTable() {
+export function updateWinnersContainer() {
   document.querySelector(".container").innerHTML = makeTableContainer();
   const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
   (document.querySelector(`#by-${raceSettings.winnersSort}`) as HTMLInputElement).setAttribute("checked", "checked");
   getWinners().then((winners) => {
+    document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
     winners.items.forEach((winner: WinnerType) => {
       getCar(winner.id).then((car: CarType) => {
         document.querySelector(".winners-table").innerHTML += makeTableTr(car, winner);
       });
     });
   });
-}
-
-export function updateWinnersContainer(count?: string) {
-  document.querySelector(".page-number").innerHTML = `page ${count}`;
-  printTable();
 }

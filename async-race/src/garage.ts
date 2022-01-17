@@ -8,10 +8,9 @@ export class Garage {
   constructor() {}
 
   printGarage(main: HTMLElement, header: HTMLElement) {
-    this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-    main.innerHTML += `<h3 class="page-number">page ${this.raceSettings.activeGaragePage}</h3>`;
-    main.innerHTML += `<div class="race-result"></div>`;
     getCars().then((cars) => {
+      main.innerHTML += `<h3 class="page-number">page ${cars.pageNumber}</h3>`;
+      main.innerHTML += `<div class="race-result"></div>`;
       header.innerHTML += `<h2 class="cars-count">garage(${cars.count})</h2>`;
       cars.items.forEach((car: CarType) => {
         new Car(car);
@@ -22,9 +21,8 @@ export class Garage {
 
 export function updateCarContainer() {
   document.querySelector(".container").innerHTML = "";
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
   getCars().then((cars) => {
-    document.querySelector(".page-number").innerHTML = `page ${raceSettings.activeGaragePage}`;
+    document.querySelector(".page-number").innerHTML = `page ${cars.pageNumber}`;
     document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
     cars.items.forEach((car: CarType) => {
       new Car(car);

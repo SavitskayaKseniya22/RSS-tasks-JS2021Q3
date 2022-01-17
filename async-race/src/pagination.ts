@@ -4,7 +4,6 @@ import { updateRaceSettings } from "./page";
 import { updateWinnersContainer } from "./winners";
 
 export class Pagination {
-  raceSettings: RaceSettingsTypes;
   constructor() {}
 
   printPagination() {
@@ -24,16 +23,24 @@ function updateCount(operation: string, prop: string, pageNumber: number) {
 }
 
 function updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
-  updateCount(operation, "activeGaragePage", +raceSettings.activeGaragePage);
-  updateCarContainer();
+  const pageNumber = +raceSettings.activeGaragePage;
+  if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
+    updateCount(operation, "activeGaragePage", pageNumber);
+    updateCarContainer();
+  }
 }
 
 function updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
-  const count = updateCount(operation, "activeWinnersPage", +raceSettings.activeWinnersPage);
-  updateWinnersContainer(count);
+  const pageNumber = +raceSettings.activeWinnersPage;
+  if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
+    updateCount(operation, "activeWinnersPage", pageNumber);
+    updateWinnersContainer();
+  }
 }
 
-function updateContainer(operation: string, raceSettings: RaceSettingsTypes) {
+function updateContainer(operation: string) {
+  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+
   if (raceSettings.activePage === "garage") {
     updateGarage(operation, raceSettings);
   } else if (raceSettings.activePage === "winners") {
@@ -44,19 +51,10 @@ function updateContainer(operation: string, raceSettings: RaceSettingsTypes) {
 document.addEventListener("click", (e) => {
   if ((e.target as HTMLElement).closest(".pagination")) {
     const target = e.target as HTMLElement;
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-    if (raceSettings.activePage === "garage") {
-      if (target.className === "prev-page" && +raceSettings.activeGaragePage > 1) {
-        updateContainer("decrease", raceSettings);
-      } else if (target.className === "next-page") {
-        updateContainer("increase", raceSettings);
-      }
-    } else {
-      if (target.className === "prev-page" && +raceSettings.activeWinnersPage > 1) {
-        updateContainer("decrease", raceSettings);
-      } else if (target.className === "next-page") {
-        updateContainer("increase", raceSettings);
-      }
+    if (target.className === "prev-page") {
+      updateContainer("decrease");
+    } else if (target.className === "next-page") {
+      updateContainer("increase");
     }
   }
 });

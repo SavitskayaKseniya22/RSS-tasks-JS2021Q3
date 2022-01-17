@@ -70,6 +70,7 @@ export async function getCars(page = 1, limit = 7) {
   return {
     items: await response.json(),
     count: response.headers.get("X-Total-Count"),
+    pageNumber: currentPage,
   };
 }
 
@@ -88,6 +89,7 @@ export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || 
   return {
     items: await response.json(),
     count: response.headers.get("X-Total-Count"),
+    pageNumber: currentPage,
   };
 }
 
