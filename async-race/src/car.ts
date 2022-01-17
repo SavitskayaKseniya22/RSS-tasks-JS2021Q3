@@ -1,7 +1,7 @@
 import { deleteCar, changeDriveMode, getCar, deleteWinner } from "./api";
 import { getTime, getID, getCarImg } from "./utils";
 import { CarType, EngineType } from "./types";
-import { updateCarContainer } from "./garage";
+import { Garage } from "./garage";
 
 export class Car {
   name: string;
@@ -12,9 +12,24 @@ export class Car {
     this.name = carItem.name;
     this.color = carItem.color;
     this.id = carItem.id;
-    document.querySelector(".container").innerHTML += this.renderCar();
+    return this;
+  }
+  selectCar(id: number) {
+    getCar(id).then((value) => {
+      (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
+      (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
+      const element = document.querySelector(`.car[data-num="${id}"]`);
+      document.querySelectorAll(".active").forEach((activeElement) => {
+        activeElement.classList.remove("active");
+      });
+      element.classList.add("active");
+    });
   }
   renderCar() {
+    document.querySelector(".container").innerHTML += this.makeCar();
+  }
+
+  makeCar() {
     return `<div class="car" data-num=${this.id}>
     <h3>${this.name}</h3>
     <ul class="buttons-container">
@@ -41,100 +56,84 @@ export class Car {
     </div>
   </div>`;
   }
-}
 
-function selectCar(id: number) {
-  getCar(id).then((value) => {
-    (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
-    (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
-    const element = document.querySelector(`.car[data-num="${id}"]`);
-    document.querySelectorAll(".active").forEach((activeElement) => {
-      activeElement.classList.remove("active");
-    });
-    element.classList.add("active");
-  });
-}
-
-export async function drive(id: number) {
-  return new Promise((resolve) => {
-    unsetAnimation(id);
-    changeDriveMode(id, "started").then((car: EngineType) => {
-      updateEngineButton("start", id);
-      setAnimation(id, car);
-      changeDriveMode(id, "drive").then(
-        () => {
-          updateEngineButton("stop", id);
-          resolve({ id: id, time: getTime(car.velocity, car.distance) });
-        },
-        () => {
-          pauseCar(id);
-        },
-      );
-    });
-  });
-}
-
-export function pauseCar(id: number) {
-  changeDriveMode(id, "stopped").then(() => {
-    updateEngineButton("stop", id);
-    const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-    carImg.style.animationPlayState = "paused";
-  });
-}
-
-export function stopCar(id: number) {
-  changeDriveMode(id, "stopped").then(() => {
-    updateEngineButton("stop", id);
-    unsetAnimation(id);
-  });
-}
-
-function unsetAnimation(id: number) {
-  const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-  carImg.classList.remove("car-pic-animation");
-  carImg.style.animationDuration = "unset";
-  carImg.style.animationPlayState = "unset";
-}
-
-function setAnimation(id: number, car: EngineType) {
-  const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-  const time = getTime(car.velocity, car.distance);
-  carImg.classList.add("car-pic-animation");
-  carImg.style.animationDuration = `${time}ms`;
-  carImg.style.animationPlayState = "running";
-}
-
-function updateEngineButton(button: "start" | "stop", id: number) {
-  (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
-  const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
-  const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
-  if (button === "start") {
-    start.disabled = true;
-    stop.disabled = false;
-  } else {
-    start.disabled = false;
-    stop.disabled = true;
-  }
-}
-
-document.addEventListener("click", (e) => {
-  const target = e.target as HTMLButtonElement;
-  switch (target.className) {
-    case "removeCar":
-      const removeId = getID(target);
-      deleteCar(removeId).then(() => {
-        deleteWinner(removeId);
-        updateCarContainer();
+  async drive(id: number) {
+    return new Promise((resolve) => {
+      this.unsetAnimation(id);
+      changeDriveMode(id, "started").then((car: EngineType) => {
+        this.updateEngineButton("start", id);
+        this.setAnimation(id, car);
+        changeDriveMode(id, "drive").then(
+          () => {
+            this.updateEngineButton("stop", id);
+            resolve({ id: id, time: getTime(car.velocity, car.distance) });
+          },
+          () => {
+            this.pauseCar(id);
+          },
+        );
       });
-      break;
-    case "startEngine":
-      drive(getID(target));
-      break;
-    case "stopEngine":
-      stopCar(getID(target));
-      break;
-    case "selectCar":
-      selectCar(getID(target));
-      break;
+    });
   }
-});
+  pauseCar(id: number) {
+    changeDriveMode(id, "stopped").then(() => {
+      this.updateEngineButton("stop", id);
+      const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+      carImg.style.animationPlayState = "paused";
+    });
+  }
+  stopCar(id: number) {
+    changeDriveMode(id, "stopped").then(() => {
+      this.updateEngineButton("stop", id);
+      this.unsetAnimation(id);
+    });
+  }
+  unsetAnimation(id: number) {
+    const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+    carImg.classList.remove("car-pic-animation");
+    carImg.style.animationDuration = "unset";
+    carImg.style.animationPlayState = "unset";
+  }
+  setAnimation(id: number, car: EngineType) {
+    const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+    const time = getTime(car.velocity, car.distance);
+    carImg.classList.add("car-pic-animation");
+    carImg.style.animationDuration = `${time}ms`;
+    carImg.style.animationPlayState = "running";
+  }
+  updateEngineButton(button: "start" | "stop", id: number) {
+    (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
+    const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
+    const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
+    if (button === "start") {
+      start.disabled = true;
+      stop.disabled = false;
+    } else {
+      start.disabled = false;
+      stop.disabled = true;
+    }
+  }
+  initListener(object: Garage) {
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLButtonElement;
+      switch (target.className) {
+        case "removeCar":
+          const removeId = getID(target);
+          deleteCar(removeId).then(() => {
+            deleteWinner(removeId);
+            object.updateGarage();
+          });
+          break;
+        case "startEngine":
+          this.drive(getID(target));
+          break;
+        case "stopEngine":
+          this.stopCar(getID(target));
+          break;
+        case "selectCar":
+          this.selectCar(getID(target));
+          break;
+      }
+    });
+  }
+}

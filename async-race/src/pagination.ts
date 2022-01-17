@@ -1,10 +1,26 @@
+import { Garage } from "./garage";
+import { Winners } from "./winners";
 import { RaceSettingsTypes } from "./types";
-import { updateCarContainer } from "./garage";
 import { updateRaceSettings } from "./utils";
-import { updateWinnersContainer } from "./winners";
 
 export class Pagination {
-  constructor() {}
+  garage: Garage;
+  winners: Winners;
+  constructor(garage: Garage, winners: Winners) {
+    this.garage = garage;
+    this.winners = winners;
+
+    document.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest(".pagination")) {
+        const target = e.target as HTMLElement;
+        if (target.className === "prev-page") {
+          this.updateContainer("decrease");
+        } else if (target.className === "next-page") {
+          this.updateContainer("increase");
+        }
+      }
+    });
+  }
 
   printPagination() {
     return `<ul class="buttons-container pagination">
@@ -12,48 +28,33 @@ export class Pagination {
     <li><button class="next-page">Next</button></li> 
   </ul>`;
   }
-}
-
-function updateCount(operation: string, prop: string, pageNumber: number) {
-  if (operation === "decrease") {
-    return updateRaceSettings(prop, String(pageNumber - 1));
-  } else {
-    return updateRaceSettings(prop, String(pageNumber + 1));
-  }
-}
-
-function updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
-  const pageNumber = +raceSettings.activeGaragePage;
-  if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
-    updateCount(operation, "activeGaragePage", pageNumber);
-    updateCarContainer();
-  }
-}
-
-function updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
-  const pageNumber = +raceSettings.activeWinnersPage;
-  if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
-    updateCount(operation, "activeWinnersPage", pageNumber);
-    updateWinnersContainer();
-  }
-}
-
-function updateContainer(operation: string) {
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-  if (raceSettings.activePage === "garage") {
-    updateGarage(operation, raceSettings);
-  } else if (raceSettings.activePage === "winners") {
-    updateWinners(operation, raceSettings);
-  }
-}
-
-document.addEventListener("click", (e) => {
-  if ((e.target as HTMLElement).closest(".pagination")) {
-    const target = e.target as HTMLElement;
-    if (target.className === "prev-page") {
-      updateContainer("decrease");
-    } else if (target.className === "next-page") {
-      updateContainer("increase");
+  updateCount(operation: string, prop: string, pageNumber: number) {
+    if (operation === "decrease") {
+      return updateRaceSettings(prop, String(pageNumber - 1));
+    } else {
+      return updateRaceSettings(prop, String(pageNumber + 1));
     }
   }
-});
+  updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
+    const pageNumber = +raceSettings.activeGaragePage;
+    if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
+      this.updateCount(operation, "activeGaragePage", pageNumber);
+      this.garage.updateGarage();
+    }
+  }
+  updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
+    const pageNumber = +raceSettings.activeWinnersPage;
+    if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
+      this.updateCount(operation, "activeWinnersPage", pageNumber);
+      this.winners.updateWinners();
+    }
+  }
+  updateContainer(operation: string) {
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    if (raceSettings.activePage === "garage") {
+      this.updateGarage(operation, raceSettings);
+    } else if (raceSettings.activePage === "winners") {
+      this.updateWinners(operation, raceSettings);
+    }
+  }
+}

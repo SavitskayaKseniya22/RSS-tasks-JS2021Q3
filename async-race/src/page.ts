@@ -20,17 +20,19 @@ export class Page {
   constructor() {
     this.body = document.querySelector("body");
     this.structure = new Structure();
-    this.controlPanel = new ControlPanel();
     this.winners = new Winners();
     this.garage = new Garage();
-    this.pagination = new Pagination();
+    this.controlPanel = new ControlPanel(this.garage);
+    this.pagination = new Pagination(this.garage, this.winners);
   }
 
   updatePage() {
-    window.localStorage.getItem("raceSettings")
-      ? (this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")))
-      : window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
-
+    if (window.localStorage.getItem("raceSettings")) {
+      this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    } else {
+      window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
+      this.raceSettings = raceSettings;
+    }
     this.activePage = this.raceSettings.activePage;
     this.body.innerHTML = this.structure.printStructure();
     this.main = document.querySelector(".main");

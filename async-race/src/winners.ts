@@ -25,11 +25,11 @@ export class Winners {
     const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
     if (raceSettings.sort === target.dataset.sort) {
       this.changeOrder(raceSettings);
-      updateWinnersContainer();
+      this.updateWinners();
     } else {
       this.sort = target.dataset.sort;
       updateRaceSettings("sort", this.sort);
-      updateWinnersContainer();
+      this.updateWinners();
     }
   }
 
@@ -39,7 +39,7 @@ export class Winners {
   }
 
   printWinners(main: HTMLElement, header: HTMLElement) {
-    document.querySelector(".container").innerHTML = makeTableContainer();
+    document.querySelector(".container").innerHTML = this.makeTableContainer();
 
     getWinners().then((winners) => {
       (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
@@ -47,15 +47,14 @@ export class Winners {
       header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
       winners.items.forEach((winner: WinnerType) => {
         getCar(winner.id).then((car: CarType) => {
-          document.querySelector(".winners-table").innerHTML += makeTableTr(car, winner);
+          document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
         });
       });
     });
   }
-}
 
-function makeTableContainer() {
-  return `<table class="winners-table">
+  makeTableContainer() {
+    return `<table class="winners-table">
   <tr>
     <th class="by-id" >
       <input type="radio" id="by-id" name="sort" value="by-id" /> <label for="by-id" data-sort="id">Number</label>
@@ -70,11 +69,10 @@ function makeTableContainer() {
     </th>
   </tr>
 </table>`;
-}
-
-function makeTableTr(car: CarType, winner: WinnerType) {
-  const timeInSec = (winner.time / 1000).toFixed(3);
-  return `
+  }
+  makeTableTr(car: CarType, winner: WinnerType) {
+    const timeInSec = (winner.time / 1000).toFixed(3);
+    return `
   <tr>
     <td>${car.id}</td>
     <td>${getCarImg(car.color, car.id)}</td>
@@ -83,18 +81,17 @@ function makeTableTr(car: CarType, winner: WinnerType) {
     <td>${timeInSec}</td>
   </tr>
 `;
-}
-
-export function updateWinnersContainer() {
-  document.querySelector(".container").innerHTML = makeTableContainer();
-
-  getWinners().then((winners) => {
-    (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
-    document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
-    winners.items.forEach((winner: WinnerType) => {
-      getCar(winner.id).then((car: CarType) => {
-        document.querySelector(".winners-table").innerHTML += makeTableTr(car, winner);
+  }
+  updateWinners() {
+    document.querySelector(".container").innerHTML = this.makeTableContainer();
+    getWinners().then((winners) => {
+      (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
+      document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
+      winners.items.forEach((winner: WinnerType) => {
+        getCar(winner.id).then((car: CarType) => {
+          document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
+        });
       });
     });
-  });
+  }
 }
