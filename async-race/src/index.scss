@@ -58,7 +58,7 @@ input:checked + label {
 input:disabled + label,
 button:disabled {
   background-color: gray;
-  cursor: wait;
+  cursor: not-allowed;
 }
 
 input:disabled + label:hover,

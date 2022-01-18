@@ -9,7 +9,10 @@ export class Winners {
   constructor(sort = "wins", order = "ASC") {
     this.sort = sort;
     this.order = order;
+    this.initListener();
+  }
 
+  initListener() {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.closest(".by-id") || target.closest(".by-wins") || target.closest(".by-time")) {
@@ -35,7 +38,8 @@ export class Winners {
     updateRaceSettings("order", this.order);
   }
 
-  printWinners(main: HTMLElement, header: HTMLElement) {
+  async printWinners(main: HTMLElement, header: HTMLElement) {
+    document.querySelector(".to-winners").setAttribute("disabled", "disabled");
     document.querySelector(".container").innerHTML = this.makeTableContainer();
     getWinners().then((winners) => {
       (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
@@ -80,7 +84,7 @@ export class Winners {
 `;
   }
 
-  updateWinners() {
+  async updateWinners() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
     getWinners().then((winners) => {
       (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");

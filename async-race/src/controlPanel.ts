@@ -1,4 +1,4 @@
-import { getRandomName, getRandomColor, updateRaceSettings } from "./utils";
+import { getRandomName, getRandomColor, updateRaceSettings, blockButton } from "./utils";
 import {
   createCar,
   deleteCar,
@@ -10,18 +10,29 @@ import {
   updateWinner,
   getCar,
   deleteWinner,
+  getWinners,
 } from "./api";
 import { CarType, WinnerType } from "./types";
 import { Garage } from "./garage";
 
 export class ControlPanel {
   garage: Garage;
+
   constructor(garage: Garage) {
     this.garage = garage;
+    this.initListener();
+  }
 
+  initListener() {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       switch (target.className) {
+        case "create-name":
+          target.value = getRandomName();
+          break;
+        case "create-color":
+          target.value = getRandomColor();
+          break;
         case "generate":
           this.generateCarView(target, 100);
           break;
@@ -49,12 +60,12 @@ export class ControlPanel {
   printControlPanel() {
     return `<div class="control-panel">
     <div class="create">
-      <input class="create-name" type="text" placeholder="Enter car name"  />
+      <input class="create-name" type="text" placeholder="Enter car name"   />
       <input class="create-color" type="color" />
       <button class="create-confirm">Create</button>
     </div>
     <div class="update">
-      <input class="update-name" type="text" placeholder="Change car name" />
+      <input class="update-name" type="text" placeholder="Change car name"  />
       <input class="update-color" type="color" />
       <button class="update-confirm">Update</button>
     </div>
@@ -86,13 +97,11 @@ export class ControlPanel {
   printWinnerScreen(name: string, time: number) {
     const timeInSec = (time / 1000).toFixed(3);
     const raceResult = document.querySelector(".race-result");
-
     name !== "no one"
       ? (raceResult.innerHTML = `<h2>Race is over!</h2>
 <p class="winner-message">&#9733;${name}&#9733;<br> finished first in ${timeInSec} seconds<p>`)
       : (raceResult.innerHTML = `<h2>Race is over!</h2>
 <p class="winner-message">No one finished first<p>`);
-
     raceResult.classList.add("active");
   }
 
@@ -113,11 +122,9 @@ export class ControlPanel {
   }
 
   race(target: HTMLElement) {
-    document.querySelector("#to-winners").setAttribute("disabled", "disabled");
-    document.querySelector(".reset").setAttribute("disabled", "disabled");
     getCars().then((cars) => {
       if (+cars.count >= 2) {
-        target.classList.add("downloading");
+        blockButton("block", target);
         const promises = cars.items.map((car: CarType) => {
           const index = cars.items.indexOf(car);
           return this.garage.carCollection[index].drive(car.id);
@@ -152,10 +159,7 @@ export class ControlPanel {
           });
 
         Promise.allSettled(promises).then(() => {
-          target.classList.remove("downloading");
-
-          document.querySelector("#to-winners").removeAttribute("disabled");
-          document.querySelector(".reset").removeAttribute("disabled");
+          blockButton("unblock", target);
         });
       }
     });
@@ -189,14 +193,18 @@ export class ControlPanel {
   removeAllCar(target: HTMLElement) {
     target.classList.add("downloading");
     getAllCars().then((cars) => {
-      const promises = cars.map((element: CarType) => {
-        deleteWinner(element.id);
-        return deleteCar(element.id);
+      const promises = cars.map((car: CarType) => {
+        return deleteCar(car.id);
       });
-      Promise.all(promises).then(() => {
+      Promise.allSettled(promises).then(() => {
         updateRaceSettings("activeGaragePage", "1");
         this.garage.updateGarage();
         target.classList.remove("downloading");
+      });
+      getWinners().then((winners) => {
+        winners.items.forEach((winner: WinnerType) => {
+          deleteWinner(winner.id);
+        });
       });
     });
   }

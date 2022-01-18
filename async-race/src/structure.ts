@@ -2,6 +2,23 @@ import { currentPage } from "./index";
 import { updateRaceSettings } from "./utils";
 
 export class Structure {
+  constructor() {
+    this.initListener();
+  }
+  initListener() {
+    document.addEventListener("click", function (e) {
+      const target = e.target as HTMLButtonElement;
+      if (target.className === "to-garage") {
+        updateRaceSettings("activePage", "garage");
+        currentPage.printPage();
+        document.querySelector(".to-garage").setAttribute("disabled", "disabled");
+      } else if (target.className === "to-winners") {
+        updateRaceSettings("activePage", "winners");
+        currentPage.printPage();
+        document.querySelector(".to-winners").setAttribute("disabled", "disabled");
+      }
+    });
+  }
   printStructure() {
     return `<header class="header">
     <h1>Async race</h1>
@@ -32,13 +49,3 @@ export class Structure {
   </footer>`;
   }
 }
-
-document.addEventListener("click", function (e) {
-  if ((e.target as HTMLElement).className === "to-garage") {
-    updateRaceSettings("activePage", "garage");
-    currentPage.printPage();
-  } else if ((e.target as HTMLElement).className === "to-winners") {
-    updateRaceSettings("activePage", "winners");
-    currentPage.printPage();
-  }
-});

@@ -10,7 +10,10 @@ export class Pagination {
   constructor(garage: Garage, winners: Winners) {
     this.garage = garage;
     this.winners = winners;
+    this.initListener();
+  }
 
+  initListener() {
     document.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).closest(".pagination")) {
         const target = e.target as HTMLElement;

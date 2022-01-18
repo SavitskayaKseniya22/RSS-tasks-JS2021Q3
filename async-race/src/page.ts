@@ -1,5 +1,5 @@
 import { Structure } from "./structure";
-import { ControlPanel } from "./controlPanel";
+
 import { Pagination } from "./pagination";
 import { Winners } from "./winners";
 import { Garage } from "./garage";
@@ -7,7 +7,6 @@ import { RaceSettingsTypes } from "./types";
 
 export class Page {
   structure: Structure;
-  controlPanel: ControlPanel;
   body: HTMLBodyElement;
   header: HTMLElement;
   main: HTMLElement;
@@ -18,12 +17,11 @@ export class Page {
   raceSettings: RaceSettingsTypes;
 
   constructor() {
-    this.body = document.querySelector("body");
     this.structure = new Structure();
     this.winners = new Winners();
     this.garage = new Garage();
-    this.controlPanel = new ControlPanel(this.garage);
     this.pagination = new Pagination(this.garage, this.winners);
+    this.body = document.querySelector("body");
   }
 
   printPage() {
@@ -40,7 +38,6 @@ export class Page {
 
     if (this.activePage === "garage") {
       this.garage.printGarage(this.main, this.header);
-      this.header.innerHTML += this.controlPanel.printControlPanel();
     } else {
       this.winners.printWinners(this.main, this.header);
     }

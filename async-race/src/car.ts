@@ -1,5 +1,5 @@
-import { deleteCar, changeDriveMode, getCar, deleteWinner } from "./api";
-import { getTime, getID, getCarImg } from "./utils";
+import { deleteCar, changeDriveMode, getCar, deleteWinner, getWinner } from "./api";
+import { getTime, getID, getCarImg, blockButton } from "./utils";
 import { CarType, EngineType } from "./types";
 import { Garage } from "./garage";
 
@@ -37,8 +37,8 @@ export class Car {
     <ul class="buttons-container">
       <li><button class="selectCar">Select</button></li>
       <li><button class="removeCar">Remove</button></li>
-      <li><button id="start-engine${this.id}" class="startEngine">Start engine</button></li>
-      <li><button id="stop-engine${this.id}" class="stopEngine">Stop engine</button></li>
+      <li><button id="start-engine${this.id}" class="startEngine">Start</button></li>
+      <li><button id="stop-engine${this.id}" class="stopEngine">Reset</button></li>
     
     </ul>
     <div class="track">
@@ -69,14 +69,14 @@ export class Car {
     });
   }
 
-  pauseCar(id: number) {
+  async pauseCar(id: number) {
     changeDriveMode(id, "stopped").then(() => {
       const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
       carImg.style.animationPlayState = "paused";
     });
   }
 
-  stopCar(id: number) {
+  async stopCar(id: number) {
     changeDriveMode(id, "stopped").then(() => {
       this.updateEngineButton("stop", id);
       this.unsetAnimation(id);
@@ -100,7 +100,13 @@ export class Car {
 
   updateEngineButton(button: "start" | "stop", id: number) {
     const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
-    button === "start" ? (start.disabled = true) : (start.disabled = false);
+    const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
+    if (button === "start") {
+      start.disabled = true;
+      stop.disabled = false;
+    } else {
+      start.disabled = false;
+    }
   }
 
   initListener(object: Garage) {
@@ -110,17 +116,31 @@ export class Car {
         case "removeCar":
           const removeId = getID(target);
           deleteCar(removeId).then(() => {
-            deleteWinner(removeId);
             object.updateGarage();
+            getWinner(removeId)
+              .then(() => {
+                deleteWinner(removeId);
+              })
+              .catch(() => {});
           });
+
           break;
         case "startEngine":
-          this.drive(getID(target)).catch((res) => {
-            console.error(res);
-          });
+          blockButton("block", target);
+          this.drive(getID(target))
+            .catch((res) => {
+              console.log(res);
+            })
+            .finally(() => {
+              blockButton("unblock", target);
+            });
           break;
         case "stopEngine":
-          this.stopCar(getID(target));
+          this.stopCar(getID(target)).then(() => {
+            blockButton("unblock", target);
+            target.disabled = true;
+          });
+
           break;
         case "selectCar":
           this.selectCar(getID(target));

@@ -1,5 +1,6 @@
 import carNames from "./carNames.json";
 import { RaceSettingsTypes } from "./types";
+import { Car } from "./car";
 
 function getRandomNumber(max: number) {
   const rand = -0.5 + Math.random() * (max + 1);
@@ -57,4 +58,47 @@ export function updateRaceSettings(prop: string, value: string) {
   raceSettings[prop] = value;
   window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
   return value;
+}
+
+export function takeId(carCollection: Car[]) {
+  return carCollection.map((element) => {
+    return element.id;
+  });
+}
+
+export function isDiff(carCollection: Car[], carCollectionNew: Car[]) {
+  const carCollectionId = takeId(carCollection);
+  const carCollectionNewId = takeId(carCollectionNew);
+
+  let diff = false;
+  if (carCollectionId.length !== carCollectionNewId.length) {
+    diff = true;
+  } else {
+    for (let i = 0; i < carCollectionNewId.length; i++) {
+      if (carCollectionNewId[i] === carCollectionId[i]) {
+        continue;
+      } else {
+        diff = true;
+        break;
+      }
+    }
+  }
+  return diff;
+}
+
+export function blockButton(state: "block" | "unblock", target: HTMLElement) {
+  const buttons = document.querySelectorAll("button");
+  if (state === "block") {
+    target.classList.add("downloading");
+    buttons.forEach((button) => {
+      button.setAttribute("disabled", "disabled");
+    });
+    document.querySelector(".to-winners").setAttribute("disabled", "disabled");
+  } else {
+    target.classList.remove("downloading");
+    buttons.forEach((button) => {
+      button.removeAttribute("disabled");
+    });
+    document.querySelector(".to-winners").removeAttribute("disabled");
+  }
 }
