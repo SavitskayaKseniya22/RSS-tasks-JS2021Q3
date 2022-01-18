@@ -6,7 +6,8 @@ export class Garage {
   carCollection: Car[];
   car: Car;
   constructor() {
-    this.carCollection = [];
+    this.car = new Car({ name: "TEST", color: "#000000", id: 5000 });
+    this.car.initListener(this);
   }
 
   printGarage(main: HTMLElement, header: HTMLElement) {
@@ -14,9 +15,8 @@ export class Garage {
       main.innerHTML += `<h3 class="page-number">page ${cars.pageNumber}</h3>`;
       main.innerHTML += `<div class="race-result"></div>`;
       header.innerHTML += `<h2 class="cars-count">garage(${cars.count})</h2>`;
+      this.carCollection = [];
       if (cars.items.length > 0) {
-        this.car = new Car(cars.items[1]);
-        this.car.initListener(this);
         cars.items.forEach((car: CarType) => {
           const carItem = new Car(car);
           this.carCollection.push(carItem);

@@ -36,9 +36,9 @@ export class Structure {
 document.addEventListener("click", function (e) {
   if ((e.target as HTMLElement).className === "to-garage") {
     updateRaceSettings("activePage", "garage");
-    currentPage.updatePage();
+    currentPage.printPage();
   } else if ((e.target as HTMLElement).className === "to-winners") {
     updateRaceSettings("activePage", "winners");
-    currentPage.updatePage();
+    currentPage.printPage();
   }
 });

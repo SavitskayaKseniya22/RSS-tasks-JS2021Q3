@@ -14,6 +14,7 @@ export class Car {
     this.id = carItem.id;
     return this;
   }
+
   selectCar(id: number) {
     getCar(id).then((value) => {
       (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
@@ -25,6 +26,7 @@ export class Car {
       element.classList.add("active");
     });
   }
+
   renderCar() {
     document.querySelector(".container").innerHTML += this.makeCar();
   }
@@ -35,22 +37,11 @@ export class Car {
     <ul class="buttons-container">
       <li><button class="selectCar">Select</button></li>
       <li><button class="removeCar">Remove</button></li>
-
-    <li>
-    <input type="radio" id="start-engine${this.id}" name="engine${this.id}" value="start" class="startEngine" />
-    <label for="start-engine${this.id}">Start engine</label>
-    </li>
-
-    <li>
-    <input type="radio" id="stop-engine${this.id}" name="engine${
-      this.id
-    }" value="stop" class="stopEngine" checked disabled />
-    <label for="stop-engine${this.id}">Stop engine</label>
-    </li>
-
+      <li><button id="start-engine${this.id}" class="startEngine">Start engine</button></li>
+      <li><button id="stop-engine${this.id}" class="stopEngine">Stop engine</button></li>
+    
     </ul>
     <div class="track">
-     
       ${getCarImg(this.color, this.id)}
       <img src="./images/banner.svg" alt="banner" class="banner-pic" />
     </div>
@@ -58,42 +49,47 @@ export class Car {
   }
 
   async drive(id: number) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.unsetAnimation(id);
       changeDriveMode(id, "started").then((car: EngineType) => {
         this.updateEngineButton("start", id);
         this.setAnimation(id, car);
-        changeDriveMode(id, "drive").then(
-          () => {
-            this.updateEngineButton("stop", id);
+        changeDriveMode(id, "drive")
+          .then(() => {
             resolve({ id: id, time: getTime(car.velocity, car.distance) });
-          },
-          () => {
+          })
+          .catch(() => {
             this.pauseCar(id);
-          },
-        );
+            reject(`Car number ${id} stopped! Сar engine broken!`);
+          })
+          .finally(() => {
+            this.updateEngineButton("stop", id);
+          });
       });
     });
   }
+
   pauseCar(id: number) {
     changeDriveMode(id, "stopped").then(() => {
-      this.updateEngineButton("stop", id);
       const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
       carImg.style.animationPlayState = "paused";
     });
   }
+
   stopCar(id: number) {
     changeDriveMode(id, "stopped").then(() => {
       this.updateEngineButton("stop", id);
       this.unsetAnimation(id);
     });
   }
+
   unsetAnimation(id: number) {
     const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
     carImg.classList.remove("car-pic-animation");
     carImg.style.animationDuration = "unset";
     carImg.style.animationPlayState = "unset";
   }
+
   setAnimation(id: number, car: EngineType) {
     const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
     const time = getTime(car.velocity, car.distance);
@@ -101,18 +97,12 @@ export class Car {
     carImg.style.animationDuration = `${time}ms`;
     carImg.style.animationPlayState = "running";
   }
+
   updateEngineButton(button: "start" | "stop", id: number) {
-    (document.querySelector(`#${button}-engine${id}`) as HTMLInputElement).checked = true;
     const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
-    const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
-    if (button === "start") {
-      start.disabled = true;
-      stop.disabled = false;
-    } else {
-      start.disabled = false;
-      stop.disabled = true;
-    }
+    button === "start" ? (start.disabled = true) : (start.disabled = false);
   }
+
   initListener(object: Garage) {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
@@ -125,7 +115,9 @@ export class Car {
           });
           break;
         case "startEngine":
-          this.drive(getID(target));
+          this.drive(getID(target)).catch((res) => {
+            console.error(res);
+          });
           break;
         case "stopEngine":
           this.stopCar(getID(target));

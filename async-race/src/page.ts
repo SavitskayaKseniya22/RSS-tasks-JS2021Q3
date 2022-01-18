@@ -26,9 +26,9 @@ export class Page {
     this.pagination = new Pagination(this.garage, this.winners);
   }
 
-  updatePage() {
+  printPage() {
     if (window.localStorage.getItem("raceSettings")) {
-      this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+      this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
     } else {
       window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
       this.raceSettings = raceSettings;

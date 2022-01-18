@@ -3,13 +3,10 @@ import { WinnerType, CarType, RaceSettingsTypes } from "./types";
 import { getCarImg, updateRaceSettings } from "./utils";
 
 export class Winners {
-  activeWinnersPage: string;
   sort: string;
   order: string;
-  raceSettings: RaceSettingsTypes;
 
-  constructor(activeWinnersPage = "1", sort = "wins", order = "ASC") {
-    this.activeWinnersPage = activeWinnersPage;
+  constructor(sort = "wins", order = "ASC") {
     this.sort = sort;
     this.order = order;
 
@@ -22,7 +19,7 @@ export class Winners {
   }
 
   changeSort(target: HTMLElement) {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
     if (raceSettings.sort === target.dataset.sort) {
       this.changeOrder(raceSettings);
       this.updateWinners();
@@ -40,7 +37,6 @@ export class Winners {
 
   printWinners(main: HTMLElement, header: HTMLElement) {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-
     getWinners().then((winners) => {
       (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
       main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
@@ -70,6 +66,7 @@ export class Winners {
   </tr>
 </table>`;
   }
+
   makeTableTr(car: CarType, winner: WinnerType) {
     const timeInSec = (winner.time / 1000).toFixed(3);
     return `
@@ -82,6 +79,7 @@ export class Winners {
   </tr>
 `;
   }
+
   updateWinners() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
     getWinners().then((winners) => {

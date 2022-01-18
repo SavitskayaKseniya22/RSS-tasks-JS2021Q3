@@ -11,7 +11,6 @@ import {
   getCar,
   deleteWinner,
 } from "./api";
-
 import { CarType, WinnerType } from "./types";
 import { Garage } from "./garage";
 
@@ -67,6 +66,7 @@ export class ControlPanel {
     </ul>
   </div>`;
   }
+
   async generateCars(amount: number) {
     let i = 0;
     while (i < amount) {
@@ -74,6 +74,7 @@ export class ControlPanel {
       await createCar({ name: getRandomName(), color: getRandomColor() });
     }
   }
+
   generateCarView(target: HTMLElement, amount: number) {
     target.classList.add("downloading");
     this.generateCars(amount).then(() => {
@@ -81,17 +82,26 @@ export class ControlPanel {
       this.garage.updateGarage();
     });
   }
+
   printWinnerScreen(name: string, time: number) {
     const timeInSec = (time / 1000).toFixed(3);
-    const message = `<h2>Race is over!</h2>
-  <p class="winner-message">&#9733;${name}&#9733;<br> finished first in ${timeInSec} seconds<p>`;
-    document.querySelector(".race-result").innerHTML = message;
-    document.querySelector(".race-result").classList.add("active");
+    const raceResult = document.querySelector(".race-result");
+
+    name !== "no one"
+      ? (raceResult.innerHTML = `<h2>Race is over!</h2>
+<p class="winner-message">&#9733;${name}&#9733;<br> finished first in ${timeInSec} seconds<p>`)
+      : (raceResult.innerHTML = `<h2>Race is over!</h2>
+<p class="winner-message">No one finished first<p>`);
+
+    raceResult.classList.add("active");
   }
+
   removeWinnerScreen() {
-    document.querySelector(".race-result").innerHTML = "";
-    document.querySelector(".race-result").classList.remove("active");
+    const raceResult = document.querySelector(".race-result");
+    raceResult.innerHTML = "";
+    raceResult.classList.remove("active");
   }
+
   stopAllCar() {
     getCars().then((cars) => {
       cars.items.forEach((car: CarType) => {
@@ -101,7 +111,10 @@ export class ControlPanel {
     });
     document.querySelector(".race").classList.remove("downloading");
   }
+
   race(target: HTMLElement) {
+    document.querySelector("#to-winners").setAttribute("disabled", "disabled");
+    document.querySelector(".reset").setAttribute("disabled", "disabled");
     getCars().then((cars) => {
       if (+cars.count >= 2) {
         target.classList.add("downloading");
@@ -109,34 +122,45 @@ export class ControlPanel {
           const index = cars.items.indexOf(car);
           return this.garage.carCollection[index].drive(car.id);
         });
-        Promise.race(promises).then((carResult: WinnerType) => {
-          target.classList.remove("downloading");
-          getCar(carResult.id).then((car: CarType) => {
-            this.printWinnerScreen(car.name, carResult.time);
+        Promise.any(promises)
+          .then((carResult: WinnerType) => {
+            getCar(carResult.id).then((car: CarType) => {
+              this.printWinnerScreen(car.name, carResult.time);
+              document.addEventListener("click", this.removeWinnerScreen, { once: true });
+            });
+            getWinner(carResult.id)
+              .then((winner: WinnerType) => {
+                let time: number;
+                carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
+                const data = {
+                  wins: winner.wins + 1,
+                  time: time,
+                };
+                updateWinner(carResult.id, data);
+              })
+              .catch(() => {
+                createWinner({
+                  id: carResult.id,
+                  wins: 1,
+                  time: carResult.time,
+                });
+              });
+          })
+          .catch(() => {
+            this.printWinnerScreen("no one", 0);
             document.addEventListener("click", this.removeWinnerScreen, { once: true });
           });
-          getWinner(carResult.id).then(
-            (winner: WinnerType) => {
-              let time: number;
-              carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
-              const data = {
-                wins: winner.wins + 1,
-                time: time,
-              };
-              updateWinner(carResult.id, data);
-            },
-            () => {
-              createWinner({
-                id: carResult.id,
-                wins: 1,
-                time: carResult.time,
-              });
-            },
-          );
+
+        Promise.allSettled(promises).then(() => {
+          target.classList.remove("downloading");
+
+          document.querySelector("#to-winners").removeAttribute("disabled");
+          document.querySelector(".reset").removeAttribute("disabled");
         });
       }
     });
   }
+
   updateCarView() {
     const element = document.querySelector(`.active`) as HTMLElement;
     const name = (document.querySelector(".update-name") as HTMLInputElement).value;
@@ -153,6 +177,7 @@ export class ControlPanel {
     (document.querySelector(".update-name") as HTMLInputElement).value = "";
     (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
   }
+
   createCarView() {
     const name = (document.querySelector(".create-name") as HTMLInputElement).value;
     const color = (document.querySelector(".create-color") as HTMLInputElement).value;
@@ -160,6 +185,7 @@ export class ControlPanel {
       this.garage.updateGarage();
     });
   }
+
   removeAllCar(target: HTMLElement) {
     target.classList.add("downloading");
     getAllCars().then((cars) => {

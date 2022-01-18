@@ -1,3 +1,5 @@
+import { RaceSettingsTypes } from "./types";
+
 export async function getAllCars() {
   const response = await fetch("http://127.0.0.1:3000/garage");
   const allCars = await response.json();
@@ -75,7 +77,7 @@ export async function getCars(page = 1, limit = 7) {
 }
 
 export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
   const currentPage = +raceSettings.activeWinnersPage || page;
   const currentSort = raceSettings.sort || sort;
   const currentOrder = raceSettings.order || order;

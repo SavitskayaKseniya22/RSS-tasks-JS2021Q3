@@ -1,4 +1,5 @@
 import carNames from "./carNames.json";
+import { RaceSettingsTypes } from "./types";
 
 function getRandomNumber(max: number) {
   const rand = -0.5 + Math.random() * (max + 1);
@@ -17,7 +18,6 @@ export function getRandomColor() {
 export function getRandomName() {
   const carTypeNum = getRandomNumber(Object.keys(carNames).length - 1);
   const carType = Object.keys(carNames)[carTypeNum];
-
   const carNameNum = getRandomNumber(Object.values(carNames)[carTypeNum].length - 1);
   const carModel = Object.values(carNames)[carTypeNum][carNameNum];
   return `${carType} ${carModel}`;
@@ -53,7 +53,7 @@ export function getCarImg(color: string, id: number) {
 }
 
 export function updateRaceSettings(prop: string, value: string) {
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
   raceSettings[prop] = value;
   window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
   return value;

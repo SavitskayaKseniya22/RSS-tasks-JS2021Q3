@@ -15,9 +15,5 @@ export interface EngineType {
   distance: number;
 }
 export interface RaceSettingsTypes {
-  activePage: "garage";
-  activeGaragePage: "1";
-  activeWinnersPage: "1";
-  order: "ASC";
-  sort: "id";
+  [char: string]: string;
 }

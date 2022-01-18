@@ -6,6 +6,7 @@ import { updateRaceSettings } from "./utils";
 export class Pagination {
   garage: Garage;
   winners: Winners;
+
   constructor(garage: Garage, winners: Winners) {
     this.garage = garage;
     this.winners = winners;
@@ -28,6 +29,7 @@ export class Pagination {
     <li><button class="next-page">Next</button></li> 
   </ul>`;
   }
+
   updateCount(operation: string, prop: string, pageNumber: number) {
     if (operation === "decrease") {
       return updateRaceSettings(prop, String(pageNumber - 1));
@@ -35,6 +37,7 @@ export class Pagination {
       return updateRaceSettings(prop, String(pageNumber + 1));
     }
   }
+
   updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
     const pageNumber = +raceSettings.activeGaragePage;
     if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
@@ -42,6 +45,7 @@ export class Pagination {
       this.garage.updateGarage();
     }
   }
+
   updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
     const pageNumber = +raceSettings.activeWinnersPage;
     if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
@@ -49,8 +53,9 @@ export class Pagination {
       this.winners.updateWinners();
     }
   }
+
   updateContainer(operation: string) {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
     if (raceSettings.activePage === "garage") {
       this.updateGarage(operation, raceSettings);
     } else if (raceSettings.activePage === "winners") {
