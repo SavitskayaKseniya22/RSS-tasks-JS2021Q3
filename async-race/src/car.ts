@@ -101,12 +101,8 @@ export class Car {
   updateEngineButton(button: "start" | "stop", id: number) {
     const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
     const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
-    if (button === "start") {
-      start.disabled = true;
-      stop.disabled = false;
-    } else {
-      start.disabled = false;
-    }
+
+    button === "start" ? ((start.disabled = true), (stop.disabled = false)) : (start.disabled = false);
   }
 
   initListener(object: Garage) {
@@ -140,7 +136,6 @@ export class Car {
             blockButton("unblock", target);
             target.disabled = true;
           });
-
           break;
         case "selectCar":
           this.selectCar(getID(target));

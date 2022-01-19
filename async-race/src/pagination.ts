@@ -34,11 +34,9 @@ export class Pagination {
   }
 
   updateCount(operation: string, prop: string, pageNumber: number) {
-    if (operation === "decrease") {
-      return updateRaceSettings(prop, String(pageNumber - 1));
-    } else {
-      return updateRaceSettings(prop, String(pageNumber + 1));
-    }
+    return operation === "decrease"
+      ? updateRaceSettings(prop, String(pageNumber - 1))
+      : updateRaceSettings(prop, String(pageNumber + 1));
   }
 
   updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
