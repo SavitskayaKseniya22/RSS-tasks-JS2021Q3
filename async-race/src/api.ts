@@ -1,8 +1,8 @@
-import { RaceSettingsTypes } from "./types";
+import { CarsResponse, RaceSettingsTypes, CarType, WinnersResponse, WinnerType } from "./types";
 
 export async function getAllCars() {
   const response = await fetch("http://127.0.0.1:3000/garage");
-  const allCars = await response.json();
+  const allCars = (await response.json()) as CarType[];
   return allCars;
 }
 
@@ -14,24 +14,20 @@ export async function createCar(data = {}) {
     },
     body: JSON.stringify(data),
   });
-  const car = await response.json();
+  const car = (await response.json()) as CarType;
   return car;
 }
 
 export async function deleteCar(id: number) {
-  const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+  await fetch(`http://127.0.0.1:3000/garage/${id}`, {
     method: "DELETE",
   });
-  const car = await response.json();
-  return car;
 }
 
 export async function deleteWinner(id: number) {
-  const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+  await fetch(`http://127.0.0.1:3000/winners/${id}`, {
     method: "DELETE",
   });
-  const car = await response.json();
-  return car;
 }
 
 export async function changeDriveMode(id: number, status: "started" | "stopped" | "drive") {
@@ -39,7 +35,6 @@ export async function changeDriveMode(id: number, status: "started" | "stopped" 
     method: "PATCH",
   });
   const car = await response.json();
-
   return car;
 }
 
@@ -47,7 +42,7 @@ export async function getCar(id: number) {
   const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
     method: "GET",
   });
-  const car = await response.json();
+  const car = (await response.json()) as CarType;
   return car;
 }
 
@@ -59,12 +54,13 @@ export async function updateCar(id: number, data = {}) {
     },
     body: JSON.stringify(data),
   });
-  const car = await response.json();
+  const car = (await response.json()) as CarType;
   return car;
 }
 
 export async function getCars(page = 1, limit = 7) {
-  const currentPage = +JSON.parse(window.localStorage.getItem("raceSettings")).activeGaragePage || page;
+  const currentPage =
+    (JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes).activeGaragePage || page;
   const response = await fetch(`http://127.0.0.1:3000/garage?_page=${currentPage}&_limit=${limit}`, {
     method: "GET",
   });
@@ -73,7 +69,7 @@ export async function getCars(page = 1, limit = 7) {
     items: await response.json(),
     count: response.headers.get("X-Total-Count"),
     pageNumber: currentPage,
-  };
+  } as CarsResponse;
 }
 
 export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
@@ -94,7 +90,7 @@ export async function getWinners(page = 1, limit = 10, sort = "id" || "wins" || 
     pageNumber: currentPage,
     sort: currentSort,
     order: currentOrder,
-  };
+  } as WinnersResponse;
 }
 
 export async function createWinner(data = {}) {
@@ -105,7 +101,7 @@ export async function createWinner(data = {}) {
     },
     body: JSON.stringify(data),
   });
-  const car = await response.json();
+  const car = (await response.json()) as WinnerType;
   return car;
 }
 
@@ -117,7 +113,7 @@ export async function updateWinner(id: number, data = {}) {
     },
     body: JSON.stringify(data),
   });
-  const car = await response.json();
+  const car = (await response.json()) as WinnerType;
   return car;
 }
 
@@ -130,7 +126,7 @@ export async function getWinner(id: number) {
   });
 
   if (response.status === 200) {
-    const car = await response.json();
+    const car = (await response.json()) as WinnerType;
     return car;
   } else {
     throw new Error("error");
