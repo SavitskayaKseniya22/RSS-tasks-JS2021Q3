@@ -29,7 +29,7 @@ export class Page {
       ? (JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes)
       : raceSettings;
 
-    window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
+    window.localStorage.setItem("raceSettings", JSON.stringify(this.raceSettings));
 
     this.activePage = this.raceSettings.activePage;
     this.body.innerHTML = this.structure.printStructure();

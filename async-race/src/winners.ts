@@ -3,11 +3,9 @@ import { WinnerType, CarType, RaceSettingsTypes } from "./types";
 import { getCarImg, updateRaceSettings } from "./utils";
 
 export class Winners {
-  sort: string;
   order: string;
 
-  constructor(sort = "wins", order = "ASC") {
-    this.sort = sort;
+  constructor(order = "ASC") {
     this.order = order;
     this.initListener();
   }
@@ -23,14 +21,12 @@ export class Winners {
 
   changeSort(target: HTMLElement) {
     const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
-    if (raceSettings.sort === target.dataset.sort) {
-      this.changeOrder(raceSettings);
-      this.updateWinners();
-    } else {
-      this.sort = target.dataset.sort;
-      updateRaceSettings("sort", this.sort);
-      this.updateWinners();
-    }
+
+    raceSettings.sort === target.dataset.sort
+      ? this.changeOrder(raceSettings)
+      : updateRaceSettings("sort", target.dataset.sort);
+
+    this.updateWinners();
   }
 
   changeOrder(raceSettings: RaceSettingsTypes) {
