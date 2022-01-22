@@ -46,8 +46,10 @@ export class Page {
 
 const raceSettings: RaceSettingsTypes = {
   activePage: "garage",
-  activeGaragePage: "1",
-  activeWinnersPage: "1",
+  activeGaragePage: 1,
+  activeWinnersPage: 1,
   order: "ASC",
   sort: "id",
+  winnersLimit: 10,
+  garageLimit: 7,
 };

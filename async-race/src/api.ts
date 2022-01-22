@@ -1,4 +1,4 @@
-import { CarsResponse, RaceSettingsTypes, CarType, WinnersResponse, WinnerType } from "./types";
+import { CarsResponse, CarType, WinnersResponse, WinnerType } from "./types";
 
 export class ApiService {
   link: string;
@@ -25,15 +25,17 @@ export class ApiService {
   }
 
   async deleteCar(id: number) {
-    await fetch(`${this.link}/garage/${id}`, {
+    const response = await fetch(`${this.link}/garage/${id}`, {
       method: "DELETE",
     });
+    return await response.json();
   }
 
   async deleteWinner(id: number) {
-    await fetch(`${this.link}/winners/${id}`, {
+    const response = await fetch(`${this.link}/winners/${id}`, {
       method: "DELETE",
     });
+    return await response.json();
   }
 
   async changeDriveMode(id: number, status: "started" | "stopped" | "drive") {
@@ -65,36 +67,27 @@ export class ApiService {
   }
 
   async getCars(page = 1, limit = 7) {
-    const currentPage =
-      (JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes).activeGaragePage || page;
-    const response = await fetch(`${this.link}/garage?_page=${currentPage}&_limit=${limit}`, {
+    const response = await fetch(`${this.link}/garage?_page=${page}&_limit=${limit}`, {
       method: "GET",
     });
     return {
       items: await response.json(),
       count: response.headers.get("X-Total-Count"),
-      pageNumber: currentPage,
+      pageNumber: page,
     } as CarsResponse;
   }
 
   async getWinners(page = 1, limit = 10, sort = "id", order = "ASC") {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
-    const currentPage = +raceSettings.activeWinnersPage || page;
-    const currentSort = raceSettings.sort || sort;
-    const currentOrder = raceSettings.order || order;
-    const response = await fetch(
-      `${this.link}/winners?_page=${currentPage}&_limit=${limit}&_sort=${currentSort}&_order=${currentOrder}`,
-      {
-        method: "GET",
-      },
-    );
+    const response = await fetch(`${this.link}/winners?_page=${page}&_limit=${limit}&_sort=${sort}&_order=${order}`, {
+      method: "GET",
+    });
 
     return {
       items: await response.json(),
       count: response.headers.get("X-Total-Count"),
-      pageNumber: currentPage,
-      sort: currentSort,
-      order: currentOrder,
+      pageNumber: page,
+      sort: sort,
+      order: order,
     } as WinnersResponse;
   }
 

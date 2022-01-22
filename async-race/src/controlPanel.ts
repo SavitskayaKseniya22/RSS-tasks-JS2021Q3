@@ -1,6 +1,6 @@
 import { getRandomName, getRandomColor, updateRaceSettings, blockButton } from "./utils";
 import { apiService } from "./api";
-import { CarType, WinnerType } from "./types";
+import { CarType, WinnerType, RaceSettingsTypes } from "./types";
 import { Garage } from "./garage";
 
 export class ControlPanel {
@@ -103,7 +103,8 @@ export class ControlPanel {
   }
 
   stopAllCar() {
-    apiService.getCars().then((cars) => {
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
       cars.items.map((car: CarType) => {
         const index = cars.items.indexOf(car);
         return this.garage.carCollection[index].stopCar(car.id);
@@ -113,7 +114,8 @@ export class ControlPanel {
   }
 
   race(target: HTMLElement) {
-    apiService.getCars().then((cars) => {
+    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
       if (+cars.count >= 2) {
         blockButton("block", target);
         const promises = cars.items.map((car: CarType) => {
@@ -193,11 +195,14 @@ export class ControlPanel {
         this.garage.updateGarage();
         target.classList.remove("downloading");
       });
-      apiService.getWinners().then((winners) => {
-        winners.items.forEach((winner: WinnerType) => {
-          apiService.deleteWinner(winner.id);
+      const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+      apiService
+        .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
+        .then((winners) => {
+          winners.items.forEach((winner: WinnerType) => {
+            apiService.deleteWinner(winner.id);
+          });
         });
-      });
     });
   }
 }

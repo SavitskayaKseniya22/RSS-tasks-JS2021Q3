@@ -16,7 +16,13 @@ export interface EngineType {
 }
 
 export interface RaceSettingsTypes {
-  [char: string]: string;
+  activePage: string;
+  activeGaragePage: number;
+  activeWinnersPage: number;
+  order: string;
+  sort: string;
+  winnersLimit: number;
+  garageLimit: number;
 }
 
 export interface CarsResponse {
