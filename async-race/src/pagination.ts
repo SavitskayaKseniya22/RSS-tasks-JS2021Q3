@@ -2,6 +2,7 @@ import { Garage } from "./garage";
 import { Winners } from "./winners";
 import { RaceSettingsTypes } from "./types";
 import { currentPage } from "./index";
+import { apiService } from "./api";
 
 export class Pagination {
   garage: Garage;
@@ -40,19 +41,29 @@ export class Pagination {
   }
 
   updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
-    const pageNumber = +raceSettings.activeGaragePage;
-    if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
-      this.updateCount(operation, "activeGaragePage", pageNumber);
-      this.garage.updateGarage();
-    }
+    apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
+      const pageNumber = raceSettings.activeGaragePage;
+      if ((pageNumber > 1 && operation === "decrease") || (operation === "increase" && pageNumber < cars.pageLimit)) {
+        this.updateCount(operation, "activeGaragePage", pageNumber);
+        this.garage.updateGarage();
+      }
+    });
   }
 
   updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
-    const pageNumber = +raceSettings.activeWinnersPage;
-    if ((pageNumber > 1 && operation === "decrease") || operation === "increase") {
-      this.updateCount(operation, "activeWinnersPage", pageNumber);
-      this.winners.updateWinners();
-    }
+    apiService
+      .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
+      .then((winners) => {
+        const pageNumber = raceSettings.activeWinnersPage;
+
+        if (
+          (pageNumber > 1 && operation === "decrease") ||
+          (operation === "increase" && pageNumber < winners.pageLimit)
+        ) {
+          this.updateCount(operation, "activeWinnersPage", pageNumber);
+          this.winners.updateWinners();
+        }
+      });
   }
 
   updateContainer(operation: string) {

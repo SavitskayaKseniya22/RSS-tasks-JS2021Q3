@@ -117,7 +117,7 @@ export class ControlPanel {
   race(target: HTMLElement) {
     const raceSettings = currentPage.getRaceSettings();
     apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
-      if (+cars.count >= 2) {
+      if (cars.items.length >= 2) {
         blockButton("block", target);
         const promises = cars.items.map((car: CarType) => {
           const index = cars.items.indexOf(car);

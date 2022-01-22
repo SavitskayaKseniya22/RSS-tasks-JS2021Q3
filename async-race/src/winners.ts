@@ -30,7 +30,7 @@ export class Winners {
   }
 
   changeOrder(raceSettings: RaceSettingsTypes) {
-    raceSettings.order === "ASC" ? (this.order = "DESC") : (this.order = "ASC");
+    this.order = raceSettings.order === "ASC" ? "DESC" : "ASC";
     currentPage.updateRaceSettings("order", this.order);
   }
 
