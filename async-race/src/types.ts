@@ -5,8 +5,8 @@ export interface WinnerType {
 }
 
 export interface CarType {
-  name: string;
-  color: string;
+  name?: string;
+  color?: string;
   id?: number;
 }
 

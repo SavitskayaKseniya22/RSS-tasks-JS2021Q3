@@ -12,7 +12,7 @@ export class ApiService {
     return allCars;
   }
 
-  async createCar(data = {}) {
+  async createCar(data: CarType = {}) {
     const response = await fetch(`${this.link}/garage`, {
       method: "POST",
       headers: {
@@ -52,7 +52,7 @@ export class ApiService {
     return car;
   }
 
-  async updateCar(id: number, data = {}) {
+  async updateCar(id: number, data: CarType = {}) {
     const response = await fetch(`${this.link}/garage/${id}`, {
       method: "PUT",
       headers: {
@@ -77,7 +77,7 @@ export class ApiService {
     } as CarsResponse;
   }
 
-  async getWinners(page = 1, limit = 10, sort = "id" || "wins" || "time", order = "ASC" || "DESC") {
+  async getWinners(page = 1, limit = 10, sort = "id", order = "ASC") {
     const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
     const currentPage = +raceSettings.activeWinnersPage || page;
     const currentSort = raceSettings.sort || sort;
@@ -98,7 +98,7 @@ export class ApiService {
     } as WinnersResponse;
   }
 
-  async createWinner(data = {}) {
+  async createWinner(data: WinnerType = {}) {
     const response = await fetch(`${this.link}/winners`, {
       method: "POST",
       headers: {
@@ -110,7 +110,7 @@ export class ApiService {
     return car;
   }
 
-  async updateWinner(id: number, data = {}) {
+  async updateWinner(id: number, data: WinnerType = {}) {
     const response = await fetch(`${this.link}/winners/${id}`, {
       method: "PUT",
       headers: {
