@@ -79,12 +79,11 @@ export class ControlPanel {
     }
   }
 
-  generateCarView(target: HTMLElement, amount: number) {
+  async generateCarView(target: HTMLElement, amount: number) {
     target.classList.add("downloading");
-    this.generateCars(amount).then(() => {
-      target.classList.remove("downloading");
-      this.garage.updateGarage();
-    });
+    await this.generateCars(amount);
+    target.classList.remove("downloading");
+    this.garage.updateGarage();
   }
 
   printWinnerScreen(name: string, time: number) {
@@ -107,61 +106,61 @@ export class ControlPanel {
     raceResult.classList.remove("active");
   }
 
-  stopAllCar() {
+  async stopAllCar() {
     const raceSettings = currentPage.getRaceSettings();
-    apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
-      cars.items.map((car: CarType) => {
-        const index = cars.items.indexOf(car);
-        return this.garage.carCollection[index].stopCar(car.id);
-      });
+    const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
+    cars.items.map((car: CarType) => {
+      const index = cars.items.indexOf(car);
+      return this.garage.carCollection[index].stopCar(car.id);
     });
     document.querySelector(".race-all").classList.remove("downloading");
   }
 
-  race(target: HTMLElement) {
+  async race(target: HTMLElement) {
     const raceSettings = currentPage.getRaceSettings();
-    apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
-      if (cars.items.length >= 2) {
-        blockButton("block", target);
-        const promises = cars.items.map((car: CarType) => {
-          const index = cars.items.indexOf(car);
-          return this.garage.carCollection[index].drive(car.id);
-        });
-        Promise.any(promises)
-          .then((carResult: WinnerType) => {
-            apiService.getCar(carResult.id).then((car: CarType) => {
-              this.printWinnerScreen(car.name, carResult.time);
-              document.addEventListener("click", this.removeWinnerScreen, { once: true });
-            });
-            apiService
-              .getWinner(carResult.id)
-              .then((winner: WinnerType) => {
-                let time: number;
-                carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
-                const data = {
-                  wins: winner.wins + 1,
-                  time: time,
-                };
-                apiService.updateWinner(carResult.id, data);
-              })
-              .catch(() => {
-                apiService.createWinner({
-                  id: carResult.id,
-                  wins: 1,
-                  time: carResult.time,
-                });
-              });
-          })
-          .catch(() => {
-            this.printWinnerScreen("no one", 0);
-            document.addEventListener("click", this.removeWinnerScreen, { once: true });
-          });
+    const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
 
-        Promise.allSettled(promises).then(() => {
-          blockButton("unblock", target);
+    if (cars.items.length >= 2) {
+      blockButton("block", target);
+      const promises = cars.items.map((car: CarType) => {
+        const index = cars.items.indexOf(car);
+        return this.garage.carCollection[index].drive(car.id);
+      });
+      await Promise.any(promises)
+        .then((carResult: WinnerType) => {
+          this.updateWinner(carResult);
+        })
+        .catch(() => {
+          this.printWinnerScreen("no one", 0);
+          document.addEventListener("click", this.removeWinnerScreen, { once: true });
         });
-      }
-    });
+
+      await Promise.allSettled(promises);
+      blockButton("unblock", target);
+    }
+  }
+
+  async updateWinner(carResult: WinnerType) {
+    const car = await apiService.getCar(carResult.id);
+    this.printWinnerScreen(car.name, carResult.time);
+    document.addEventListener("click", this.removeWinnerScreen, { once: true });
+
+    try {
+      const winner = await apiService.getWinner(carResult.id);
+      let time: number;
+      carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
+      const data = {
+        wins: winner.wins + 1,
+        time: time,
+      };
+      apiService.updateWinner(carResult.id, data);
+    } catch (error) {
+      apiService.createWinner({
+        id: carResult.id,
+        wins: 1,
+        time: carResult.time,
+      });
+    }
   }
 
   updateCarView() {
@@ -181,34 +180,36 @@ export class ControlPanel {
     (document.querySelector(".update-color") as HTMLInputElement).value = "#000000";
   }
 
-  createCarView() {
+  async createCarView() {
     const name = (document.querySelector(".create-name") as HTMLInputElement).value;
     const color = (document.querySelector(".create-color") as HTMLInputElement).value;
-
-    apiService.createCar({ name: name, color: color }).then(() => {
-      this.garage.updateGarage();
-    });
+    await apiService.createCar({ name: name, color: color });
+    this.garage.updateGarage();
   }
 
-  removeAllCar(target: HTMLElement) {
+  async removeAllCar(target: HTMLElement) {
     target.classList.add("downloading");
-    apiService.getAllCars().then((cars) => {
-      const promises = cars.map((car: CarType) => {
-        return apiService.deleteCar(car.id);
-      });
-      Promise.allSettled(promises).then(() => {
-        currentPage.updateRaceSettings("activeGaragePage", "1");
-        this.garage.updateGarage();
-        target.classList.remove("downloading");
-      });
-      const raceSettings = currentPage.getRaceSettings();
-      apiService
-        .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
-        .then((winners) => {
-          winners.items.forEach((winner: WinnerType) => {
-            apiService.deleteWinner(winner.id);
-          });
-        });
+    const cars = await apiService.getAllCars();
+
+    const promises = cars.map((car: CarType) => {
+      return apiService.deleteCar(car.id);
+    });
+
+    await Promise.allSettled(promises);
+    currentPage.updateRaceSettings("activeGaragePage", "1");
+    this.garage.updateGarage();
+    target.classList.remove("downloading");
+
+    const raceSettings = currentPage.getRaceSettings();
+    const winners = await apiService.getWinners(
+      raceSettings.activeWinnersPage,
+      raceSettings.winnersLimit,
+      raceSettings.sort,
+      raceSettings.order,
+    );
+
+    winners.items.forEach((winner: WinnerType) => {
+      apiService.deleteWinner(winner.id);
     });
   }
 }

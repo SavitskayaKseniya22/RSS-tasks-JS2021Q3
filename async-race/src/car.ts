@@ -12,20 +12,18 @@ export class Car {
     this.name = carItem.name;
     this.color = carItem.color;
     this.id = carItem.id;
-    return this;
   }
 
-  selectCar(id: number) {
-    apiService.getCar(id).then((value) => {
-      (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
-      (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
-      const element = document.querySelector(`.car[data-num="${id}"]`);
-      document.querySelectorAll(".active").forEach((activeElement) => {
-        activeElement.classList.remove("active");
-      });
-      element.classList.add("active");
-      document.querySelector(".update-confirm").removeAttribute("disabled");
+  async selectCar(id: number) {
+    const car = await apiService.getCar(id);
+    (document.querySelector(".update-name") as HTMLInputElement).value = car.name;
+    (document.querySelector(".update-color") as HTMLInputElement).value = car.color;
+    const element = document.querySelector(`.car[data-num="${id}"]`);
+    document.querySelectorAll(".active").forEach((activeElement) => {
+      activeElement.classList.remove("active");
     });
+    element.classList.add("active");
+    document.querySelector(".update-confirm").removeAttribute("disabled");
   }
 
   renderCar() {
@@ -50,39 +48,33 @@ export class Car {
   }
 
   async drive(id: number) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       this.unsetAnimation(id);
-      apiService.changeDriveMode(id, "started").then((car: EngineType) => {
-        this.updateEngineButton("start", id);
-        this.setAnimation(id, car);
-        apiService
-          .changeDriveMode(id, "drive")
-          .then(() => {
-            resolve({ id: id, time: getTime(car.velocity, car.distance) });
-          })
-          .catch(() => {
-            this.pauseCar(id);
-            reject(`Car number ${id} stopped! Сar engine broken!`);
-          })
-          .finally(() => {
-            this.updateEngineButton("stop", id);
-          });
-      });
+      const car = await apiService.changeDriveMode(id, "started");
+      this.updateEngineButton("start", id);
+      this.setAnimation(id, car);
+      try {
+        await apiService.changeDriveMode(id, "drive");
+        resolve({ id: id, time: getTime(car.velocity, car.distance) });
+      } catch (error) {
+        this.pauseCar(id);
+        reject(`Car number ${id} stopped! Сar engine broken!`);
+      } finally {
+        this.updateEngineButton("stop", id);
+      }
     });
   }
 
   async pauseCar(id: number) {
-    apiService.changeDriveMode(id, "stopped").then(() => {
-      const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-      carImg.style.animationPlayState = "paused";
-    });
+    await apiService.changeDriveMode(id, "stopped");
+    const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
+    carImg.style.animationPlayState = "paused";
   }
 
   async stopCar(id: number) {
-    apiService.changeDriveMode(id, "stopped").then(() => {
-      this.updateEngineButton("stop", id);
-      this.unsetAnimation(id);
-    });
+    await apiService.changeDriveMode(id, "stopped");
+    this.updateEngineButton("stop", id);
+    this.unsetAnimation(id);
   }
 
   unsetAnimation(id: number) {
@@ -107,38 +99,32 @@ export class Car {
     button === "start" ? ((start.disabled = true), (stop.disabled = false)) : (start.disabled = false);
   }
 
+  async removeCar(target: HTMLButtonElement, object: Garage) {
+    const removeId = getID(target);
+    await apiService.deleteCar(removeId);
+    object.updateGarage();
+    try {
+      await apiService.getWinner(removeId);
+      apiService.deleteWinner(removeId);
+    } catch {}
+  }
+
   initListener(object: Garage) {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       switch (target.className) {
         case "removeCar":
-          const removeId = getID(target);
-          apiService.deleteCar(removeId).then(() => {
-            object.updateGarage();
-            apiService
-              .getWinner(removeId)
-              .then(() => {
-                apiService.deleteWinner(removeId);
-              })
-              .catch(() => {});
-          });
-
+          this.removeCar(target, object);
           break;
         case "startEngine":
           blockButton("block", target);
-          this.drive(getID(target))
-            .catch((res) => {
-              console.log(res);
-            })
-            .finally(() => {
-              blockButton("unblock", target);
-            });
+          this.drive(getID(target));
+          blockButton("unblock", target);
           break;
         case "stopEngine":
-          this.stopCar(getID(target)).then(() => {
-            blockButton("unblock", target);
-            target.disabled = true;
-          });
+          this.stopCar(getID(target));
+          blockButton("unblock", target);
+          target.disabled = true;
           break;
         case "selectCar":
           this.selectCar(getID(target));

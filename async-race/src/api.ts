@@ -129,7 +129,7 @@ export class ApiService {
       const car = (await response.json()) as WinnerType;
       return car;
     } else {
-      throw new Error("error");
+      return undefined;
     }
   }
 }

@@ -40,30 +40,28 @@ export class Pagination {
       : currentPage.updateRaceSettings(prop, pageNumber + 1);
   }
 
-  updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
-    apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
-      const pageNumber = raceSettings.activeGaragePage;
-      if ((pageNumber > 1 && operation === "decrease") || (operation === "increase" && pageNumber < cars.pageLimit)) {
-        this.updateCount(operation, "activeGaragePage", pageNumber);
-        this.garage.updateGarage();
-      }
-    });
+  async updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
+    const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
+    const pageNumber = raceSettings.activeGaragePage;
+    if ((pageNumber > 1 && operation === "decrease") || (operation === "increase" && pageNumber < cars.pageLimit)) {
+      this.updateCount(operation, "activeGaragePage", pageNumber);
+      this.garage.updateGarage();
+    }
   }
 
-  updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
-    apiService
-      .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
-      .then((winners) => {
-        const pageNumber = raceSettings.activeWinnersPage;
+  async updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
+    const winners = await apiService.getWinners(
+      raceSettings.activeWinnersPage,
+      raceSettings.winnersLimit,
+      raceSettings.sort,
+      raceSettings.order,
+    );
 
-        if (
-          (pageNumber > 1 && operation === "decrease") ||
-          (operation === "increase" && pageNumber < winners.pageLimit)
-        ) {
-          this.updateCount(operation, "activeWinnersPage", pageNumber);
-          this.winners.updateWinners();
-        }
-      });
+    const pageNumber = raceSettings.activeWinnersPage;
+    if ((pageNumber > 1 && operation === "decrease") || (operation === "increase" && pageNumber < winners.pageLimit)) {
+      this.updateCount(operation, "activeWinnersPage", pageNumber);
+      this.winners.updateWinners();
+    }
   }
 
   updateContainer(operation: string) {

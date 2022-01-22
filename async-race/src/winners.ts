@@ -38,18 +38,20 @@ export class Winners {
     document.querySelector(".to-winners").setAttribute("disabled", "disabled");
     document.querySelector(".container").innerHTML = this.makeTableContainer();
     const raceSettings = currentPage.getRaceSettings();
-    apiService
-      .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
-      .then((winners) => {
-        (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
-        main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
-        header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
-        winners.items.forEach((winner: WinnerType) => {
-          apiService.getCar(winner.id).then((car: CarType) => {
-            document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
-          });
-        });
-      });
+    const winners = await apiService.getWinners(
+      raceSettings.activeWinnersPage,
+      raceSettings.winnersLimit,
+      raceSettings.sort,
+      raceSettings.order,
+    );
+
+    (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
+    main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
+    header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
+    winners.items.forEach(async (winner: WinnerType) => {
+      const car = await apiService.getCar(winner.id);
+      document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
+    });
   }
 
   makeTableContainer() {
@@ -86,16 +88,18 @@ export class Winners {
   async updateWinners() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
     const raceSettings = currentPage.getRaceSettings();
-    apiService
-      .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
-      .then((winners) => {
-        (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
-        document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
-        winners.items.forEach((winner: WinnerType) => {
-          apiService.getCar(winner.id).then((car: CarType) => {
-            document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
-          });
-        });
-      });
+    const winners = await apiService.getWinners(
+      raceSettings.activeWinnersPage,
+      raceSettings.winnersLimit,
+      raceSettings.sort,
+      raceSettings.order,
+    );
+
+    (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
+    document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
+    winners.items.forEach(async (winner: WinnerType) => {
+      const car = await apiService.getCar(winner.id);
+      document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
+    });
   }
 }
