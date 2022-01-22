@@ -33,8 +33,7 @@ export class Page {
 
     window.localStorage.getItem("raceSettings")
       ? (this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes)
-      : window.localStorage.setItem("raceSettings", JSON.stringify(this.raceSettings));
-
+      : this.updateLSSettings();
     this.initListener();
   }
 

@@ -24,6 +24,7 @@ export class Car {
         activeElement.classList.remove("active");
       });
       element.classList.add("active");
+      document.querySelector(".update-confirm").removeAttribute("disabled");
     });
   }
 

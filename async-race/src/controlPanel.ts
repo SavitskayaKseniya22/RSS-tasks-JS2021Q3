@@ -13,6 +13,18 @@ export class ControlPanel {
   }
 
   initListener() {
+    document.addEventListener("submit", (e) => {
+      const target = e.target as HTMLButtonElement;
+      if (target.className === "create") {
+        e.preventDefault();
+        this.createCarView();
+      } else if (target.className === "update") {
+        e.preventDefault();
+        this.updateCarView();
+        document.querySelector(".update-confirm").setAttribute("disabled", "disabled");
+      }
+    });
+
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       switch (target.className) {
@@ -28,18 +40,10 @@ export class ControlPanel {
         case "remove-all":
           this.removeAllCar(target);
           break;
-        case "create-confirm":
-          this.createCarView();
-          break;
-        case "update-confirm":
-          if (document.querySelector(`.active`)) {
-            this.updateCarView();
-          }
-          break;
-        case "race":
+        case "race-all":
           this.race(target);
           break;
-        case "reset":
+        case "reset-all":
           this.stopAllCar();
           break;
       }
@@ -48,19 +52,19 @@ export class ControlPanel {
 
   printControlPanel() {
     return `<div class="control-panel">
-    <div class="create">
-      <input class="create-name" type="text" placeholder="Enter car name"   />
+    <form action="" class="create">
+      <input class="create-name" type="text" required placeholder="Enter car name"   />
       <input class="create-color" type="color" />
-      <button class="create-confirm">Create</button>
-    </div>
-    <div class="update">
-      <input class="update-name" type="text" placeholder="Change car name"  />
+      <button type="submit" value="Create" class="create-confirm">Create</button>
+    </form>
+    <form action="" class="update">
+      <input class="update-name" type="text" required placeholder="Change car name"  />
       <input class="update-color" type="color" />
-      <button class="update-confirm">Update</button>
-    </div>
+      <button type="submit" value="Update" class="update-confirm" disabled>Update</button>
+    </form>
     <ul>
-      <li><button class="race">Race</button></li>
-      <li><button class="reset">Reset</button></li>
+      <li><button class="race-all">Race</button></li>
+      <li><button class="reset-all">Reset</button></li>
       <li><button class="remove-all">Remove cars</button></li>
       <li><button class="generate">Generate cars</button></li>
     </ul>
@@ -111,7 +115,7 @@ export class ControlPanel {
         return this.garage.carCollection[index].stopCar(car.id);
       });
     });
-    document.querySelector(".race").classList.remove("downloading");
+    document.querySelector(".race-all").classList.remove("downloading");
   }
 
   race(target: HTMLElement) {
@@ -180,6 +184,7 @@ export class ControlPanel {
   createCarView() {
     const name = (document.querySelector(".create-name") as HTMLInputElement).value;
     const color = (document.querySelector(".create-color") as HTMLInputElement).value;
+
     apiService.createCar({ name: name, color: color }).then(() => {
       this.garage.updateGarage();
     });

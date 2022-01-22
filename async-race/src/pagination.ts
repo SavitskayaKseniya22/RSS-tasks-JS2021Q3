@@ -36,8 +36,8 @@ export class Pagination {
 
   updateCount(operation: string, prop: string, pageNumber: number) {
     return operation === "decrease"
-      ? currentPage.updateRaceSettings(prop, String(pageNumber - 1))
-      : currentPage.updateRaceSettings(prop, String(pageNumber + 1));
+      ? currentPage.updateRaceSettings(prop, pageNumber - 1)
+      : currentPage.updateRaceSettings(prop, pageNumber + 1);
   }
 
   updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
