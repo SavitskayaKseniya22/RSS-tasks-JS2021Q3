@@ -1,4 +1,4 @@
-import { getCars } from "./api";
+import { apiService } from "./api";
 import { Car } from "./car";
 import { CarType } from "./types";
 import { isDiff } from "./utils";
@@ -17,7 +17,7 @@ export class Garage {
   }
 
   async printGarage(main: HTMLElement, header: HTMLElement) {
-    getCars().then((cars) => {
+    apiService.getCars().then((cars) => {
       document.querySelector(".to-garage").setAttribute("disabled", "disabled");
       main.innerHTML += `<h3 class="page-number">page ${cars.pageNumber}</h3>`;
       main.innerHTML += `<div class="race-result"></div>`;
@@ -36,7 +36,7 @@ export class Garage {
   }
 
   async updateGarage() {
-    getCars().then((cars) => {
+    apiService.getCars().then((cars) => {
       document.querySelector(".page-number").innerHTML = `page ${cars.pageNumber}`;
       document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
       this.carCollectionNew = [];

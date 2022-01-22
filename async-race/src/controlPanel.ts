@@ -1,17 +1,5 @@
 import { getRandomName, getRandomColor, updateRaceSettings, blockButton } from "./utils";
-import {
-  createCar,
-  deleteCar,
-  getAllCars,
-  updateCar,
-  getCars,
-  createWinner,
-  getWinner,
-  updateWinner,
-  getCar,
-  deleteWinner,
-  getWinners,
-} from "./api";
+import { apiService } from "./api";
 import { CarType, WinnerType } from "./types";
 import { Garage } from "./garage";
 
@@ -82,7 +70,7 @@ export class ControlPanel {
     let i = 0;
     while (i < amount) {
       i++;
-      await createCar({ name: getRandomName(), color: getRandomColor() });
+      await apiService.createCar({ name: getRandomName(), color: getRandomColor() });
     }
   }
 
@@ -115,17 +103,17 @@ export class ControlPanel {
   }
 
   stopAllCar() {
-    getCars().then((cars) => {
-      cars.items.forEach((car: CarType) => {
+    apiService.getCars().then((cars) => {
+      cars.items.map((car: CarType) => {
         const index = cars.items.indexOf(car);
-        this.garage.carCollection[index].stopCar(car.id);
+        return this.garage.carCollection[index].stopCar(car.id);
       });
     });
     document.querySelector(".race").classList.remove("downloading");
   }
 
   race(target: HTMLElement) {
-    getCars().then((cars) => {
+    apiService.getCars().then((cars) => {
       if (+cars.count >= 2) {
         blockButton("block", target);
         const promises = cars.items.map((car: CarType) => {
@@ -134,11 +122,12 @@ export class ControlPanel {
         });
         Promise.any(promises)
           .then((carResult: WinnerType) => {
-            getCar(carResult.id).then((car: CarType) => {
+            apiService.getCar(carResult.id).then((car: CarType) => {
               this.printWinnerScreen(car.name, carResult.time);
               document.addEventListener("click", this.removeWinnerScreen, { once: true });
             });
-            getWinner(carResult.id)
+            apiService
+              .getWinner(carResult.id)
               .then((winner: WinnerType) => {
                 let time: number;
                 carResult.time < winner.time ? (time = carResult.time) : (time = winner.time);
@@ -146,10 +135,10 @@ export class ControlPanel {
                   wins: winner.wins + 1,
                   time: time,
                 };
-                updateWinner(carResult.id, data);
+                apiService.updateWinner(carResult.id, data);
               })
               .catch(() => {
-                createWinner({
+                apiService.createWinner({
                   id: carResult.id,
                   wins: 1,
                   time: carResult.time,
@@ -172,7 +161,7 @@ export class ControlPanel {
     const element = document.querySelector(`.active`) as HTMLElement;
     const name = (document.querySelector(".update-name") as HTMLInputElement).value;
     const color = (document.querySelector(".update-color") as HTMLInputElement).value;
-    updateCar(+element.dataset.num, {
+    apiService.updateCar(+element.dataset.num, {
       name: name,
       color: color,
     });
@@ -188,25 +177,25 @@ export class ControlPanel {
   createCarView() {
     const name = (document.querySelector(".create-name") as HTMLInputElement).value;
     const color = (document.querySelector(".create-color") as HTMLInputElement).value;
-    createCar({ name: name, color: color }).then(() => {
+    apiService.createCar({ name: name, color: color }).then(() => {
       this.garage.updateGarage();
     });
   }
 
   removeAllCar(target: HTMLElement) {
     target.classList.add("downloading");
-    getAllCars().then((cars) => {
+    apiService.getAllCars().then((cars) => {
       const promises = cars.map((car: CarType) => {
-        return deleteCar(car.id);
+        return apiService.deleteCar(car.id);
       });
       Promise.allSettled(promises).then(() => {
         updateRaceSettings("activeGaragePage", "1");
         this.garage.updateGarage();
         target.classList.remove("downloading");
       });
-      getWinners().then((winners) => {
+      apiService.getWinners().then((winners) => {
         winners.items.forEach((winner: WinnerType) => {
-          deleteWinner(winner.id);
+          apiService.deleteWinner(winner.id);
         });
       });
     });

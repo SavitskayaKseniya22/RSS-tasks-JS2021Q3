@@ -1,5 +1,4 @@
 import { Structure } from "./structure";
-
 import { Pagination } from "./pagination";
 import { Winners } from "./winners";
 import { Garage } from "./garage";

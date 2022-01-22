@@ -1,4 +1,4 @@
-import { deleteCar, changeDriveMode, getCar, deleteWinner, getWinner } from "./api";
+import { apiService } from "./api";
 import { getTime, getID, getCarImg, blockButton } from "./utils";
 import { CarType, EngineType } from "./types";
 import { Garage } from "./garage";
@@ -16,7 +16,7 @@ export class Car {
   }
 
   selectCar(id: number) {
-    getCar(id).then((value) => {
+    apiService.getCar(id).then((value) => {
       (document.querySelector(".update-name") as HTMLInputElement).value = value.name;
       (document.querySelector(".update-color") as HTMLInputElement).value = value.color;
       const element = document.querySelector(`.car[data-num="${id}"]`);
@@ -51,10 +51,11 @@ export class Car {
   async drive(id: number) {
     return new Promise((resolve, reject) => {
       this.unsetAnimation(id);
-      changeDriveMode(id, "started").then((car: EngineType) => {
+      apiService.changeDriveMode(id, "started").then((car: EngineType) => {
         this.updateEngineButton("start", id);
         this.setAnimation(id, car);
-        changeDriveMode(id, "drive")
+        apiService
+          .changeDriveMode(id, "drive")
           .then(() => {
             resolve({ id: id, time: getTime(car.velocity, car.distance) });
           })
@@ -70,14 +71,14 @@ export class Car {
   }
 
   async pauseCar(id: number) {
-    changeDriveMode(id, "stopped").then(() => {
+    apiService.changeDriveMode(id, "stopped").then(() => {
       const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
       carImg.style.animationPlayState = "paused";
     });
   }
 
   async stopCar(id: number) {
-    changeDriveMode(id, "stopped").then(() => {
+    apiService.changeDriveMode(id, "stopped").then(() => {
       this.updateEngineButton("stop", id);
       this.unsetAnimation(id);
     });
@@ -111,11 +112,12 @@ export class Car {
       switch (target.className) {
         case "removeCar":
           const removeId = getID(target);
-          deleteCar(removeId).then(() => {
+          apiService.deleteCar(removeId).then(() => {
             object.updateGarage();
-            getWinner(removeId)
+            apiService
+              .getWinner(removeId)
               .then(() => {
-                deleteWinner(removeId);
+                apiService.deleteWinner(removeId);
               })
               .catch(() => {});
           });

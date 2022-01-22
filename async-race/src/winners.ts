@@ -1,4 +1,4 @@
-import { getWinners, getCar } from "./api";
+import { apiService } from "./api";
 import { WinnerType, CarType, RaceSettingsTypes } from "./types";
 import { getCarImg, updateRaceSettings } from "./utils";
 
@@ -37,12 +37,12 @@ export class Winners {
   async printWinners(main: HTMLElement, header: HTMLElement) {
     document.querySelector(".to-winners").setAttribute("disabled", "disabled");
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-    getWinners().then((winners) => {
+    apiService.getWinners().then((winners) => {
       (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
       main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
       header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
       winners.items.forEach((winner: WinnerType) => {
-        getCar(winner.id).then((car: CarType) => {
+        apiService.getCar(winner.id).then((car: CarType) => {
           document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
         });
       });
@@ -82,11 +82,11 @@ export class Winners {
 
   async updateWinners() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-    getWinners().then((winners) => {
+    apiService.getWinners().then((winners) => {
       (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
       document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
       winners.items.forEach((winner: WinnerType) => {
-        getCar(winner.id).then((car: CarType) => {
+        apiService.getCar(winner.id).then((car: CarType) => {
           document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
         });
       });
