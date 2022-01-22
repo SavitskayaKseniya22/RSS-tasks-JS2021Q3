@@ -1,16 +1,19 @@
 import { CarsResponse, RaceSettingsTypes, CarType, WinnersResponse, WinnerType } from "./types";
 
 export class ApiService {
-  constructor() {}
+  link: string;
+  constructor() {
+    this.link = "http://127.0.0.1:3000";
+  }
 
   async getAllCars() {
-    const response = await fetch("http://127.0.0.1:3000/garage");
+    const response = await fetch(`${this.link}/garage`);
     const allCars = (await response.json()) as CarType[];
     return allCars;
   }
 
   async createCar(data = {}) {
-    const response = await fetch("http://127.0.0.1:3000/garage", {
+    const response = await fetch(`${this.link}/garage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,19 +25,19 @@ export class ApiService {
   }
 
   async deleteCar(id: number) {
-    await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+    await fetch(`${this.link}/garage/${id}`, {
       method: "DELETE",
     });
   }
 
   async deleteWinner(id: number) {
-    await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+    await fetch(`${this.link}/winners/${id}`, {
       method: "DELETE",
     });
   }
 
   async changeDriveMode(id: number, status: "started" | "stopped" | "drive") {
-    const response = await fetch(`http://127.0.0.1:3000/engine?id=${id}&status=${status}`, {
+    const response = await fetch(`${this.link}/engine?id=${id}&status=${status}`, {
       method: "PATCH",
     });
     const car = await response.json();
@@ -42,7 +45,7 @@ export class ApiService {
   }
 
   async getCar(id: number) {
-    const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+    const response = await fetch(`${this.link}/garage/${id}`, {
       method: "GET",
     });
     const car = (await response.json()) as CarType;
@@ -50,7 +53,7 @@ export class ApiService {
   }
 
   async updateCar(id: number, data = {}) {
-    const response = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
+    const response = await fetch(`${this.link}/garage/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +67,7 @@ export class ApiService {
   async getCars(page = 1, limit = 7) {
     const currentPage =
       (JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes).activeGaragePage || page;
-    const response = await fetch(`http://127.0.0.1:3000/garage?_page=${currentPage}&_limit=${limit}`, {
+    const response = await fetch(`${this.link}/garage?_page=${currentPage}&_limit=${limit}`, {
       method: "GET",
     });
     return {
@@ -80,7 +83,7 @@ export class ApiService {
     const currentSort = raceSettings.sort || sort;
     const currentOrder = raceSettings.order || order;
     const response = await fetch(
-      `http://127.0.0.1:3000/winners?_page=${currentPage}&_limit=${limit}&_sort=${currentSort}&_order=${currentOrder}`,
+      `${this.link}/winners?_page=${currentPage}&_limit=${limit}&_sort=${currentSort}&_order=${currentOrder}`,
       {
         method: "GET",
       },
@@ -96,7 +99,7 @@ export class ApiService {
   }
 
   async createWinner(data = {}) {
-    const response = await fetch(`http://127.0.0.1:3000/winners`, {
+    const response = await fetch(`${this.link}/winners`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +111,7 @@ export class ApiService {
   }
 
   async updateWinner(id: number, data = {}) {
-    const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+    const response = await fetch(`${this.link}/winners/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +123,7 @@ export class ApiService {
   }
 
   async getWinner(id: number) {
-    const response = await fetch(`http://127.0.0.1:3000/winners/${id}`, {
+    const response = await fetch(`${this.link}/winners/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
