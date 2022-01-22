@@ -74,6 +74,7 @@ export class ApiService {
       items: await response.json(),
       count: response.headers.get("X-Total-Count"),
       pageNumber: page,
+      pageLimit: Math.ceil(+response.headers.get("X-Total-Count") / limit),
     } as CarsResponse;
   }
 
@@ -88,6 +89,7 @@ export class ApiService {
       pageNumber: page,
       sort: sort,
       order: order,
+      pageLimit: Math.ceil(+response.headers.get("X-Total-Count") / limit),
     } as WinnersResponse;
   }
 

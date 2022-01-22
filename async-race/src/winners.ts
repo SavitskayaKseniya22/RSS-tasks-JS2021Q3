@@ -41,6 +41,7 @@ export class Winners {
     apiService
       .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
       .then((winners) => {
+        console.log(winners.pageLimit);
         (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
         main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
         header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;

@@ -29,6 +29,7 @@ export interface CarsResponse {
   items: CarType[];
   count: string;
   pageNumber: number;
+  pageLimit: number;
 }
 
 export interface WinnersResponse {
@@ -37,4 +38,5 @@ export interface WinnersResponse {
   pageNumber: number;
   sort: string;
   order: string;
+  pageLimit: number;
 }
