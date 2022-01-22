@@ -16,6 +16,7 @@ export interface EngineType {
 }
 
 export interface RaceSettingsTypes {
+  [key: string]: string | number;
   activePage: string;
   activeGaragePage: number;
   activeWinnersPage: number;

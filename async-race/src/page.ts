@@ -21,15 +21,36 @@ export class Page {
     this.garage = new Garage();
     this.pagination = new Pagination(this.garage, this.winners);
     this.body = document.querySelector("body");
+    this.raceSettings = {
+      activePage: "garage",
+      activeGaragePage: 1,
+      activeWinnersPage: 1,
+      order: "ASC",
+      sort: "id",
+      winnersLimit: 10,
+      garageLimit: 7,
+    };
+
+    window.localStorage.getItem("raceSettings")
+      ? (this.raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes)
+      : window.localStorage.setItem("raceSettings", JSON.stringify(this.raceSettings));
+
+    this.initListener();
+  }
+
+  updateRaceSettings(prop: string, value: string | number) {
+    this.raceSettings[prop] = value;
+  }
+
+  updateLSSettings() {
+    window.localStorage.setItem("raceSettings", JSON.stringify(this.raceSettings));
+  }
+
+  getRaceSettings() {
+    return this.raceSettings;
   }
 
   printPage() {
-    this.raceSettings = window.localStorage.getItem("raceSettings")
-      ? (JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes)
-      : raceSettings;
-
-    window.localStorage.setItem("raceSettings", JSON.stringify(this.raceSettings));
-
     this.activePage = this.raceSettings.activePage;
     this.body.innerHTML = this.structure.printStructure();
     this.main = document.querySelector(".main");
@@ -42,14 +63,10 @@ export class Page {
     this.main.innerHTML += this.pagination.printPagination();
     (document.querySelector(`input.to-${this.activePage}`) as HTMLInputElement).setAttribute("checked", "checked");
   }
-}
 
-const raceSettings: RaceSettingsTypes = {
-  activePage: "garage",
-  activeGaragePage: 1,
-  activeWinnersPage: 1,
-  order: "ASC",
-  sort: "id",
-  winnersLimit: 10,
-  garageLimit: 7,
-};
+  initListener() {
+    window.addEventListener("unload", () => {
+      this.updateLSSettings();
+    });
+  }
+}

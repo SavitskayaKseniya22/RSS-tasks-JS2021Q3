@@ -1,6 +1,7 @@
 import { apiService } from "./api";
 import { WinnerType, CarType, RaceSettingsTypes } from "./types";
-import { getCarImg, updateRaceSettings } from "./utils";
+import { getCarImg } from "./utils";
+import { currentPage } from "./index";
 
 export class Winners {
   order: string;
@@ -20,28 +21,26 @@ export class Winners {
   }
 
   changeSort(target: HTMLElement) {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
-
+    const raceSettings = currentPage.getRaceSettings();
     raceSettings.sort === target.dataset.sort
       ? this.changeOrder(raceSettings)
-      : updateRaceSettings("sort", target.dataset.sort);
+      : currentPage.updateRaceSettings("sort", target.dataset.sort);
 
     this.updateWinners();
   }
 
   changeOrder(raceSettings: RaceSettingsTypes) {
     raceSettings.order === "ASC" ? (this.order = "DESC") : (this.order = "ASC");
-    updateRaceSettings("order", this.order);
+    currentPage.updateRaceSettings("order", this.order);
   }
 
   async printWinners(main: HTMLElement, header: HTMLElement) {
     document.querySelector(".to-winners").setAttribute("disabled", "disabled");
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     apiService
       .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
       .then((winners) => {
-        console.log(winners.pageLimit);
         (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
         main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
         header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
@@ -86,7 +85,7 @@ export class Winners {
 
   async updateWinners() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     apiService
       .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
       .then((winners) => {

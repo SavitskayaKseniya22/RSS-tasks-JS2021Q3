@@ -53,13 +53,6 @@ export function getCarImg(color: string, id: number) {
   </svg>`;
 }
 
-export function updateRaceSettings(prop: string, value: string) {
-  const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings"));
-  raceSettings[prop] = value;
-  window.localStorage.setItem("raceSettings", JSON.stringify(raceSettings));
-  return value;
-}
-
 export function takeId(carCollection: Car[]) {
   return carCollection.map((element) => {
     return element.id;

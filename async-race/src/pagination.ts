@@ -1,7 +1,7 @@
 import { Garage } from "./garage";
 import { Winners } from "./winners";
 import { RaceSettingsTypes } from "./types";
-import { updateRaceSettings } from "./utils";
+import { currentPage } from "./index";
 
 export class Pagination {
   garage: Garage;
@@ -35,8 +35,8 @@ export class Pagination {
 
   updateCount(operation: string, prop: string, pageNumber: number) {
     return operation === "decrease"
-      ? updateRaceSettings(prop, String(pageNumber - 1))
-      : updateRaceSettings(prop, String(pageNumber + 1));
+      ? currentPage.updateRaceSettings(prop, String(pageNumber - 1))
+      : currentPage.updateRaceSettings(prop, String(pageNumber + 1));
   }
 
   updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
@@ -56,7 +56,7 @@ export class Pagination {
   }
 
   updateContainer(operation: string) {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     if (raceSettings.activePage === "garage") {
       this.updateGarage(operation, raceSettings);
     } else if (raceSettings.activePage === "winners") {

@@ -1,7 +1,8 @@
-import { getRandomName, getRandomColor, updateRaceSettings, blockButton } from "./utils";
+import { getRandomName, getRandomColor, blockButton } from "./utils";
 import { apiService } from "./api";
-import { CarType, WinnerType, RaceSettingsTypes } from "./types";
+import { CarType, WinnerType } from "./types";
 import { Garage } from "./garage";
+import { currentPage } from "./index";
 
 export class ControlPanel {
   garage: Garage;
@@ -103,7 +104,7 @@ export class ControlPanel {
   }
 
   stopAllCar() {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
       cars.items.map((car: CarType) => {
         const index = cars.items.indexOf(car);
@@ -114,7 +115,7 @@ export class ControlPanel {
   }
 
   race(target: HTMLElement) {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
       if (+cars.count >= 2) {
         blockButton("block", target);
@@ -191,11 +192,11 @@ export class ControlPanel {
         return apiService.deleteCar(car.id);
       });
       Promise.allSettled(promises).then(() => {
-        updateRaceSettings("activeGaragePage", "1");
+        currentPage.updateRaceSettings("activeGaragePage", "1");
         this.garage.updateGarage();
         target.classList.remove("downloading");
       });
-      const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+      const raceSettings = currentPage.getRaceSettings();
       apiService
         .getWinners(raceSettings.activeWinnersPage, raceSettings.winnersLimit, raceSettings.sort, raceSettings.order)
         .then((winners) => {

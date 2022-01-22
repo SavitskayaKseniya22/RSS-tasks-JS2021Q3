@@ -1,8 +1,9 @@
 import { apiService } from "./api";
 import { Car } from "./car";
-import { CarType, RaceSettingsTypes } from "./types";
+import { CarType } from "./types";
 import { isDiff } from "./utils";
 import { ControlPanel } from "./controlPanel";
+import { currentPage } from "./index";
 
 export class Garage {
   carCollection: Car[];
@@ -17,7 +18,7 @@ export class Garage {
   }
 
   async printGarage(main: HTMLElement, header: HTMLElement) {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
       document.querySelector(".to-garage").setAttribute("disabled", "disabled");
       main.innerHTML += `<h3 class="page-number">page ${cars.pageNumber}</h3>`;
@@ -37,7 +38,7 @@ export class Garage {
   }
 
   async updateGarage() {
-    const raceSettings = JSON.parse(window.localStorage.getItem("raceSettings")) as RaceSettingsTypes;
+    const raceSettings = currentPage.getRaceSettings();
     apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit).then((cars) => {
       document.querySelector(".page-number").innerHTML = `page ${cars.pageNumber}`;
       document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;

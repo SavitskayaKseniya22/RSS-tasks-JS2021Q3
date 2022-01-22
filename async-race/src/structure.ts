@@ -1,5 +1,4 @@
 import { currentPage } from "./index";
-import { updateRaceSettings } from "./utils";
 
 export class Structure {
   constructor() {
@@ -9,11 +8,11 @@ export class Structure {
     document.addEventListener("click", function (e) {
       const target = e.target as HTMLButtonElement;
       if (target.className === "to-garage") {
-        updateRaceSettings("activePage", "garage");
+        currentPage.updateRaceSettings("activePage", "garage");
         currentPage.printPage();
         document.querySelector(".to-garage").setAttribute("disabled", "disabled");
       } else if (target.className === "to-winners") {
-        updateRaceSettings("activePage", "winners");
+        currentPage.updateRaceSettings("activePage", "winners");
         currentPage.printPage();
         document.querySelector(".to-winners").setAttribute("disabled", "disabled");
       }
