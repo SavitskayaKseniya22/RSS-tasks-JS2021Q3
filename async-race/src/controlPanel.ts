@@ -46,7 +46,7 @@ export class ControlPanel {
           this.race(target);
           break;
         case "reset-all":
-          this.stopAllCar();
+          this.resetAllCar();
           break;
       }
     });
@@ -108,14 +108,13 @@ export class ControlPanel {
     raceResult.classList.remove("active");
   }
 
-  async stopAllCar() {
+  async resetAllCar() {
     const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
     cars.items.map((car: CarType) => {
       const index = cars.items.indexOf(car);
       return this.garage.carCollection[index].stopCar(car.id);
     });
-    document.querySelector(".race-all").classList.remove("downloading");
   }
 
   async race(target: HTMLElement) {
@@ -198,7 +197,8 @@ export class ControlPanel {
     });
 
     await Promise.allSettled(promises);
-    this.currentPage.updateRaceSettings("activeGaragePage", "1");
+    this.currentPage.updateRaceSettings("activeGaragePage", 1);
+    this.currentPage.updateRaceSettings("activeWinnersPage", 1);
     this.garage.updateGarage();
     target.classList.remove("downloading");
 

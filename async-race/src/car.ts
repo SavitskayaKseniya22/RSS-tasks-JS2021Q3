@@ -1,5 +1,5 @@
 import { apiService } from "./api";
-import { getTime, getID, getCarImg, blockButton } from "./utils";
+import { getTime, getID, getCarImg } from "./utils";
 import { CarType, EngineType } from "./types";
 import { Garage } from "./garage";
 
@@ -57,7 +57,7 @@ export class Car {
         await apiService.changeDriveMode(id, "drive");
         resolve({ id: id, time: getTime(car.velocity, car.distance) });
       } catch (error) {
-        this.pauseCar(id);
+        await this.pauseCar(id);
         reject(`Car number ${id} stopped! Сar engine broken!`);
       } finally {
         this.updateEngineButton("stop", id);
@@ -68,7 +68,9 @@ export class Car {
   async pauseCar(id: number) {
     await apiService.changeDriveMode(id, "stopped");
     const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-    carImg.style.animationPlayState = "paused";
+    if (carImg) {
+      carImg.style.animationPlayState = "paused";
+    }
   }
 
   async stopCar(id: number) {
@@ -79,24 +81,29 @@ export class Car {
 
   unsetAnimation(id: number) {
     const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-    carImg.classList.remove("car-pic-animation");
-    carImg.style.animationDuration = "unset";
-    carImg.style.animationPlayState = "unset";
+    if (carImg) {
+      carImg.classList.remove("car-pic-animation");
+      carImg.style.animationDuration = "unset";
+      carImg.style.animationPlayState = "unset";
+    }
   }
 
   setAnimation(id: number, car: EngineType) {
     const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
-    const time = getTime(car.velocity, car.distance);
-    carImg.classList.add("car-pic-animation");
-    carImg.style.animationDuration = `${time}ms`;
-    carImg.style.animationPlayState = "running";
+    if (carImg) {
+      const time = getTime(car.velocity, car.distance);
+      carImg.classList.add("car-pic-animation");
+      carImg.style.animationDuration = `${time}ms`;
+      carImg.style.animationPlayState = "running";
+    }
   }
 
   updateEngineButton(button: "start" | "stop", id: number) {
     const start = document.querySelector(`#start-engine${id}`) as HTMLInputElement;
     const stop = document.querySelector(`#stop-engine${id}`) as HTMLInputElement;
-
-    button === "start" ? ((start.disabled = true), (stop.disabled = false)) : (start.disabled = false);
+    if (start && stop) {
+      button === "start" ? ((start.disabled = true), (stop.disabled = false)) : (start.disabled = false);
+    }
   }
 
   async removeCar(target: HTMLButtonElement, object: Garage) {
@@ -117,13 +124,10 @@ export class Car {
           this.removeCar(target, object);
           break;
         case "startEngine":
-          blockButton("block", target);
           this.drive(getID(target));
-          blockButton("unblock", target);
           break;
         case "stopEngine":
           this.stopCar(getID(target));
-          blockButton("unblock", target);
           target.disabled = true;
           break;
         case "selectCar":

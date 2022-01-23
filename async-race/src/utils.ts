@@ -85,12 +85,13 @@ export function blockButton(state: "block" | "unblock", target: HTMLElement) {
     buttons.forEach((button) => {
       button.setAttribute("disabled", "disabled");
     });
-    document.querySelector(".to-winners").setAttribute("disabled", "disabled");
+
+    document.querySelector(`.to-winners`).classList.add("disabled");
   } else {
     target.classList.remove("downloading");
     buttons.forEach((button) => {
       button.removeAttribute("disabled");
     });
-    document.querySelector(".to-winners").removeAttribute("disabled");
+    document.querySelector(`.to-winners`).classList.remove("disabled");
   }
 }
