@@ -3,22 +3,24 @@ import { Car } from "./car";
 import { CarType } from "./types";
 import { isDiff } from "./utils";
 import { ControlPanel } from "./controlPanel";
-import { currentPage } from "./index";
+import { Page } from "./page";
 
 export class Garage {
   carCollection: Car[];
   carCollectionNew: Car[];
   car: Car;
   controlPanel: ControlPanel;
+  currentPage: Page;
 
-  constructor() {
+  constructor(currentPage: Page) {
     this.car = new Car({ name: "TEST", color: "#000000", id: 5000 });
     this.car.initListener(this);
-    this.controlPanel = new ControlPanel(this);
+    this.currentPage = currentPage;
+    this.controlPanel = new ControlPanel(this, currentPage);
   }
 
   async printGarage(main: HTMLElement, header: HTMLElement) {
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
     document.querySelector(".to-garage").setAttribute("disabled", "disabled");
     main.innerHTML += `<h3 class="page-number">page ${cars.pageNumber}</h3>`;
@@ -37,7 +39,7 @@ export class Garage {
   }
 
   async updateGarage() {
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
     document.querySelector(".page-number").innerHTML = `page ${cars.pageNumber}`;
     document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;

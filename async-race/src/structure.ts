@@ -1,35 +1,22 @@
-import { currentPage } from "./index";
+import { Page } from "./page";
 
 export class Structure {
-  constructor() {
+  currentPage: Page;
+  constructor(currentPage: Page) {
+    this.currentPage = currentPage;
     this.initListener();
   }
   initListener() {
-    document.addEventListener("click", function (e) {
-      const target = e.target as HTMLButtonElement;
-      if (target.className === "to-garage") {
-        currentPage.updateRaceSettings("activePage", "garage");
-        currentPage.printPage();
-        document.querySelector(".to-garage").setAttribute("disabled", "disabled");
-      } else if (target.className === "to-winners") {
-        currentPage.updateRaceSettings("activePage", "winners");
-        currentPage.printPage();
-        document.querySelector(".to-winners").setAttribute("disabled", "disabled");
-      }
+    window.addEventListener("hashchange", () => {
+      this.currentPage.printPage(window.location.hash);
     });
   }
   printStructure() {
     return `<header class="header">
     <h1>Async race</h1>
     <ul class="navigation">
-      <li>
-        <input type="radio" id="to-garage" name="navigation" value="garage" class="to-garage"  />
-        <label for="to-garage">to garage</label>
-      </li>
-      <li>
-        <input type="radio" id="to-winners" name="navigation" value="winners" class="to-winners" />
-        <label for="to-winners">to winners</label>
-      </li>
+      <a href="/#garage" id="to-garage" class="to-garage button">to garage</a>
+      <a href="/#winners" id="to-winners" class="to-winners button" >to winners</a>
     </ul>
   </header>
   <main class="main">

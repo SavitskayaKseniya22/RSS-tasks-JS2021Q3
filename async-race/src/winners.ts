@@ -1,13 +1,14 @@
 import { apiService } from "./api";
 import { WinnerType, CarType, RaceSettingsTypes } from "./types";
 import { getCarImg } from "./utils";
-import { currentPage } from "./index";
+import { Page } from "./page";
 
 export class Winners {
   order: string;
+  currentPage: Page;
 
-  constructor(order = "ASC") {
-    this.order = order;
+  constructor(currentPage: Page) {
+    this.currentPage = currentPage;
     this.initListener();
   }
 
@@ -21,23 +22,23 @@ export class Winners {
   }
 
   changeSort(target: HTMLElement) {
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     raceSettings.sort === target.dataset.sort
       ? this.changeOrder(raceSettings)
-      : currentPage.updateRaceSettings("sort", target.dataset.sort);
+      : this.currentPage.updateRaceSettings("sort", target.dataset.sort);
 
     this.updateWinners();
   }
 
   changeOrder(raceSettings: RaceSettingsTypes) {
     this.order = raceSettings.order === "ASC" ? "DESC" : "ASC";
-    currentPage.updateRaceSettings("order", this.order);
+    this.currentPage.updateRaceSettings("order", this.order);
   }
 
   async printWinners(main: HTMLElement, header: HTMLElement) {
     document.querySelector(".to-winners").setAttribute("disabled", "disabled");
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const winners = await apiService.getWinners(
       raceSettings.activeWinnersPage,
       raceSettings.winnersLimit,
@@ -87,7 +88,7 @@ export class Winners {
 
   async updateWinners() {
     document.querySelector(".container").innerHTML = this.makeTableContainer();
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const winners = await apiService.getWinners(
       raceSettings.activeWinnersPage,
       raceSettings.winnersLimit,

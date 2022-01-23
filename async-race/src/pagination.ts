@@ -1,16 +1,18 @@
 import { Garage } from "./garage";
 import { Winners } from "./winners";
 import { RaceSettingsTypes } from "./types";
-import { currentPage } from "./index";
+import { Page } from "./page";
 import { apiService } from "./api";
 
 export class Pagination {
   garage: Garage;
   winners: Winners;
+  currentPage: Page;
 
-  constructor(garage: Garage, winners: Winners) {
+  constructor(garage: Garage, winners: Winners, currentPage: Page) {
     this.garage = garage;
     this.winners = winners;
+    this.currentPage = currentPage;
     this.initListener();
   }
 
@@ -36,8 +38,8 @@ export class Pagination {
 
   updateCount(operation: string, prop: string, pageNumber: number) {
     return operation === "decrease"
-      ? currentPage.updateRaceSettings(prop, pageNumber - 1)
-      : currentPage.updateRaceSettings(prop, pageNumber + 1);
+      ? this.currentPage.updateRaceSettings(prop, pageNumber - 1)
+      : this.currentPage.updateRaceSettings(prop, pageNumber + 1);
   }
 
   async updateGarage(operation: string, raceSettings: RaceSettingsTypes) {
@@ -50,6 +52,7 @@ export class Pagination {
   }
 
   async updateWinners(operation: string, raceSettings: RaceSettingsTypes) {
+    const pageNumber = raceSettings.activeWinnersPage;
     const winners = await apiService.getWinners(
       raceSettings.activeWinnersPage,
       raceSettings.winnersLimit,
@@ -57,7 +60,6 @@ export class Pagination {
       raceSettings.order,
     );
 
-    const pageNumber = raceSettings.activeWinnersPage;
     if ((pageNumber > 1 && operation === "decrease") || (operation === "increase" && pageNumber < winners.pageLimit)) {
       this.updateCount(operation, "activeWinnersPage", pageNumber);
       this.winners.updateWinners();
@@ -65,10 +67,11 @@ export class Pagination {
   }
 
   updateContainer(operation: string) {
-    const raceSettings = currentPage.getRaceSettings();
-    if (raceSettings.activePage === "garage") {
+    const raceSettings = this.currentPage.getRaceSettings();
+    const hash = window.location.hash;
+    if (hash === "#garage") {
       this.updateGarage(operation, raceSettings);
-    } else if (raceSettings.activePage === "winners") {
+    } else if (hash === "#winners") {
       this.updateWinners(operation, raceSettings);
     }
   }

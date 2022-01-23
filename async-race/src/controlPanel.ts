@@ -2,13 +2,15 @@ import { getRandomName, getRandomColor, blockButton } from "./utils";
 import { apiService } from "./api";
 import { CarType, WinnerType } from "./types";
 import { Garage } from "./garage";
-import { currentPage } from "./index";
+import { Page } from "./page";
 
 export class ControlPanel {
   garage: Garage;
+  currentPage: Page;
 
-  constructor(garage: Garage) {
+  constructor(garage: Garage, currentPage: Page) {
     this.garage = garage;
+    this.currentPage = currentPage;
     this.initListener();
   }
 
@@ -107,7 +109,7 @@ export class ControlPanel {
   }
 
   async stopAllCar() {
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
     cars.items.map((car: CarType) => {
       const index = cars.items.indexOf(car);
@@ -117,7 +119,7 @@ export class ControlPanel {
   }
 
   async race(target: HTMLElement) {
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
 
     if (cars.items.length >= 2) {
@@ -196,11 +198,11 @@ export class ControlPanel {
     });
 
     await Promise.allSettled(promises);
-    currentPage.updateRaceSettings("activeGaragePage", "1");
+    this.currentPage.updateRaceSettings("activeGaragePage", "1");
     this.garage.updateGarage();
     target.classList.remove("downloading");
 
-    const raceSettings = currentPage.getRaceSettings();
+    const raceSettings = this.currentPage.getRaceSettings();
     const winners = await apiService.getWinners(
       raceSettings.activeWinnersPage,
       raceSettings.winnersLimit,

@@ -1,5 +1,4 @@
 import carNames from "./carNames.json";
-import { RaceSettingsTypes } from "./types";
 import { Car } from "./car";
 
 function getRandomNumber(max: number) {
