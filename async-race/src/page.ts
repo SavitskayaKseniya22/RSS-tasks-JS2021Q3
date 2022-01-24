@@ -49,15 +49,13 @@ export class Page {
     if (activePage === "#garage") {
       await this.garage.makeGarage();
       this.body.innerHTML = this.structure.printStructure(this.garage);
+      document.querySelector(`.to-garage`).classList.add("disabled");
     } else {
       await this.winners.makeWinners();
       this.body.innerHTML = this.structure.printStructure(this.winners);
       (document.querySelector(`#by-${this.raceSettings.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
+      document.querySelector(`.to-winners`).classList.add("disabled");
     }
-
-    (document.querySelector(`.to-${activePage.split("").slice(1).join("")}`) as HTMLInputElement).classList.add(
-      "disabled",
-    );
   }
 
   initListener() {

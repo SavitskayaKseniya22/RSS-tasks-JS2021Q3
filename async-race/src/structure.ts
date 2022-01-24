@@ -8,6 +8,7 @@ export class Structure {
   currentPage: Page;
   pagination: Pagination;
   controlPanel: ControlPanel;
+
   constructor(currentPage: Page) {
     this.currentPage = currentPage;
     this.pagination = new Pagination(currentPage.garage, currentPage.winners, currentPage);
@@ -26,8 +27,8 @@ export class Structure {
     return `<header class="header">
     <h1>Async race</h1>
     <ul class="navigation">
-      <a href="/#garage" id="to-garage" class="to-garage button">to garage</a>
-      <a href="/#winners" id="to-winners" class="to-winners button" >to winners</a>
+      <a href="./#garage" id="to-garage" class="to-garage button">to garage</a>
+      <a href="./#winners" id="to-winners" class="to-winners button" >to winners</a>
     </ul>
     ${panel}
     <h2 class="count">${object.title}</h2>
