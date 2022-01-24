@@ -1,5 +1,4 @@
 import { Structure } from "./structure";
-import { Pagination } from "./pagination";
 import { Winners } from "./winners";
 import { Garage } from "./garage";
 import { RaceSettingsTypes } from "./types";
@@ -7,18 +6,14 @@ import { RaceSettingsTypes } from "./types";
 export class Page {
   structure: Structure;
   body: HTMLBodyElement;
-  header: HTMLElement;
-  main: HTMLElement;
-  pagination: Pagination;
   winners: Winners;
   garage: Garage;
   raceSettings: RaceSettingsTypes;
 
   constructor() {
-    this.structure = new Structure(this);
     this.winners = new Winners(this);
     this.garage = new Garage(this);
-    this.pagination = new Pagination(this.garage, this.winners, this);
+    this.structure = new Structure(this);
     this.body = document.querySelector("body");
     this.raceSettings = {
       activePage: "#garage",
@@ -48,18 +43,21 @@ export class Page {
     return this.raceSettings;
   }
 
-  printPage(activePage: string) {
+  async printPage(activePage: string) {
     window.location.hash = activePage;
-    this.body.innerHTML = this.structure.printStructure();
-    this.main = document.querySelector(".main");
-    this.header = document.querySelector(".header");
 
     if (activePage === "#garage") {
-      this.garage.printGarage(this.main, this.header);
+      await this.garage.makeGarage();
+      this.body.innerHTML = this.structure.printStructure(this.garage);
     } else {
-      this.winners.printWinners(this.main, this.header);
+      await this.winners.makeWinners();
+      this.body.innerHTML = this.structure.printStructure(this.winners);
+      (document.querySelector(`#by-${this.raceSettings.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
     }
-    this.main.innerHTML += this.pagination.printPagination();
+
+    (document.querySelector(`.to-${activePage.split("").slice(1).join("")}`) as HTMLInputElement).classList.add(
+      "disabled",
+    );
   }
 
   initListener() {

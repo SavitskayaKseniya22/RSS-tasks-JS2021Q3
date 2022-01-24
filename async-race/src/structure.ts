@@ -1,9 +1,17 @@
 import { Page } from "./page";
+import { Pagination } from "./pagination";
+import { ControlPanel } from "./controlPanel";
+import { Garage } from "./garage";
+import { Winners } from "./winners";
 
 export class Structure {
   currentPage: Page;
+  pagination: Pagination;
+  controlPanel: ControlPanel;
   constructor(currentPage: Page) {
     this.currentPage = currentPage;
+    this.pagination = new Pagination(currentPage.garage, currentPage.winners, currentPage);
+    this.controlPanel = new ControlPanel(currentPage.garage, currentPage);
     this.initListener();
   }
 
@@ -13,16 +21,21 @@ export class Structure {
     });
   }
 
-  printStructure() {
+  printStructure(object: Garage | Winners) {
+    const panel = object instanceof Garage ? this.controlPanel.printControlPanel() : "";
     return `<header class="header">
     <h1>Async race</h1>
     <ul class="navigation">
       <a href="/#garage" id="to-garage" class="to-garage button">to garage</a>
       <a href="/#winners" id="to-winners" class="to-winners button" >to winners</a>
     </ul>
+    ${panel}
+    <h2 class="count">${object.title}</h2>
   </header>
   <main class="main">
-    <div class="container"></div>
+    <div class="container">${object.carsHTML}</div>
+    ${this.pagination.printPagination()}
+    <h3 class="page-number">${object.pageNumberTitle}</h3>
   </main>
   <footer class="footer">
     <div>

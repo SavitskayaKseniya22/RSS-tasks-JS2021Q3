@@ -38,7 +38,6 @@ export class CarModel {
       <li><button class="removeCar">Remove</button></li>
       <li><button id="start-engine${this.id}" class="startEngine">Start</button></li>
       <li><button id="stop-engine${this.id}" class="stopEngine" disabled>Reset</button></li>
-    
     </ul>
     <div class="track">
       ${getCarImg(this.color, this.id)}
@@ -126,7 +125,6 @@ export class CarModel {
           try {
             await this.drive(getID(target));
           } catch (error) {}
-
           break;
         case "stopEngine":
           this.stopCar(getID(target));
