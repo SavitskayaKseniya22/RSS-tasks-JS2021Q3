@@ -117,14 +117,19 @@ export class Car {
   }
 
   initListener(object: Garage) {
-    document.addEventListener("click", (e) => {
+    document.addEventListener("click", async (e) => {
       const target = e.target as HTMLButtonElement;
       switch (target.className) {
         case "removeCar":
           this.removeCar(target, object);
           break;
         case "startEngine":
-          this.drive(getID(target));
+          try {
+            await this.drive(getID(target));
+          } catch (error) {
+            console.log(error);
+          }
+
           break;
         case "stopEngine":
           this.stopCar(getID(target));

@@ -15,6 +15,17 @@ export class ControlPanel {
   }
 
   initListener() {
+    document.addEventListener(
+      "focus",
+      (e) => {
+        const target = e.target as HTMLButtonElement;
+        if (target.className === "create-name" && target.value === "") {
+          target.value = getRandomName();
+        }
+      },
+      true,
+    );
+
     document.addEventListener("submit", (e) => {
       const target = e.target as HTMLButtonElement;
       if (target.className === "create") {
@@ -30,13 +41,10 @@ export class ControlPanel {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       switch (target.className) {
-        case "create-name":
-          target.value = getRandomName();
-          break;
         case "create-color":
           target.value = getRandomColor();
           break;
-        case "generate":
+        case "generate-cars":
           this.generateCarView(target, 100);
           break;
         case "remove-all":
@@ -68,7 +76,7 @@ export class ControlPanel {
       <li><button class="race-all">Race</button></li>
       <li><button class="reset-all">Reset</button></li>
       <li><button class="remove-all">Remove cars</button></li>
-      <li><button class="generate">Generate cars</button></li>
+      <li><button class="generate-cars">Generate cars</button></li>
     </ul>
   </div>`;
   }

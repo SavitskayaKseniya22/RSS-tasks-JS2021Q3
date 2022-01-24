@@ -6,11 +6,13 @@ export class Structure {
     this.currentPage = currentPage;
     this.initListener();
   }
+
   initListener() {
     window.addEventListener("hashchange", () => {
       this.currentPage.printPage(window.location.hash);
     });
   }
+
   printStructure() {
     return `<header class="header">
     <h1>Async race</h1>
