@@ -1,4 +1,4 @@
-import { CarsResponse, CarType, WinnersResponse, WinnerType } from "./types";
+import { CarsPage, Car, WinnersPage, Winner } from "./types";
 
 export class ApiService {
   link: string;
@@ -8,11 +8,11 @@ export class ApiService {
 
   async getAllCars() {
     const response = await fetch(`${this.link}/garage`);
-    const allCars = (await response.json()) as CarType[];
+    const allCars = (await response.json()) as Car[];
     return allCars;
   }
 
-  async createCar(data: CarType = {}) {
+  async createCar(data: Car = {}) {
     const response = await fetch(`${this.link}/garage`, {
       method: "POST",
       headers: {
@@ -20,7 +20,7 @@ export class ApiService {
       },
       body: JSON.stringify(data),
     });
-    const car = (await response.json()) as CarType;
+    const car = (await response.json()) as Car;
     return car;
   }
 
@@ -50,11 +50,11 @@ export class ApiService {
     const response = await fetch(`${this.link}/garage/${id}`, {
       method: "GET",
     });
-    const car = (await response.json()) as CarType;
+    const car = (await response.json()) as Car;
     return car;
   }
 
-  async updateCar(id: number, data: CarType = {}) {
+  async updateCar(id: number, data: Car = {}) {
     const response = await fetch(`${this.link}/garage/${id}`, {
       method: "PUT",
       headers: {
@@ -62,7 +62,7 @@ export class ApiService {
       },
       body: JSON.stringify(data),
     });
-    const car = (await response.json()) as CarType;
+    const car = (await response.json()) as Car;
     return car;
   }
 
@@ -75,7 +75,7 @@ export class ApiService {
       count: response.headers.get("X-Total-Count"),
       pageNumber: page,
       pageLimit: Math.ceil(+response.headers.get("X-Total-Count") / limit),
-    } as CarsResponse;
+    } as CarsPage;
   }
 
   async getWinners(page = 1, limit = 10, sort = "id", order = "ASC") {
@@ -90,10 +90,10 @@ export class ApiService {
       sort: sort,
       order: order,
       pageLimit: Math.ceil(+response.headers.get("X-Total-Count") / limit),
-    } as WinnersResponse;
+    } as WinnersPage;
   }
 
-  async createWinner(data: WinnerType = {}) {
+  async createWinner(data: Winner = {}) {
     const response = await fetch(`${this.link}/winners`, {
       method: "POST",
       headers: {
@@ -101,11 +101,11 @@ export class ApiService {
       },
       body: JSON.stringify(data),
     });
-    const car = (await response.json()) as WinnerType;
+    const car = (await response.json()) as Winner;
     return car;
   }
 
-  async updateWinner(id: number, data: WinnerType = {}) {
+  async updateWinner(id: number, data: Winner = {}) {
     const response = await fetch(`${this.link}/winners/${id}`, {
       method: "PUT",
       headers: {
@@ -113,7 +113,7 @@ export class ApiService {
       },
       body: JSON.stringify(data),
     });
-    const car = (await response.json()) as WinnerType;
+    const car = (await response.json()) as Winner;
     return car;
   }
 
@@ -126,7 +126,7 @@ export class ApiService {
     });
 
     if (response.status === 200) {
-      const car = (await response.json()) as WinnerType;
+      const car = (await response.json()) as Winner;
       return car;
     } else {
       return undefined;

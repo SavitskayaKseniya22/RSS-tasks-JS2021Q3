@@ -1,22 +1,21 @@
-export interface WinnerType {
+export interface Winner {
   id?: number;
   wins?: number;
   time?: number;
 }
 
-export interface CarType {
+export interface Car {
   name?: string;
   color?: string;
   id?: number;
 }
 
-export interface EngineType {
+export interface Engine {
   velocity: number;
   distance: number;
 }
 
 export interface RaceSettingsTypes {
-  [key: string]: string | number;
   activePage: string;
   activeGaragePage: number;
   activeWinnersPage: number;
@@ -24,17 +23,18 @@ export interface RaceSettingsTypes {
   sort: string;
   winnersLimit: number;
   garageLimit: number;
+  [key: string]: string | number;
 }
 
-export interface CarsResponse {
-  items: CarType[];
+export interface CarsPage {
+  items: Car[];
   count: string;
   pageNumber: number;
   pageLimit: number;
 }
 
-export interface WinnersResponse {
-  items: WinnerType[];
+export interface WinnersPage {
+  items: Winner[];
   count: string;
   pageNumber: number;
   sort: string;

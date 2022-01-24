@@ -1,19 +1,19 @@
 import { apiService } from "./api";
-import { Car } from "./car";
-import { CarType } from "./types";
+import { CarModel } from "./car";
+import { Car } from "./types";
 import { isDiff } from "./utils";
 import { ControlPanel } from "./controlPanel";
 import { Page } from "./page";
 
 export class Garage {
-  carCollection: Car[];
-  carCollectionNew: Car[];
-  car: Car;
+  carCollection: CarModel[];
+  carCollectionNew: CarModel[];
+  car: CarModel;
   controlPanel: ControlPanel;
   currentPage: Page;
 
   constructor(currentPage: Page) {
-    this.car = new Car({ name: "TEST", color: "#000000", id: 5000 });
+    this.car = new CarModel({ name: "TEST", color: "#000000", id: 5000 });
     this.car.initListener(this);
     this.currentPage = currentPage;
     this.controlPanel = new ControlPanel(this, currentPage);
@@ -30,8 +30,8 @@ export class Garage {
     this.carCollection = [];
 
     if (cars.items.length > 0) {
-      cars.items.forEach((car: CarType) => {
-        const carItem = new Car(car);
+      cars.items.forEach((car: Car) => {
+        const carItem = new CarModel(car);
         this.carCollection.push(carItem);
         carItem.renderCar();
       });
@@ -44,15 +44,15 @@ export class Garage {
     document.querySelector(".page-number").innerHTML = `page ${cars.pageNumber}`;
     document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
     this.carCollectionNew = [];
-    cars.items.forEach((car: CarType) => {
-      const carItem = new Car(car);
+    cars.items.forEach((car: Car) => {
+      const carItem = new CarModel(car);
       this.carCollectionNew.push(carItem);
     });
     if (isDiff(this.carCollection, this.carCollectionNew)) {
       document.querySelector(".container").innerHTML = "";
       this.carCollection = this.carCollectionNew;
-      this.carCollection.forEach((car: CarType) => {
-        const carItem = new Car(car);
+      this.carCollection.forEach((car: Car) => {
+        const carItem = new CarModel(car);
         carItem.renderCar();
       });
     }

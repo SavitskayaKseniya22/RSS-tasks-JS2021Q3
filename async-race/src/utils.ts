@@ -1,5 +1,5 @@
 import carNames from "./carNames.json";
-import { Car } from "./car";
+import { CarModel } from "./car";
 
 function getRandomNumber(max: number) {
   const rand = -0.5 + Math.random() * (max + 1);
@@ -52,13 +52,13 @@ export function getCarImg(color: string, id: number) {
   </svg>`;
 }
 
-export function takeId(carCollection: Car[]) {
+export function takeId(carCollection: CarModel[]) {
   return carCollection.map((element) => {
     return element.id;
   });
 }
 
-export function isDiff(carCollection: Car[], carCollectionNew: Car[]) {
+export function isDiff(carCollection: CarModel[], carCollectionNew: CarModel[]) {
   const carCollectionId = takeId(carCollection);
   const carCollectionNewId = takeId(carCollectionNew);
 

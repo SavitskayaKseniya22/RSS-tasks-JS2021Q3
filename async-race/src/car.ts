@@ -1,14 +1,14 @@
 import { apiService } from "./api";
 import { getTime, getID, getCarImg } from "./utils";
-import { CarType, EngineType } from "./types";
+import { Car, Engine } from "./types";
 import { Garage } from "./garage";
 
-export class Car {
+export class CarModel {
   name: string;
   color: string;
   id: number;
 
-  constructor(carItem: CarType) {
+  constructor(carItem: Car) {
     this.name = carItem.name;
     this.color = carItem.color;
     this.id = carItem.id;
@@ -87,7 +87,7 @@ export class Car {
     }
   }
 
-  setAnimation(id: number, car: EngineType) {
+  setAnimation(id: number, car: Engine) {
     const carImg = document.querySelector(`.car-pic.car-pic${id}`) as HTMLImageElement;
     if (carImg) {
       const time = getTime(car.velocity, car.distance);

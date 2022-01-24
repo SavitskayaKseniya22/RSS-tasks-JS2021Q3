@@ -1,6 +1,6 @@
 import { getRandomName, getRandomColor, blockButton } from "./utils";
 import { apiService } from "./api";
-import { CarType, WinnerType } from "./types";
+import { Car, Winner } from "./types";
 import { Garage } from "./garage";
 import { Page } from "./page";
 
@@ -119,7 +119,7 @@ export class ControlPanel {
   async resetAllCar() {
     const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
-    cars.items.map((car: CarType) => {
+    cars.items.map((car: Car) => {
       const index = cars.items.indexOf(car);
       return this.garage.carCollection[index].stopCar(car.id);
     });
@@ -137,12 +137,12 @@ export class ControlPanel {
 
     if (cars.items.length >= 2) {
       blockButton("block", target);
-      const promises = cars.items.map((car: CarType) => {
+      const promises = cars.items.map((car: Car) => {
         const index = cars.items.indexOf(car);
         return this.garage.carCollection[index].drive(car.id);
       });
       await Promise.any(promises)
-        .then((carResult: WinnerType) => {
+        .then((carResult: Winner) => {
           this.updateWinner(carResult);
         })
         .catch(() => {
@@ -155,7 +155,7 @@ export class ControlPanel {
     }
   }
 
-  async updateWinner(carResult: WinnerType) {
+  async updateWinner(carResult: Winner) {
     const car = await apiService.getCar(carResult.id);
     this.printWinnerScreen(car.name, carResult.time);
     document.addEventListener("click", this.removeWinnerScreen, { once: true });
@@ -206,7 +206,7 @@ export class ControlPanel {
     target.classList.add("downloading");
     const cars = await apiService.getAllCars();
 
-    const promises = cars.map((car: CarType) => {
+    const promises = cars.map((car: Car) => {
       return apiService.deleteCar(car.id);
     });
 
@@ -224,7 +224,7 @@ export class ControlPanel {
       raceSettings.order,
     );
 
-    winners.items.forEach((winner: WinnerType) => {
+    winners.items.forEach((winner: Winner) => {
       apiService.deleteWinner(winner.id);
     });
   }

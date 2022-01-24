@@ -1,5 +1,5 @@
 import { apiService } from "./api";
-import { WinnerType, CarType, RaceSettingsTypes } from "./types";
+import { Winner, Car, RaceSettingsTypes } from "./types";
 import { getCarImg } from "./utils";
 import { Page } from "./page";
 
@@ -49,7 +49,7 @@ export class Winners {
     (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
     main.innerHTML += `<h3 class="page-number">page ${winners.pageNumber}</h3>`;
     header.innerHTML += `<h2 class="winners-count">winners(${winners.count})</h2>`;
-    winners.items.forEach(async (winner: WinnerType) => {
+    winners.items.forEach(async (winner: Winner) => {
       const car = await apiService.getCar(winner.id);
       document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
     });
@@ -73,7 +73,7 @@ export class Winners {
 </table>`;
   }
 
-  makeTableTr(car: CarType, winner: WinnerType) {
+  makeTableTr(car: Car, winner: Winner) {
     const timeInSec = (winner.time / 1000).toFixed(3);
     return `
   <tr>
@@ -98,7 +98,7 @@ export class Winners {
 
     (document.querySelector(`#by-${winners.sort}`) as HTMLInputElement).setAttribute("checked", "checked");
     document.querySelector(".page-number").innerHTML = `page ${winners.pageNumber}`;
-    winners.items.forEach(async (winner: WinnerType) => {
+    winners.items.forEach(async (winner: Winner) => {
       const car = await apiService.getCar(winner.id);
       document.querySelector(".winners-table").innerHTML += this.makeTableTr(car, winner);
     });
