@@ -74,7 +74,7 @@ export class ControlPanel {
     </form>
     <ul>
       <li><button class="race-all">Race</button></li>
-      <li><button class="reset-all">Reset</button></li>
+      <li><button class="reset-all" disabled>Reset</button></li>
       <li><button class="remove-all">Remove cars</button></li>
       <li><button class="generate-cars">Generate cars</button></li>
     </ul>
@@ -122,6 +122,12 @@ export class ControlPanel {
     cars.items.map((car: CarType) => {
       const index = cars.items.indexOf(car);
       return this.garage.carCollection[index].stopCar(car.id);
+    });
+    document.querySelector(`.race-all`).removeAttribute("disabled");
+    document.querySelector(`.reset-all`).setAttribute("disabled", "disabled");
+    const stopEngines = document.querySelectorAll(".stopEngine");
+    stopEngines.forEach((element) => {
+      element.setAttribute("disabled", "disabled");
     });
   }
 

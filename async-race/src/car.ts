@@ -37,7 +37,7 @@ export class Car {
       <li><button class="selectCar">Select</button></li>
       <li><button class="removeCar">Remove</button></li>
       <li><button id="start-engine${this.id}" class="startEngine">Start</button></li>
-      <li><button id="stop-engine${this.id}" class="stopEngine">Reset</button></li>
+      <li><button id="stop-engine${this.id}" class="stopEngine" disabled>Reset</button></li>
     
     </ul>
     <div class="track">
@@ -57,10 +57,9 @@ export class Car {
         await apiService.changeDriveMode(id, "drive");
         resolve({ id: id, time: getTime(car.velocity, car.distance) });
       } catch (error) {
-        await this.pauseCar(id);
+        this.pauseCar(id);
         reject(`Car number ${id} stopped! Сar engine broken!`);
-      } finally {
-        this.updateEngineButton("stop", id);
+        console.log(`Car number ${id} stopped! Сar engine broken!`);
       }
     });
   }
@@ -126,9 +125,7 @@ export class Car {
         case "startEngine":
           try {
             await this.drive(getID(target));
-          } catch (error) {
-            console.log(error);
-          }
+          } catch (error) {}
 
           break;
         case "stopEngine":

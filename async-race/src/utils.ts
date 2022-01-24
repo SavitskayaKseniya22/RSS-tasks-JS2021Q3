@@ -79,19 +79,27 @@ export function isDiff(carCollection: Car[], carCollectionNew: Car[]) {
 }
 
 export function blockButton(state: "block" | "unblock", target: HTMLElement) {
-  const buttons = document.querySelectorAll("button");
+  const buttonsHead = document.querySelectorAll(".header button");
+  const buttonsPag = document.querySelectorAll(".pagination button");
+  const buttonsDel = document.querySelectorAll(".removeCar");
+
+  const buttons = Array.from(buttonsHead).concat(Array.from(buttonsPag)).concat(Array.from(buttonsDel));
+
   if (state === "block") {
     target.classList.add("downloading");
+    document.querySelector(`.to-winners`).classList.add("disabled");
+
     buttons.forEach((button) => {
       button.setAttribute("disabled", "disabled");
     });
-
-    document.querySelector(`.to-winners`).classList.add("disabled");
   } else {
     target.classList.remove("downloading");
+
     buttons.forEach((button) => {
       button.removeAttribute("disabled");
     });
     document.querySelector(`.to-winners`).classList.remove("disabled");
+    target.setAttribute("disabled", "disabled");
+    document.querySelector(`.update-confirm`).setAttribute("disabled", "disabled");
   }
 }
