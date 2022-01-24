@@ -36,7 +36,7 @@ export class Winners {
   }
 
   async printWinners(main: HTMLElement, header: HTMLElement) {
-    document.querySelector(".to-winners").setAttribute("disabled", "disabled");
+    document.querySelector(".to-winners").classList.add("disabled");
     document.querySelector(".container").innerHTML = this.makeTableContainer();
     const raceSettings = this.currentPage.getRaceSettings();
     const winners = await apiService.getWinners(

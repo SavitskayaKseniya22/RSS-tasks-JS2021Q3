@@ -60,7 +60,6 @@ export class Page {
       this.winners.printWinners(this.main, this.header);
     }
     this.main.innerHTML += this.pagination.printPagination();
-    document.querySelector(`.to-${activePage.split("").slice(1).join("")}`).classList.add("disabled");
   }
 
   initListener() {

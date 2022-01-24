@@ -98,22 +98,20 @@ export class ControlPanel {
 
   printWinnerScreen(name: string, time: number) {
     const timeInSec = (time / 1000).toFixed(3);
-    const raceResult = document.querySelector(".race-result");
-
+    const raceResult = document.createElement("div");
+    raceResult.className = "race-result active";
     raceResult.innerHTML =
       name !== "no one"
         ? `<h2>Race is over!</h2>
 <p class="winner-message">&#9733;${name}&#9733;<br> finished first in ${timeInSec} seconds<p>`
         : `<h2>Race is over!</h2>
 <p class="winner-message">No one finished first<p>`;
-
-    raceResult.classList.add("active");
+    document.querySelector(".header").append(raceResult);
   }
 
   removeWinnerScreen() {
     const raceResult = document.querySelector(".race-result");
-    raceResult.innerHTML = "";
-    raceResult.classList.remove("active");
+    raceResult.remove();
   }
 
   async resetAllCar() {

@@ -12,6 +12,9 @@ export class Garage {
   controlPanel: ControlPanel;
   currentPage: Page;
 
+  pageNumber: HTMLHeadingElement;
+  count: HTMLHeadingElement;
+
   constructor(currentPage: Page) {
     this.car = new CarModel({ name: "TEST", color: "#000000", id: 5000 });
     this.car.initListener(this);
@@ -20,13 +23,21 @@ export class Garage {
   }
 
   async printGarage(main: HTMLElement, header: HTMLElement) {
+    document.querySelector(".to-garage").classList.add("disabled");
+    header.innerHTML += `${this.controlPanel.printControlPanel()}`;
     const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
-    document.querySelector(".to-garage").setAttribute("disabled", "disabled");
-    main.innerHTML += `<h3 class="page-number">page ${cars.pageNumber}</h3>`;
-    main.innerHTML += `<div class="race-result"></div>`;
-    header.innerHTML += `<h2 class="cars-count">garage(${cars.count})</h2>`;
-    header.innerHTML += this.controlPanel.printControlPanel();
+
+    this.pageNumber = document.createElement("h3");
+    this.pageNumber.className = "page-number";
+    this.pageNumber.textContent = `page ${cars.pageNumber}`;
+    main.append(this.pageNumber);
+
+    this.count = document.createElement("h2");
+    this.count.className = "cars-count";
+    this.count.textContent = `garage(${cars.count})`;
+    header.append(this.count);
+
     this.carCollection = [];
 
     if (cars.items.length > 0) {
@@ -41,13 +52,17 @@ export class Garage {
   async updateGarage() {
     const raceSettings = this.currentPage.getRaceSettings();
     const cars = await apiService.getCars(raceSettings.activeGaragePage, raceSettings.garageLimit);
-    document.querySelector(".page-number").innerHTML = `page ${cars.pageNumber}`;
-    document.querySelector(".cars-count").innerHTML = `garage(${cars.count})`;
+
+    this.pageNumber.textContent = `page ${cars.pageNumber}`;
+    this.count.textContent = `garage(${cars.count})`;
+
     this.carCollectionNew = [];
+
     cars.items.forEach((car: Car) => {
       const carItem = new CarModel(car);
       this.carCollectionNew.push(carItem);
     });
+
     if (isDiff(this.carCollection, this.carCollectionNew)) {
       document.querySelector(".container").innerHTML = "";
       this.carCollection = this.carCollectionNew;
