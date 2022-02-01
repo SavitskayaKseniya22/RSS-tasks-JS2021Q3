@@ -13,7 +13,7 @@ class Loader {
     { endpoint = "string", options = {} },
     callback: CallbackType<IData> = () => {
       console.error("No callback for GET response");
-    }
+    },
   ) {
     this.load("GET", endpoint, callback, options);
   }
@@ -21,9 +21,7 @@ class Loader {
   errorHandler(res: Response) {
     if (!res.ok) {
       if (res.status === 401 || res.status === 404)
-        console.log(
-          `Sorry, but there is ${res.status} error: ${res.statusText}`
-        );
+        console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
       throw Error(res.statusText);
     }
 
@@ -41,12 +39,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load(
-    method: string,
-    endpoint: string,
-    callback: CallbackType<IData>,
-    options: { [key: string]: string }
-  ) {
+  load(method: string, endpoint: string, callback: CallbackType<IData>, options: { [key: string]: string }) {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())
