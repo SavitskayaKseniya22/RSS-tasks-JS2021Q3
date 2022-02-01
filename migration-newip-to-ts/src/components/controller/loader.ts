@@ -2,9 +2,9 @@ import { ISources } from "../view/sources/sources";
 
 class Loader {
   baseLink: string;
-  options: { [key: string]: string };
+  options: Record<string, string>;
 
-  constructor(baseLink: string, options: { [key: string]: string }) {
+  constructor(baseLink: string, options: Record<string, string>) {
     this.baseLink = baseLink;
     this.options = options;
   }
@@ -28,7 +28,7 @@ class Loader {
     return res;
   }
 
-  makeUrl(options: { [key: string]: string }, endpoint: string) {
+  makeUrl(options: Record<string, string>, endpoint: string) {
     const urlOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
@@ -39,7 +39,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load(method: string, endpoint: string, callback: CallbackType<IData>, options: { [key: string]: string }) {
+  load(method: string, endpoint: string, callback: CallbackType<IData>, options: Record<string, string>) {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())
