@@ -1,4 +1,4 @@
-import { ISources } from "../view/sources/sources";
+import { CallbackType, IData } from "../../types";
 
 class Loader {
   baseLink: string;
@@ -49,29 +49,3 @@ class Loader {
 }
 
 export default Loader;
-
-export type CallbackType<T> = (data: T) => void;
-
-export interface IData {
-  articles: IArticle[];
-  sources: ISource[];
-}
-export interface IArticle {
-  source: ISources;
-  urlToImage: string;
-  author: string;
-  publishedAt: string;
-  title: string;
-  description: string;
-  url: string;
-  content: string;
-}
-export interface ISource {
-  id: string;
-  name: string;
-  description: string;
-  url: string;
-  category: string;
-  language: string;
-  country: string;
-}

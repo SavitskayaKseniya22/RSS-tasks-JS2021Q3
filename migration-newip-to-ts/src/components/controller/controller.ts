@@ -1,6 +1,5 @@
 import AppLoader from "./appLoader";
-import { IData } from "../controller/loader";
-import { CallbackType } from "../controller/loader";
+import { IData, CallbackType } from "../../types";
 
 class AppController extends AppLoader {
   getSources(callback: CallbackType<IData>) {

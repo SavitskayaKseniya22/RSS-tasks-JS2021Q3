@@ -1,4 +1,6 @@
 import "./sources.css";
+import { ISources } from "../../../types";
+
 class Sources {
   draw(data: ISources[]) {
     const fragment = document.createDocumentFragment();
@@ -14,7 +16,3 @@ class Sources {
   }
 }
 export default Sources;
-export interface ISources {
-  name: string;
-  id: string;
-}
