@@ -1,4 +1,4 @@
-import { CallbackType, IData } from "../../types";
+import { CallbackType, DataContent } from "../../types";
 
 class Loader {
   baseLink: string;
@@ -11,7 +11,7 @@ class Loader {
 
   getResp(
     { endpoint = "string", options = {} },
-    callback: CallbackType<IData> = () => {
+    callback: CallbackType<DataContent> = () => {
       console.error("No callback for GET response");
     },
   ) {
@@ -39,7 +39,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load(method: string, endpoint: string, callback: CallbackType<IData>, options: Record<string, string>) {
+  load(method: string, endpoint: string, callback: CallbackType<DataContent>, options: Record<string, string>) {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())

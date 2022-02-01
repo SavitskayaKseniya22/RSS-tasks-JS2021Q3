@@ -1,17 +1,12 @@
-export interface ISources {
-  name: string;
-  id: string;
-}
-
 export type CallbackType<T> = (data: T) => void;
 
-export interface IData {
-  articles: IArticle[];
-  sources: ISource[];
+export interface DataContent {
+  articles: ArticleContent[];
+  sources: SourceContent[];
 }
 
-export interface IArticle {
-  source: ISources;
+export interface ArticleContent {
+  source: SourceContent;
   urlToImage: string;
   author: string;
   publishedAt: string;
@@ -21,7 +16,7 @@ export interface IArticle {
   content: string;
 }
 
-export interface ISource {
+export interface SourceContent {
   id: string;
   name: string;
   description: string;
